@@ -6,13 +6,13 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 23:27:37 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/08/16 23:40:19 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/13 20:11:55 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+int	ft_atoi(char *str)
 {
 	int					opt;
 	unsigned long long	number;

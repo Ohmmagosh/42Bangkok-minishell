@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/27 18:01:12 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/13 20:12:09 by psuanpro         ###   ########.fr       */
+/*   Created: 2022/12/11 22:12:13 by psuanpro          #+#    #+#             */
+/*   Updated: 2022/12/15 23:19:20 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../minishell.h"
 
-void	*ft_memmove(void *dst, void *src, size_t len)
+void	lexer(t_pro *p)
 {
-	unsigned char	*s;
-	unsigned char	*d;
-	int				i;
-
-	i = len;
-	s = (unsigned char *)src;
-	d = (unsigned char *)dst;
-	if (s == d || len == 0)
-		return (dst);
-	if (d < s)
-		while (i--)
-			*d++ = *s++;
-	else
-	{
-		s = s + len - 1;
-		d = d + len - 1;
-		while (len--)
-			*d-- = *s--;
-	}
-	return (dst);
+	p->lex.split = ft_split(p->lex.cmd, ' ');
+	free(p->lex.cmd);
+	
+	printf("------------------------\n");
+	for (int i = 0; p->lex.split[i]; i++)
+		printf("  split[%d] %s", i, p->lex.split[i]);
+	printf("\n");
 }
+
+
+
+// void	ft_echo(char *s)
+// {
+// 	printf("%s", s);
+// }
