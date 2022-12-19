@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/15 23:21:07 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/17 20:57:42 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct s_lst
 typedef struct s_lexer
 {
 	char	*cmd;
+	char	*trim;
+	t_lst	*cut;
 	char	**split;
 }				t_lex;
 
@@ -50,7 +52,7 @@ typedef struct s_program
 
 // LEXER
 void	lexer(t_pro *p);
-char	**lexer_split(char *s, char *c);
+char	**lexer_split(char *s);
 
 // PARSER
 void	parser(t_pro *p);

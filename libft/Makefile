@@ -6,12 +6,13 @@
 #    By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/01 23:10:55 by psuanpro          #+#    #+#              #
-#    Updated: 2022/12/09 00:10:24 by psuanpro         ###   ########.fr        #
+#    Updated: 2022/12/16 17:12:06 by psuanpro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= libft.a
 SRCS	= ft_isalnum.c \
+	  ft_isspace.c \
 	  ft_isalpha.c \
 	  ft_isascii.c \
 	  ft_isdigit.c \

@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/15 01:47:07 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/16 16:53:31 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,11 @@ int	main(void)
 	while (1)
 	{
 		p.lex.cmd = readline("readline->");
-		if (ft_strncmp(p.lex.cmd, "exit", 5) == 0)
+		if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
 		{
 			free(p.lex.cmd);
 			exit(0);
 		}
-		// rl_replace_line("", 0);
 		lexer(&p);
 		parser(&p);
 	//	printf("->%s\n", p.hello);
