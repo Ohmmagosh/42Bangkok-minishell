@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:34:37 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/22 23:57:26 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/23 02:11:43 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ismeta(char c)
 {
-	if (c == '<' || c == '>' || c == '|' || c == 34 || c == 39 || c == 36)
+	if (c == '<' || c == '>' || c == '|' || c == '\"' || c == '\'')
 		return (1);
 	return (0);
 }
@@ -25,19 +25,6 @@ int	ischardigit(char c)
 		return (1);
 	return (0);
 }
-
-// int	len_word(char *s)
-// {
-// 	int	ret;
-
-// 	ret = 0;
-// 	while (s[ret])
-// 	{
-// 		if (s[])
-// 		ret++;
-// 	}
-// 	return (ret);
-// }
 
 char	*get_word(char *s, int n)
 {
@@ -75,17 +62,15 @@ int	count_word_mini(char *s)
 		}
 		else if (s[i] == 34)
 		{
-			i++;
-			while (s[i] != 34)
-				i++;
+			while (s[++i] != 34)
+				;
 			ret++;
 			i++;
 		}
 		else if (s[i] == 39)
 		{
-			i++;
-			while (s[i] != 39)
-				i++;
+			while (s[++i] != 39)
+				;
 			i++;
 			ret++;
 		}
@@ -107,6 +92,21 @@ int	count_word_mini(char *s)
 				ret++ ;
 			else if (s[i + 1] == '\0')
 				ret++;
+		}else if (s[i] == '$')
+		{
+			i++;
+			if (s[i] == '(')
+			{
+				while (s[++i] != ')')
+					;
+				ret++;
+			}
+			else if (s[i] == '{')
+			{
+				while (s[++i] != '}')
+					;
+				ret++;
+			}
 		}
 		i++;
 	}
@@ -129,15 +129,15 @@ int	next_word(char *s)
 			else if (ismeta(s[i + 1]))
 				return (i + 1);
 		}
-		else if (s[i] == 34)
+		else if (s[i] == '\"')
 		{
-			while (s[++i] != 34)
+			while (s[++i] != '\"')
 				;
 			return (i + 1);
 		}
-		else if (s[i] == 39)
+		else if (s[i] == '\'')
 		{
-			while (s[++i] != 39)
+			while (s[++i] != '\'')
 				;
 			return (i + 1);
 		}
@@ -152,6 +152,22 @@ int	next_word(char *s)
 		{
 			if (ismeta(s[i + 1]))
 				return (i + 1);
+		}
+		else if (s[i] == '$')
+		{
+			i++;
+			if (s[i] == '(')
+			{
+				while (s[++i] != ')')
+					;
+				return (i + 1);
+			}
+			else if (s[i] == '{')
+			{
+				while (s[++i] != '}')
+					;
+				return (i + 1);
+			}
 		}
 		i++;
 	}
@@ -168,6 +184,8 @@ char	**lexer_split(char *s)
 	i = 0;
 	word = 0;
 	len = count_word_mini(s);
+	// printf("len %d\n", len);
+	// exit(0);
 	if (!s)
 		return (NULL);
 	ret = (char **)malloc(sizeof(char *) * (len + 1));
@@ -186,16 +204,24 @@ char	**lexer_split(char *s)
 int	main(void)
 {
 	char **ret;
-	char	*s = "touch ABC|echo \" \'hello\' \" > ABC | echo he\'ll\'o >> ABC | cat ABC |ls| echo \" hel|lo \"ัด";
-	ret = lexer_split(s);
-	for (int i = 0; ret[i]; i++)
-		printf("ret[%d] -> %s\n", i, ret[i]);
+	char	*s = "touch ABC|echo \" \'hello\' \" > ABC | echo he\'ll\'o >> ABC | cat ABC |ls| echo \" hel|lo \"";
+	// ret = lexer_split(s);
+	// for (int i = 0; ret[i]; i++)
+	// 	printf("ret[%d] -> %s\n", i, ret[i]);
+
+	// printf("--------------------------\n\n");
+	// free(ret);
+	// s = "touch ABC|echo \" \'hello\' \" > ABC | $(hello)";
+	// ret = lexer_split(s);
+	// for (int i = 0; ret[i]; i++)
+	// 	printf("ret[%d] -> %s\n", i, ret[i]);
+
 	printf("--------------------------\n\n");
-	free(ret);
-	s = "touch ABC|echo \" \'hello\' \" > ABC | $(hello)";
+	// free(ret);
+	s = "$(hello)";
 	ret = lexer_split(s);
 	for (int i = 0; ret[i]; i++)
-		printf("ret[%d] -> %s\n", i, ret[i]);
+		printf("ret[%d] -> |%s|\n", i, ret[i]);
 	// char	*s = "echo hello|touch waord|";
 	// char	*s = "echo he\'ll\'o >> ABC";
 

@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/17 20:57:42 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/23 01:25:26 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <curses.h>
+
+# define SQUOTE 39
+# define DQUOTE 34
+# define DOLLAR 36
+# define OPAREN 40
+# define CPAREN 41
+# define MORE 62
+# define LESS 60
+# define PIPE 124
 
 typedef struct s_lst
 {
