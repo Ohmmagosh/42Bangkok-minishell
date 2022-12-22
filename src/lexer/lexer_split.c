@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:34:37 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/21 00:06:50 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/22 23:57:26 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,16 +131,14 @@ int	next_word(char *s)
 		}
 		else if (s[i] == 34)
 		{
-			i++;
-			while (s[i] != 34)
-				i++;
+			while (s[++i] != 34)
+				;
 			return (i + 1);
 		}
 		else if (s[i] == 39)
 		{
-			i++;
-			while (s[i] != 39)
-				i++;
+			while (s[++i] != 39)
+				;
 			return (i + 1);
 		}
 		else if (ismeta(s[i]))
@@ -187,10 +185,20 @@ char	**lexer_split(char *s)
 
 int	main(void)
 {
-	char	*s = "touch ABC|echo \" \'hello\' \" > ABC | echo he\'ll\'o >> ABC | cat ABC |ls| echo \" hel|lo \"";
-	// char	*s3 = "touch ABC|echo \" \'hello\' \" > ABC";
+	char **ret;
+	char	*s = "touch ABC|echo \" \'hello\' \" > ABC | echo he\'ll\'o >> ABC | cat ABC |ls| echo \" hel|lo \"ัด";
+	ret = lexer_split(s);
+	for (int i = 0; ret[i]; i++)
+		printf("ret[%d] -> %s\n", i, ret[i]);
+	printf("--------------------------\n\n");
+	free(ret);
+	s = "touch ABC|echo \" \'hello\' \" > ABC | $(hello)";
+	ret = lexer_split(s);
+	for (int i = 0; ret[i]; i++)
+		printf("ret[%d] -> %s\n", i, ret[i]);
 	// char	*s = "echo hello|touch waord|";
 	// char	*s = "echo he\'ll\'o >> ABC";
+
 
 	// int	i = 0;
 	// int	len = 0;
@@ -205,7 +213,7 @@ int	main(void)
 	// }
 	// printf("len = %d\n", len);
 	// printf("count %d\n", count_word_mini(s3));
-	printf("ret %d\n", count_word_mini(s));
+	// printf("ret %d\n", count_word_mini(s));
 	// printf("ret %d\n", count_word_mini(s2));
 	return (0);
 }
