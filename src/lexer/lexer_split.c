@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:34:37 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/23 02:11:43 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/25 03:33:44 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	ismeta(char c)
 {
-	if (c == '<' || c == '>' || c == '|' || c == '\"' || c == '\'')
+	if (c == '<' || c == '>' || c == '|' || c == '\"' || c == '\'' || c == ')' || c == '}')
 		return (1);
 	return (0);
 }
 
 int	ischardigit(char c)
 {
-	if (ft_isalpha(c) || ft_isdigit(c))
+	if (ft_isalnum(c) || c == '-')
 		return (1);
 	return (0);
 }
@@ -83,7 +83,11 @@ int	count_word_mini(char *s)
 				i += 2;
 				ret++ ;
 			}
+			else if (ft_isspace(s[i + 1]))
+				ret++ ;
 			else if (s[i + 1] == '\0')
+				ret++;
+			else if (s[i + 1] == '$')
 				ret++;
 		}
 		else if (ischardigit(s[i]))
@@ -92,7 +96,8 @@ int	count_word_mini(char *s)
 				ret++ ;
 			else if (s[i + 1] == '\0')
 				ret++;
-		}else if (s[i] == '$')
+		}
+		else if (s[i] == '$')
 		{
 			i++;
 			if (s[i] == '(')
@@ -107,6 +112,12 @@ int	count_word_mini(char *s)
 					;
 				ret++;
 			}
+			else if (ischardigit(s[i]))
+			{
+				while (!ft_isspace(s[i]) && !ismeta(s[i]))
+					i++;
+				ret++;
+			}
 		}
 		i++;
 	}
@@ -118,8 +129,10 @@ int	next_word(char *s)
 	int	i;
 
 	i = 0;
+	printf("next_ word s =  %s\n", s);
 	while (ft_isspace(s[i]))
 		i++;
+	printf("s -> %s\n", s);
 	while (s[i])
 	{
 		if (ft_isspace(s[i]))
@@ -143,7 +156,7 @@ int	next_word(char *s)
 		}
 		else if (ismeta(s[i]))
 		{
-			if (ischardigit(s[i + 1]))
+			if (ischardigit(s[i + 1]) || s[i + 1] == '$')
 				return (i + 1);
 			else if (ft_isspace(s[i + 1]))
 				return (i + 1);
@@ -155,18 +168,23 @@ int	next_word(char *s)
 		}
 		else if (s[i] == '$')
 		{
-			i++;
 			if (s[i] == '(')
 			{
 				while (s[++i] != ')')
 					;
 				return (i + 1);
 			}
-			else if (s[i] == '{')
+			else if (s[i + 1] == '{')
 			{
 				while (s[++i] != '}')
 					;
 				return (i + 1);
+			}
+			else if (ischardigit(s[i]))
+			{
+				while (s[++i] && !ischardigit(s[i]) || !ft_isspace(s[i]))
+					;
+				return (i);
 			}
 		}
 		i++;
@@ -184,8 +202,7 @@ char	**lexer_split(char *s)
 	i = 0;
 	word = 0;
 	len = count_word_mini(s);
-	// printf("len %d\n", len);
-	// exit(0);
+	printf("len %d\n", len);
 	if (!s)
 		return (NULL);
 	ret = (char **)malloc(sizeof(char *) * (len + 1));
@@ -194,6 +211,7 @@ char	**lexer_split(char *s)
 	while (i < len)
 	{
 		ret[i] = get_word(&s[word], next_word(&s[word]));
+		printf("word -> %d\n", word);
 		word += next_word(&s[word]);
 		i++;
 	}
@@ -204,7 +222,7 @@ char	**lexer_split(char *s)
 int	main(void)
 {
 	char **ret;
-	char	*s = "touch ABC|echo \" \'hello\' \" > ABC | echo he\'ll\'o >> ABC | cat ABC |ls| echo \" hel|lo \"";
+	char	*s = "touch ABC|echo \" \'hello\' \" > ABC | echo he\'ll\'o >> ABC | cat ABC |ls| echo \" hel|lo \" |$pwd |${pwd}";
 	// ret = lexer_split(s);
 	// for (int i = 0; ret[i]; i++)
 	// 	printf("ret[%d] -> %s\n", i, ret[i]);
@@ -218,10 +236,12 @@ int	main(void)
 
 	printf("--------------------------\n\n");
 	// free(ret);
-	s = "$(hello)";
+	// s = "$pwd";
+	s = "$pwd | $(pwd)| ${pwd}";
+	s = "echo -n -la";
 	ret = lexer_split(s);
 	for (int i = 0; ret[i]; i++)
-		printf("ret[%d] -> |%s|\n", i, ret[i]);
+		printf("ret[%d] ->|%s|\n", i, ret[i]);
 	// char	*s = "echo hello|touch waord|";
 	// char	*s = "echo he\'ll\'o >> ABC";
 
