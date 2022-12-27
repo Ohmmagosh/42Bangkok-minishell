@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:34:37 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/27 10:16:11 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/27 11:38:02 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,16 @@ int	count_word_mini(char *s)
 			else if (ismeta(s[i + 1]))
 				ret++ ;
 		}
-		else if (s[i] == 34)
+		else if (s[i] == '\"')
 		{
-			while (s[++i] != 34)
+			while (s[++i] != '\"')
 				;
 			ret++;
 			i++;
 		}
-		else if (s[i] == 39)
+		else if (s[i] == '\'')
 		{
-			while (s[++i] != 39)
+			while (s[++i] != '\'')
 				;
 			i++;
 			ret++;
@@ -83,8 +83,6 @@ int	count_word_mini(char *s)
 				i += 2;
 				ret++ ;
 			}
-			else if (ft_isspace(s[i + 1]))
-				ret++ ;
 			else if (s[i + 1] == '\0')
 				ret++;
 			else if (s[i + 1] == '$')
@@ -112,12 +110,6 @@ int	count_word_mini(char *s)
 					;
 				ret++;
 			}
-			else if (ischardigit(s[i]))
-			{
-				while (!ft_isspace(s[i]) && !ismeta(s[i]))
-					i++;
-				ret++;
-			}
 		}
 		i++;
 	}
@@ -129,18 +121,14 @@ int	next_word(char *s)
 	int	i;
 
 	i = 0;
-	// printf("s -> %s\n", s);
 	while (ft_isspace(s[i]))
 	{
-		// printf("s[i] -> %c\n", s[i]);
 		i++;
 	}
-	// printf("s -> %s\n", s);
 	while (s[i])
 	{
 		if (ft_isspace(s[i]))
 		{
-			// printf("%shello%s\n", "\e[42m", "\e[0m");
 			if (ischardigit(s[i + 1]))
 				return (i + 1);
 			else if (ismeta(s[i + 1]))
@@ -206,7 +194,6 @@ char	**lexer_split(char *s)
 	i = 0;
 	word = 0;
 	len = count_word_mini(s);
-	printf("len %d\n", len);
 	if (!s)
 		return (NULL);
 	ret = (char **)malloc(sizeof(char *) * (len + 1));
@@ -215,7 +202,6 @@ char	**lexer_split(char *s)
 	while (i < len)
 	{
 		ret[i] = get_word(&s[word], next_word(&s[word]));
-		printf("word -> %d\n", word);
 		word += next_word(&s[word]);
 		i++;
 	}
@@ -226,6 +212,7 @@ char	**lexer_split(char *s)
 int	main(void)
 {
 	char **ret;
+	//				1    2 3 4          5        6 7   8  9    10 11 12 13 14  15 16 17 181920  21       22     23 24 25  26      
 	char	*s = "touch ABC|echo \" \'hello\' \" > ABC | echo he\'ll\'o >> ABC | cat ABC |ls| echo \" hel|lo \" |$pwd |${pwd}";
 	// ret = lexer_split(s);
 	// for (int i = 0; ret[i]; i++)
@@ -238,14 +225,18 @@ int	main(void)
 	// for (int i = 0; ret[i]; i++)
 	// 	printf("ret[%d] -> %s\n", i, ret[i]);
 
+	// s = "echo \" \'hello\' \" > ABC";
+	for (int j =0; s[j]; j++) {
+		printf("s[%d] -> %c\n", j, s[j]);
+	}
 	printf("--------------------------\n\n");
 	// free(ret);
 	// s = "$pwd";
-	s = "$pwd | $(pwd)| ${pwd}";
+	// s = "$pwd | $(pwd)| ${pwd}";
 	// s = "echo -n -la";
 	ret = lexer_split(s);
 	for (int i = 0; ret[i]; i++)
-		printf("ret[%d] ->|%s|\n", i, ret[i]);
+		printf("ret[%d] ---- %s ----\n", i, ret[i]);
 	// char	*s = "echo hello|touch waord|";
 	// char	*s = "echo he\'ll\'o >> ABC";
 
