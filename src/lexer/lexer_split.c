@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:34:37 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/25 03:33:44 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/27 10:16:11 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,14 +129,18 @@ int	next_word(char *s)
 	int	i;
 
 	i = 0;
-	printf("next_ word s =  %s\n", s);
+	// printf("s -> %s\n", s);
 	while (ft_isspace(s[i]))
+	{
+		// printf("s[i] -> %c\n", s[i]);
 		i++;
-	printf("s -> %s\n", s);
+	}
+	// printf("s -> %s\n", s);
 	while (s[i])
 	{
 		if (ft_isspace(s[i]))
 		{
+			// printf("%shello%s\n", "\e[42m", "\e[0m");
 			if (ischardigit(s[i + 1]))
 				return (i + 1);
 			else if (ismeta(s[i + 1]))
@@ -168,7 +172,7 @@ int	next_word(char *s)
 		}
 		else if (s[i] == '$')
 		{
-			if (s[i] == '(')
+			if (s[i + 1] == '(')
 			{
 				while (s[++i] != ')')
 					;
@@ -238,7 +242,7 @@ int	main(void)
 	// free(ret);
 	// s = "$pwd";
 	s = "$pwd | $(pwd)| ${pwd}";
-	s = "echo -n -la";
+	// s = "echo -n -la";
 	ret = lexer_split(s);
 	for (int i = 0; ret[i]; i++)
 		printf("ret[%d] ->|%s|\n", i, ret[i]);
