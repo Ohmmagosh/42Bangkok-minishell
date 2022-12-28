@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/23 01:25:26 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/28 11:06:01 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,19 @@
 # include <fcntl.h>
 # include <curses.h>
 
-# define SQUOTE 39
-# define DQUOTE 34
-# define DOLLAR 36
-# define OPAREN 40
-# define CPAREN 41
-# define MORE 62
-# define LESS 60
-# define PIPE 124
+// # define SQUOTE 39
+// # define DQUOTE 34
+// # define DOLLAR 36
+// # define OPAREN 40
+// # define CPAREN 41
+// # define MORE 62
+// # define LESS 60
+// # define PIPE 124
 
 typedef struct s_lst
 {
-	int				token;
 	char			*cmd;
-	char			*content;
+	char			**allcmd;
 	struct s_lst	*next;
 } 				t_lst;
 
@@ -48,15 +47,18 @@ typedef struct s_lexer
 {
 	char	*cmd;
 	char	*trim;
-	t_lst	*cut;
 	char	**split;
 }				t_lex;
 
+typedef struct s_parser
+{
+	t_lst		*lst;
+}				t_par;
+
 typedef struct s_program
 {
-	struct sigaction	id;
-	t_lex				lex;
-	t_lst				cmd;
+	t_lex		lex;
+	t_par		par;
 }				t_pro;
 
 // LEXER

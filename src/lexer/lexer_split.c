@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:34:37 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/27 11:38:02 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/28 09:02:50 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	ismeta(char c)
 {
-	if (c == '<' || c == '>' || c == '|' || c == '\"' || c == '\'' || c == ')' || c == '}')
+	if (c == '<' || c == '>' || c == '|' || c == '\"' || \
+		c == '\'' || c == ')' || c == '}')
 		return (1);
 	return (0);
 }
@@ -207,54 +208,4 @@ char	**lexer_split(char *s)
 	}
 	ret[i] = NULL;
 	return (ret);
-}
-
-int	main(void)
-{
-	char **ret;
-	//				1    2 3 4          5        6 7   8  9    10 11 12 13 14  15 16 17 181920  21       22     23 24 25  26      
-	char	*s = "touch ABC|echo \" \'hello\' \" > ABC | echo he\'ll\'o >> ABC | cat ABC |ls| echo \" hel|lo \" |$pwd |${pwd}";
-	// ret = lexer_split(s);
-	// for (int i = 0; ret[i]; i++)
-	// 	printf("ret[%d] -> %s\n", i, ret[i]);
-
-	// printf("--------------------------\n\n");
-	// free(ret);
-	// s = "touch ABC|echo \" \'hello\' \" > ABC | $(hello)";
-	// ret = lexer_split(s);
-	// for (int i = 0; ret[i]; i++)
-	// 	printf("ret[%d] -> %s\n", i, ret[i]);
-
-	// s = "echo \" \'hello\' \" > ABC";
-	for (int j =0; s[j]; j++) {
-		printf("s[%d] -> %c\n", j, s[j]);
-	}
-	printf("--------------------------\n\n");
-	// free(ret);
-	// s = "$pwd";
-	// s = "$pwd | $(pwd)| ${pwd}";
-	// s = "echo -n -la";
-	ret = lexer_split(s);
-	for (int i = 0; ret[i]; i++)
-		printf("ret[%d] ---- %s ----\n", i, ret[i]);
-	// char	*s = "echo hello|touch waord|";
-	// char	*s = "echo he\'ll\'o >> ABC";
-
-
-	// int	i = 0;
-	// int	len = 0;
-	// while (s[i])
-	// {
-	// 	sleep(1);
-	// 	printf("%s%s%s\n", GRNHB, &s[i], RES);
-	// 	// sleep(2);
-	// 	i += next_word(&s[i]);
-	// 	len++;
-	// 	printf("i %d\n", i);
-	// }
-	// printf("len = %d\n", len);
-	// printf("count %d\n", count_word_mini(s3));
-	// printf("ret %d\n", count_word_mini(s));
-	// printf("ret %d\n", count_word_mini(s2));
-	return (0);
 }

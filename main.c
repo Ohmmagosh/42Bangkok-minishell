@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/16 16:53:31 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/28 09:08:50 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int	main(void)
 		}
 		lexer(&p);
 		parser(&p);
-	//	printf("->%s\n", p.hello);
-		// printf("sig %d\n", sigaction(p.lex.cmd));
 	}
 	return 0;
 }
