@@ -6,21 +6,55 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/28 11:46:28 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/29 00:44:42 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <malloc/_malloc.h>
+#include <stdio.h>
 
-void	next_lst(char **cmd, int len)
-{
-	
-}
+// int	len_cmd(char **cmd)
+// {
+// 	int	ret;
+// 	int	i;
 
-void	first_lst(char **cmd, int len)
-{
-	t_lst	*new;
+// 	i = 0;
+// 	ret = 0;
+// 	while (cmd[i])
+// 	{
+// 		if (!ft_strncmp(cmd[i], "|", 2))
+// 			ret++;
+// 		i++;
+// 	}	
+// 	return (ret);
+// }
+
+// void	next_lst(t_lst **lst, char **cmd)
+// {
+// 	t_lst	*new;
+
+// 	new = (t_lst *)malloc(sizeof(t_lst));
+// 	if (!new)
+// 		return ;
+
+// }
+
+// t_lst	*first_lst(char **cmd)
+// {
+// 	t_lst	*new;
+
+// 	new = (t_lst *)malloc(sizeof(t_lst));
+// 	if (!new)
+// 		return (NULL);
 	
+	
+// }
+void	init_parser(t_lst *par)
+{
+	par->cmd = NULL;
+	par->allcmd = NULL;
+	par->option = NULL;
 }
 
 int	len_pipe(char **cmd)
@@ -32,29 +66,14 @@ int	len_pipe(char **cmd)
 	len = 0;
 	while (cmd[i])
 	{
-		if (!ft_strncmp(cmd[i], "|", 2))
+		if (!ft_strncmp(cmd[i], "|", 2) && cmd[i + 1] != NULL)
 			len++;
 		i++;
 	}
-	return (len);
+	return (len + 1);
 }
 
-t_lst	*create_lst(char **cmd)
-{
-	t_lst	*ret;
-	int j = 0;
 
-	ret = NULL;
-	while (cmd[j])
-	{
-		if (!ft_strncmp(cmd[j], "|", 2))
-			j++;
-		else
-			printf("cmd[%d] -> %s\n", j, cmd[j]);
-		j++;
-	}
-	return (ret);
-}
 
 char	*trim_split(char *s)
 {
@@ -72,14 +91,15 @@ void	parser(t_pro *p)
 	i = -1;
 	while (p->lex.split[++i])
 		p->lex.split[i] = trim_split(p->lex.split[i]);
+	p->par.size = len_pipe(p->lex.split);
+	p->par.lst = (t_lst *)malloc(sizeof(t_lst) * (p->par.size));
+	i = 0;
+	while (i < p->par.size)
+	{
+		p->par.lst[i] = init_parser(p->par.lst[i]);
+	}
+
 	
 	
-	// for (int j = 0; p->lex.split[j]; j++)
-	// 	printf("p->lex.split[%d] -> |%s|\n", i, p->lex.split[j]);
-	// p->par.lst = create_lst(p->lex.split);
-	printf("len_pipe(p->lex.split) -> %d\n", len_pipe(p->lex.split));
-	// for (int j = 0; condition; inc-expression) {
-	
-	// }
 	return;
 }

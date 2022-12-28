@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/28 11:06:01 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/29 00:29:29 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-#include <sys/signal.h>
+# include <sys/signal.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -27,20 +27,11 @@
 # include <fcntl.h>
 # include <curses.h>
 
-// # define SQUOTE 39
-// # define DQUOTE 34
-// # define DOLLAR 36
-// # define OPAREN 40
-// # define CPAREN 41
-// # define MORE 62
-// # define LESS 60
-// # define PIPE 124
-
 typedef struct s_lst
 {
 	char			*cmd;
 	char			**allcmd;
-	struct s_lst	*next;
+	char			*option;
 } 				t_lst;
 
 typedef struct s_lexer
@@ -52,6 +43,7 @@ typedef struct s_lexer
 
 typedef struct s_parser
 {
+	int			size;
 	t_lst		*lst;
 }				t_par;
 

@@ -6,10 +6,11 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/28 09:08:50 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/28 12:39:11 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 # include "minishell.h"
 
 int	main(void)
@@ -21,6 +22,7 @@ int	main(void)
 		p.lex.cmd = readline("readline->");
 		if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
 		{
+			ft_putendl_fd("exit", 1);
 			free(p.lex.cmd);
 			exit(0);
 		}
