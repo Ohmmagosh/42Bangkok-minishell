@@ -6,7 +6,7 @@
 #    By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 16:17:38 by psuanpro          #+#    #+#              #
-#    Updated: 2022/12/16 19:33:16 by psuanpro         ###   ########.fr        #
+#    Updated: 2022/12/31 01:27:09 by psuanpro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,16 @@ SRC = main.c \
 	$(LEXER) \
 	$(PARSER) \
 	$(BUILDIN) \
-	$(EXECUTE)
+	$(EXECUTE) \
+	$(EXPANDER)
 
 LEXER = src/lexer/lexer.c \
 		src/lexer/lexer_split.c \
 		src/lexer/lexer_split_utils.c \
 
 PARSER = src/parser/parser.c
+
+EXPANDER = src/expander/expander.c
 
 BUILDIN = src/buildin/ft_echo.c
 
