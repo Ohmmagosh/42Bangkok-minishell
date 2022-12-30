@@ -6,12 +6,11 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/28 12:39:11 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/30 15:21:39 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-# include "minishell.h"
+#include "minishell.h"
 
 int	main(void)
 {
@@ -19,7 +18,7 @@ int	main(void)
 
 	while (1)
 	{
-		p.lex.cmd = readline("readline->");
+		p.lex.cmd = readline("minishell>");
 		if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
 		{
 			ft_putendl_fd("exit", 1);
@@ -31,23 +30,3 @@ int	main(void)
 	}
 	return 0;
 }
-// void    ft_tokenprint(t_token *token, int mode, char *color)
-// {
-//     t_token    *tmp;
-
-//     tmp = token;
-//     //printf("%d\n", mode);
-//     while (tmp && (mode-- || mode == -1))
-//     {
-//         printf("%s<================================================>%s\n", color,C_RESET);
-//         printf("%s<= Token\t:\t]%s[\t\t\t=>%s\n", color, tmp->token, C_RESET);
-//         printf("%s<= Type\t\t:\t]%d[\t\t\t=>%s\n", color, tmp->type,C_RESET);
-//         printf("%s<= Quote type\t:\t]%d[\t\t\t=>%s\n", color, tmp->quote,C_RESET);
-//         printf("%s<= Prev Addr\t:\t]%-14p[\t=>%s\n", color, tmp->prev,C_RESET);
-//         printf("%s<= Current Addr\t:\t]%-14p[\t=>%s\n", color, tmp,C_RESET);
-//         printf("%s<= Next Addr\t:\t]%-14p[\t=>%s\n", color, tmp->next,C_RESET);
-//         printf("%s<================================================>%s\n", color,C_RESET);
-//         printf("\n");
-//         tmp = tmp->next;
-//     }
-// }	

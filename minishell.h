@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/29 00:29:29 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/30 23:15:07 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@
 # include <fcntl.h>
 # include <curses.h>
 
-typedef struct s_lst
+typedef struct s_cmd
 {
+	int				index;
 	char			*cmd;
 	char			**allcmd;
 	char			*option;
-} 				t_lst;
+} 				t_cmd;
 
 typedef struct s_lexer
 {
@@ -44,7 +45,7 @@ typedef struct s_lexer
 typedef struct s_parser
 {
 	int			size;
-	t_lst		*lst;
+	t_cmd		*cmd;
 }				t_par;
 
 typedef struct s_program
