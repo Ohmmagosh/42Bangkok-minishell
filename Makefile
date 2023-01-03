@@ -6,11 +6,24 @@
 #    By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 16:17:38 by psuanpro          #+#    #+#              #
-#    Updated: 2022/12/31 01:27:09 by psuanpro         ###   ########.fr        #
+#    Updated: 2023/01/03 15:10:29 by psuanpro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
+
+UNAME = $(shell uname -s)
+ARCH = $(shell arch)
+
+ifeq ($(UNAME), Darwin)
+	ifeq ($(ARCH), arm64)
+		RDLIB			=	-L${HOMEBREW_PREFIX}/opt/readline/lib
+		RDIN			=	-I${HOMEBREW_PREFIX}/opt/readline/include
+	else ifeq ($(ARCH), i386)
+		RDLIB			=	-L/usr/local/opt/readline/lib
+		RDIN			=	-I/usr/local/opt/readline/include
+	endif
+endif
 
 SRC = main.c \
 	$(LEXER) \
@@ -33,8 +46,8 @@ EXECUTE = src/execute/execute.c
 
 LIBFT = ./libft/libft.a
 LIBFTDIR = libft
-RDLIB = -L/usr/local/opt/readline/lib/
-RDIN = -I/usr/local/opt/readline/include/
+# RDLIB = -L/usr/local/opt/readline/lib/
+# RDIN = -I/usr/local/opt/readline/include/
 RDFLAG = -lreadline
 
 OBJS = $(SRC:.c=.o)
