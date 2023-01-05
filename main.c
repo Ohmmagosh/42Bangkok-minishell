@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/30 15:21:39 by psuanpro         ###   ########.fr       */
+/*   Updated: 2022/12/31 15:49:25 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(void)
 
 	while (1)
 	{
-		p.lex.cmd = readline("minishell>");
+		p.lex.cmd = readline("\e[0;102mminishell->>\033[0m");
 		if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
 		{
 			ft_putendl_fd("exit", 1);

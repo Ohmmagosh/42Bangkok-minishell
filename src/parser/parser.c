@@ -6,11 +6,59 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/31 00:42:41 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/05 17:09:13 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <sys/fcntl.h>
+
+void	init_redirect(t_ifd *re ,char *path, int mode)
+{
+	re->redirect = 1;
+	if (mode == 0)
+	{
+		re->infd = open(path, O_RDONLY);
+		re->outfd = -1;
+	}
+	else if (mode == 1)
+	{
+		re->outfd = open(path, O_RDWR);
+		if (re->outfd == -1)
+			re->outfd = open(path, O_CREAT | O_TRUNC);
+		re->infd = -1;
+	}
+	else if (mode == 2)
+	{
+		re->outfd = open(path, O_WRONLY | O_APPEND);
+		if (re->outfd == -1)
+			re->outfd = open(path, O_CREAT | O_WRONLY);
+		re->infd = -1;
+	}
+}
+
+void	chk_redirect(t_par *par, int lencmd)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < lencmd)
+	{
+		j = 0;
+		while (par->cmd[i].allcmd[j])
+		{
+			if (!ft_strncmp(par->cmd[i].allcmd[j], "<", 2))
+				init_redirect(&par->cmd[i].re, par->cmd[i].allcmd[j + 1], 0);
+			else if (!ft_strncmp(par->cmd[i].allcmd[j], ">", 2))
+				init_redirect(&par->cmd[i].re, par->cmd[i].allcmd[j + 1], 1);
+			else if (!ft_strncmp(par->cmd[i].allcmd[j], ">>", 3))
+				init_redirect(&par->cmd[i].re, par->cmd[i].allcmd[j + 1], 2);
+			j++;
+		}
+		i++;
+	}
+}
 
 char	*get_opt(char *s)
 {
@@ -58,6 +106,7 @@ t_cmd	parser_cmd_util(char **cmd, int end, int id)
 	new->allcmd = (char **)malloc(sizeof(char *) * (end + 1));
 	new->cmd = ft_strdup(cmd[0]);
 	new->option = get_opt(cmd[1]);
+	new->re.redirect = 0;
 	while (i < end)
 	{
 		if (cmd[i] == NULL)
@@ -121,11 +170,15 @@ void	parser(t_pro *p)
 		p->lex.split[i] = trim_split(p->lex.split[i]);
 	p->par.size = len_pipe(p->lex.split);
 	p->par = init_parser_cmd(p->par, p->lex.split);
+	chk_redirect(&p->par, p->par.size);
 	for (int k = 0; k < p->par.size; k++)
 	{
 		printf("p->par.cmd[k].index -> %d\n", p->par.cmd[k].index);
 		printf("p->par.cmd[k].opt -> %s\n", p->par.cmd[k].option);
 		printf("par.cmd[k]->cmd -> %s\n", p->par.cmd[k].cmd);
+		printf("p->par.cmd[k].re.redirect -> %d\n", p->par.cmd[k].re.redirect);
+		printf("p->par.cmd[k].re.redioutfd %d\n", p->par.cmd[k].re.outfd);
+		printf("p->par.cmd[k].re.infd -> %d\n", p->par.cmd[k].re.infd);
 		for (int n = 0; p->par.cmd[k].allcmd[n]; n++)
 			printf("par.cmd[k].allcmd[n] -> %s\n", p->par.cmd[k].allcmd[n]);
 		printf("%s--------------------%s\n", "\e[42m", "\e[0m");

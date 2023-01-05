@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:34:37 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/28 19:06:15 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/03 15:29:23 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ismeta(char c)
 
 int	ischardigit(char c)
 {
-	if (ft_isalnum(c) || c == '-')
+	if (ft_isalnum(c) || c == '-' || c == '$')
 		return (1);
 	return (0);
 }
