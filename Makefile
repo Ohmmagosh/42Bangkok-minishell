@@ -6,23 +6,20 @@
 #    By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 16:17:38 by psuanpro          #+#    #+#              #
-#    Updated: 2023/01/03 15:10:29 by psuanpro         ###   ########.fr        #
+#    Updated: 2023/01/13 00:37:44 by psuanpro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 UNAME = $(shell uname -s)
-ARCH = $(shell arch)
 
-ifeq ($(UNAME), Darwin)
-	ifeq ($(ARCH), arm64)
-		RDLIB			=	-L${HOMEBREW_PREFIX}/opt/readline/lib
-		RDIN			=	-I${HOMEBREW_PREFIX}/opt/readline/include
-	else ifeq ($(ARCH), i386)
-		RDLIB			=	-L/usr/local/opt/readline/lib
-		RDIN			=	-I/usr/local/opt/readline/include
-	endif
+ifeq ($(UNAME), Linux)
+	RDLIB			=
+	RDIN			=
+else ifeq ($(UNAME),Darwin)
+	RDLIB			=	-L/usr/local/opt/readline/lib
+	RDIN			=	-I/usr/local/opt/readline/include
 endif
 
 SRC = main.c \
@@ -32,9 +29,7 @@ SRC = main.c \
 	$(EXECUTE) \
 	$(EXPANDER)
 
-LEXER = src/lexer/lexer.c \
-		src/lexer/lexer_split.c \
-		src/lexer/lexer_split_utils.c \
+LEXER = src/lexer/lexer.c 
 
 PARSER = src/parser/parser.c
 
@@ -46,8 +41,6 @@ EXECUTE = src/execute/execute.c
 
 LIBFT = ./libft/libft.a
 LIBFTDIR = libft
-# RDLIB = -L/usr/local/opt/readline/lib/
-# RDIN = -I/usr/local/opt/readline/include/
 RDFLAG = -lreadline
 
 OBJS = $(SRC:.c=.o)
@@ -70,9 +63,11 @@ all:$(NAME)
 
 $(NAME): $(OBJS)
 	@make -C $(LIBFTDIR)
-	@$(CC) $(CFLAGS) $(RDFLAG) $(RDLIB) $(OBJS) $(LIBFT) -o $@
+	@$(CC) $(CFLAGS) $(RDLIB) $(OBJS) $(LIBFT) -o $@ $(RDFLAG)
 	@$(COMPILE)
 
+v:all
+	@./minishell
 
 clean:
 	@make -C $(LIBFTDIR) clean

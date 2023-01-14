@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/05 15:00:54 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/14 22:18:56 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,18 @@
 # include <fcntl.h>
 # include <curses.h>
 
+typedef struct s_variable
+{
+	int	i;
+	int	token;
+}			t_var;
+
+typedef struct s_lexlst
+{
+	char			*content;
+	struct s_lexlst	*next;
+}				t_llst;
+
 typedef struct s_infd
 {
 	int		redirect;
@@ -45,9 +57,11 @@ typedef struct s_cmd
 
 typedef struct s_lexer
 {
+	int		status;
+	t_var	v;
 	char	*cmd;
 	char	*trim;
-	char	**split;
+	t_llst	*lst;
 }				t_lex;
 
 typedef struct s_parser
@@ -56,16 +70,16 @@ typedef struct s_parser
 	t_cmd	*cmd;
 }				t_par;
 
+
 typedef struct s_program
 {
 	t_lex	lex;
 	t_par	par;
-	
+	char	*prompt;
 }				t_pro;
 
 // LEXER
 void	lexer(t_pro *p);
-char	**lexer_split(char *s);
 
 // PARSER
 void	parser(t_pro *p);
@@ -78,5 +92,6 @@ void	executer(t_pro *p);
 void	ft_echo(t_pro *p);
 void	ft_pwd(t_pro *p);
 void	ft_cd(t_pro *p);
+char	*init_prompt(void);
 
 #endif

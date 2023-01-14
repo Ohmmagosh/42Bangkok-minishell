@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 22:24:06 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/12/15 01:47:54 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/05 17:15:34 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,5 @@
 # define RES "\e[0m"
 # define CRESET "\e[0m"
 # define COLOR_RESET "\e[0m"
-
-# define C_RESET "\033[0m"
-# define C_YELLOW "\033[1;33m"
-# define C_BLUE "\033[1;34m"
-# define C_RED "\033[1;32m"
-# define C_GREEN "\033[1;32m"
-# define C_WHITE "\033[1;37m"
 
 #endif

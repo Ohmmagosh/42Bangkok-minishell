@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 03:36:38 by psuanpro          #+#    #+#             */
-/*   Updated: 2022/08/20 21:39:13 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/07 20:35:42 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 
 	j = ft_strlen_gnl(s1);
 	i = (ft_strlen_gnl(s1) + ft_strlen_gnl(s2));
-	str1 = (char *)malloc(sizeof(char) * i + 1);
+	str1 = (char *)malloc(sizeof(char) * (i + 1));
 	if (!str1)
 		return (NULL);
 	while (s1 && *s1)
