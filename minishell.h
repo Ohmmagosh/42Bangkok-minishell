@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/14 22:18:56 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/18 00:28:41 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_lexlst
 
 typedef struct s_infd
 {
-	int		redirect;
+	// int		redirect;
 	int		infd;
 	int		outfd;
 }				t_ifd;
@@ -80,12 +80,13 @@ typedef struct s_program
 
 // LEXER
 void	lexer(t_pro *p);
+char	*join_char(char *s, char c);
 
 // PARSER
 void	parser(t_pro *p);
 
 // EXPANDER
-
+char	*expander(char *s);
 // EXECUTER
 void	executer(t_pro *p);
 // BUILDINFUNCTION
