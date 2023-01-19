@@ -6,12 +6,78 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/17 22:04:59 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/19 23:54:47 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include <sys/fcntl.h>
+
+char	*file_name_here_doc(int	i)
+{
+	char	*name;
+	char	*name_tmp;
+	char	*index;
+
+	index = ft_itoa(i);
+	name_tmp = ft_strdup("here_doc_");
+	name = ft_strjoin(name_tmp, index);
+	free(index);
+	free(name_tmp);
+	return (name);
+}
+
+int	here_doc_utils(char *name, char *eof)
+{
+	char	*line;
+	int	fd;
+	
+	fd = open(name, O_CREAT | O_RDWR | O_APPEND , 777);
+	while (1)
+	{
+		write(1, "heredoc>", 13);
+		line = get_next_line(0);
+		if (ft_strncmp(line, eof, ft_strlen(eof)) == 0)
+		{
+			free(p->line);
+			break ;
+		}
+		write(fd, line, ft_strlen(line));
+		free(line);
+	}
+	return (fd);
+}
+
+int	here_doc(int idx, char **cmd)
+{
+	int		i;
+	int		fd;
+	char	*name;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (!ft_strncmp(cmd[i], "<<", 3))
+		{
+			name = file_name_here_doc(i);
+			fd = here_doc_utils(name, cmd[i + 1]);
+		}
+		i++;
+	}
+	return (fd);
+}
+
+void	add_here_doc(t_pro *p)
+{
+	int	i;
+
+	i = 0;
+	while (i < p->par.size)
+	{
+		p->par.cmd[i].re.here_doc = here_doc(i, p->par.cmd[i].allcmd);
+		i++;
+	}
+}
 
 int	ismeta(char c)
 {
@@ -306,6 +372,7 @@ void	parser(t_pro *p)
 	if (!chk_error_redirect(p))
 	{
 		add_redirect(p);
+		add_here_doc(p);
 		add_opt_cmd(p);
 	}
 	// print_chk_cmd(p);

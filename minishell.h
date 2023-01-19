@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/18 00:28:41 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/19 23:21:10 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_lexlst
 typedef struct s_infd
 {
 	// int		redirect;
+	int		here_doc;
 	int		infd;
 	int		outfd;
 }				t_ifd;
