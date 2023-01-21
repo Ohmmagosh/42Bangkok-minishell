@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/19 23:21:10 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/21 21:21:28 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ typedef struct s_lexlst
 
 typedef struct s_infd
 {
-	// int		redirect;
-	int		here_doc;
 	int		infd;
 	int		outfd;
 }				t_ifd;
@@ -52,7 +50,7 @@ typedef struct s_cmd
 	int		index;
 	char	*cmd;
 	char	**allcmd;
-	char	*option;
+	char	*error;
 	t_ifd	re;
 } 				t_cmd;
 
@@ -70,7 +68,6 @@ typedef struct s_parser
 	int		size;
 	t_cmd	*cmd;
 }				t_par;
-
 
 typedef struct s_program
 {

@@ -6,25 +6,31 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/19 23:54:47 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/22 03:55:08 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include <sys/fcntl.h>
+#include <sys/unistd.h>
 
-char	*file_name_here_doc(int	i)
+char	*file_name_here_doc(int	idx, int cmd)
 {
 	char	*name;
 	char	*name_tmp;
 	char	*index;
+	char	*index_cmd;
 
-	index = ft_itoa(i);
+	index = ft_itoa(idx);
+	index_cmd = ft_itoa(cmd);
 	name_tmp = ft_strdup("here_doc_");
-	name = ft_strjoin(name_tmp, index);
-	free(index);
+	name = ft_strjoin(name_tmp, index_cmd);
 	free(name_tmp);
-	return (name);
+	free(index_cmd);
+	name_tmp = ft_strjoin(name, index);
+	free(name);
+	free(index);
+	return (name_tmp);
 }
 
 int	here_doc_utils(char *name, char *eof)
@@ -37,9 +43,9 @@ int	here_doc_utils(char *name, char *eof)
 	{
 		write(1, "heredoc>", 13);
 		line = get_next_line(0);
-		if (ft_strncmp(line, eof, ft_strlen(eof)) == 0)
+		if (!ft_strncmp(line, eof, ft_strlen(eof)))
 		{
-			free(p->line);
+			free(line);
 			break ;
 		}
 		write(fd, line, ft_strlen(line));
@@ -48,36 +54,25 @@ int	here_doc_utils(char *name, char *eof)
 	return (fd);
 }
 
-int	here_doc(int idx, char **cmd)
-{
-	int		i;
-	int		fd;
-	char	*name;
+// int	here_doc(int idx, char **cmd)
+// {
+// 	int		i;
+// 	int		fd;
+// 	char	*name;
 
-	i = 0;
-	while (cmd[i])
-	{
-		if (!ft_strncmp(cmd[i], "<<", 3))
-		{
-			name = file_name_here_doc(i);
-			fd = here_doc_utils(name, cmd[i + 1]);
-		}
-		i++;
-	}
-	return (fd);
-}
+// 	i = 0;
+// 	while (cmd[i])
+// 	{
+// 		if (!ft_strncmp(cmd[i], "<<", 3))
+// 		{
+// 			name = file_name_here_doc(idx,);
+// 			fd = here_doc_utils(name, cmd[i + 1]);
+// 		}
+// 		i++;
+// 	}
+// 	return (fd);
+// }
 
-void	add_here_doc(t_pro *p)
-{
-	int	i;
-
-	i = 0;
-	while (i < p->par.size)
-	{
-		p->par.cmd[i].re.here_doc = here_doc(i, p->par.cmd[i].allcmd);
-		i++;
-	}
-}
 
 int	ismeta(char c)
 {
@@ -148,6 +143,7 @@ t_cmd	init_cmd_parser(t_llst *p, int idx)
 
 	len = len_cmd_allcmd(p);
 	new.index = idx;
+	new.error = NULL;
 	new.allcmd = get_allcmd(p, len);
 	if (new.allcmd[0] != NULL)
 		new.cmd = new.allcmd[0];
@@ -189,7 +185,7 @@ void	print_chk_cmd(t_pro	*p)
 		printf("index %d\n",p->par.cmd[i].index);
 		printf("cmd 1 %s\n", p->par.cmd[i].cmd);
 		j = 0;
-		printf("-----------all cmd------------\n");
+		printf("-----------cmd %d------------\n", i);
 		while (p->par.cmd[i].allcmd[j])
 		{
 			printf("%d %s\n", j,p->par.cmd[i].allcmd[j]);
@@ -217,59 +213,75 @@ char	*chk_opt(char **s)
 	return (ret);
 }
 
-int	open_file_utils(char *file, int fd, int mode)
-{
-	close(fd);
-	if (mode == 0)
-	{
-		fd = open(file, O_RDWR, 0644);
-		if (fd == -1)
-			fd = open(file,  O_CREAT | O_RDWR , 0644);
-	}
-	else if (mode == 1)
-	{
-		fd = open(file, O_RDWR | O_TRUNC, 0644);
-		if (fd == -1)
-			fd = open(file, O_CREAT | O_RDWR| O_TRUNC, 0644);
-	}
-	else if (mode == 2)
-	{
-		fd = open(file, O_RDWR | O_TRUNC, 0644);
-		if (fd == -1)
-			fd = open(file, O_CREAT | O_RDWR| O_APPEND, 0644);
-	}
-	return (fd);
-}
+// int	open_file_utils(char *file, int fd, int mode)
+// {
+// 	close(fd);
+// 	if (mode == 0)
+// 	{
+// 		fd = open(file, O_RDWR, 0644);
+// 		if (fd == -1)
+// 			fd = open(file,  O_CREAT | O_RDWR , 0644);
+// 	}
+// 	else if (mode == 1)
+// 	{
+// 		fd = open(file, O_RDWR | O_TRUNC, 0644);
+// 		if (fd == -1)
+// 			fd = open(file, O_CREAT | O_RDWR| O_TRUNC, 0644);
+// 	}
+// 	else if (mode == 2)
+// 	{
+// 		fd = open(file, O_RDWR | O_TRUNC, 0644);
+// 		if (fd == -1)
+// 			fd = open(file, O_CREAT | O_RDWR| O_APPEND, 0644);
+// 	}
+// 	return (fd);
+// }
 
-int	open_file(char *file, int fd, int mode)
-{
-	if (fd == -1)
-	{
-		if (mode == 0)
-		{
-			fd = open(file, O_RDWR, 0644);
-			if (fd == -1)
-				fd = open(file,  O_CREAT | O_RDWR , 0644);
-		}
-		else if (mode == 1)
-		{
-			fd = open(file, O_RDWR | O_TRUNC, 0644);
-			if (fd == -1)
-				fd = open(file, O_CREAT | O_RDWR| O_TRUNC, 0644);
-		}
-		else if (mode == 2)
-		{
-			fd = open(file, O_RDWR | O_TRUNC | O_APPEND , 0644);
-			if (fd == -1)
-				fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
-		}
-	}
-	else if (fd != -1)
-		fd = open_file_utils(file, fd, mode);
-	return (fd);
-}
+// int	open_file(char *file, int fd, int mode)
+// {
+// 	if (fd == -1)
+// 	{
+// 		if (mode == 0)
+// 		{
+// 			fd = open(file, O_RDWR, 0644);
+// 			if (fd == -1)
+// 				fd = open(file,  O_CREAT | O_RDWR , 0644);
+// 		}
+// 		else if (mode == 1)
+// 		{
+// 			fd = open(file, O_RDWR | O_TRUNC, 0644);
+// 			if (fd == -1)
+// 				fd = open(file, O_CREAT | O_RDWR| O_TRUNC, 0644);
+// 		}
+// 		else if (mode == 2)
+// 		{
+// 			fd = open(file, O_RDWR | O_TRUNC | O_APPEND , 0644);
+// 			if (fd == -1)
+// 				fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
+// 		}
+// 	}
+// 	else if (fd != -1)
+// 		fd = open_file_utils(file, fd, mode);
+// 	return (fd);
+// }
 
-t_ifd	chk_redirect(char **s)
+int	ismetastr(char *s)
+{
+	if (s == NULL)
+		return (0);
+	if (!ft_strncmp(s, "<", 2))
+		return (1);
+	else if(!ft_strncmp(s, ">", 2))
+		return (1);
+	else if(!ft_strncmp(s, "|", 2))
+		return (1);
+	else if (!ft_strncmp(s, "<<", 3))
+		return (1);
+	else if (!ft_strncmp(s, ">>", 3))
+		return (1);
+	return (0);
+}
+t_ifd	chk_redirect_file(char **s)
 {
 	t_ifd	new;
 	int		i;
@@ -297,83 +309,238 @@ void	add_redirect(t_pro *p)
 	i = 0;
 	while (i < p->par.size)
 	{
-		p->par.cmd[i].re = chk_redirect(p->par.cmd[i].allcmd);
+		p->par.cmd[i].re = chk_redirect_file(p->par.cmd[i].allcmd);
 		i++;
 	}
 }
-int	chk_meta_str(char *s)
-{
-	if (s == NULL)
-		return (0);
-	if (!ft_strncmp(s, "<", 2))
-		return (1);
-	else if(!ft_strncmp(s, ">", 2))
-		return (1);
-	else if(!ft_strncmp(s, "|", 2))
-		return (1);
-	else if (!ft_strncmp(s, "<<", 3))
-		return (1);
-	else if (!ft_strncmp(s, ">>", 3))
-		return (1);
-	return (0);
-}
 
-int	error_redi(char **s)
+
+int	chk_redirect_cmd(char **cmd)
 {
 	int	i;
-	int	ret;
 
 	i = 0;
-	while (s[i])
+	while (cmd[i] && cmd[i + 1])
 	{
-		if (chk_meta_str(s[1]) && chk_meta_str(s[i + 1]))
+		if (ismetastr(cmd[i]) && ismetastr(cmd[i + 1]))
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-int	chk_error_redirect(t_pro *p)
-{
-	int	status;
-	int	i;
-	int	j;
-
-	i = 0;
-	status = 1;
-	while (i < p->par.size)
-	{
-		if (status == 0)
-			break;
-		status = error_redi(p->par.cmd[i].allcmd);
-		i++;
-	}
-	return (status);
-}
-
-void	add_opt_cmd(t_pro *p)
+int	chk_redirect_outfile(t_cmd *p, char **cmd)
 {
 	int	i;
-	char	*tmp;
+	int	time_open;
 
 	i = 0;
-
-	while (i < p->par.size)
+	time_open = 0;
+	p->re.outfd = -1;
+	while (cmd[i] && cmd[i + 1])
 	{
+		if (!ft_strncmp(cmd[i], ">", 2))
+		{
+			if (time_open > 0 && p->re.outfd < 0)
+				close(p->re.outfd);
+			p->re.outfd = open(cmd[i + 1], O_RDWR| O_TRUNC);
+			time_open++ ;
+			if (p->re.outfd == -1)
+			{
+				p->re.outfd = open(cmd[i + 1], O_CREAT| O_RDWR| O_TRUNC, 0644);
+				if (p->re.outfd == -1)
+					return (0);
+			}
+		}
+		i++;
+	}
+	return (1);
+}
+//error 1 error redirect error near unexpected token
+//error 2 error No such file or directory
+int	chk_redirect_infile(t_cmd *p, char **cmd)
+{
+	int	i;
+	int	time_open;
 
-		p->par.cmd[i].option = chk_opt(p->par.cmd[i].allcmd);
+	i = 0;
+	time_open = 0;
+	p->re.infd = -1;
+	while (cmd[i] && cmd[i + 1])
+	{
+		if (!ft_strncmp(cmd[i], "<", 2))
+		{
+			if (time_open > 0 && p->re.infd == -1)
+				close(p->re.infd);
+			p->re.infd = open(cmd[i + 1], O_RDONLY);
+			time_open++ ;
+			if (p->re.infd == -1)
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	chk_redirect_heredoc(t_cmd *p, char **cmd)
+{
+	int	i;
+	int	time_open;
+	char	*name;
+
+	i = 0;
+	time_open = 0;
+	while (cmd[i] && cmd[i + 1])
+	{
+		if (!ft_strncmp(cmd[i], "<<", 3))
+		{
+			name = file_name_here_doc(i, p->index);
+			p->re.outfd = here_doc_utils(name, cmd[i + 1]);
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	chk_redirect_append(t_cmd *p, char **cmd)
+{
+	int	i;
+	int	time_open;
+
+	i = 0;
+	time_open = 0;
+	while (cmd[i] && cmd[i + 1])
+	{
+		if (!ft_strncmp(cmd[i], ">>", 3))
+		{
+			if (time_open > 0 && p->re.outfd == -1)
+				close(p->re.outfd);
+			p->re.infd = open(cmd[i + 1], O_RDWR | O_APPEND);
+			time_open++ ;
+			if (p->re.outfd == -1)
+			{
+				p->re.outfd = open(cmd[i + 1], O_CREAT| O_RDWR | O_APPEND, 0644);
+				if (p->re.outfd == -1)
+					return (0);
+			}
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	get_append(t_cmd *p, char *file, int ot)
+{
+	if (ot > 0 && p->re.outfd != -1)
+		close(p->re.outfd);
+	p->re.infd = open(file, O_RDWR | O_APPEND);
+	if (p->re.outfd == -1)
+	{
+		p->re.outfd = open(file, O_CREAT| O_RDWR | O_APPEND, 0644);
+		if (p->re.outfd == -1)
+			return (0);
+	}
+	return (1);
+}
+
+int	get_infile(t_cmd *p,char *file, int ot)
+{
+	if (ot > 0 && p->re.infd != -1)
+		close(p->re.infd);
+	p->re.infd = open(file, O_RDONLY);
+	if (p->re.infd == -1)
+		return (0);
+	return (1);
+}
+
+int	get_outfile(t_cmd *p, char *file ,int ot)
+{
+	if (ot > 0 && p->re.outfd != -1)
+		close(p->re.outfd);
+	p->re.outfd = open(file, O_RDWR| O_TRUNC);
+	if (p->re.outfd == -1)
+	{
+		p->re.outfd = open(file, O_CREAT| O_RDWR| O_TRUNC, 0644);
+		if (p->re.outfd == -1)
+			return (0);
+	}
+	return (1);
+}
+
+int	get_heredoc(t_cmd *p, char *eof, int i)
+{
+	char	*name;
+	
+	name = file_name_here_doc(i, p->index);
+	p->re.outfd = here_doc_utils(name, eof);
+	free(name);
+	return (1);
+}
+
+void	get_redirect_fd(t_cmd *p, char **cmd)
+{
+	int		i;
+
+	i = 0;
+	p->re.infd = -1;
+	p->re.outfd = -1;
+	while (cmd[i])
+	{
+		if (!ft_strncmp(cmd[i], "<", 2))
+		{
+			if (!get_infile(p, cmd[i + 1], i))
+				p->error = ft_strdup("nfile");
+		}
+		else if (!ft_strncmp(cmd[i], "<<", 2))
+		{
+			if(!get_heredoc(p, cmd[i + 1], i))
+				p->error = ft_strdup("nfile");
+		}
+		else if (!ft_strncmp(cmd[i], ">", 2))
+		{
+			if (!get_outfile(p, cmd[i + 1], i))
+				p->error = ft_strdup("nfile");
+		}
+		else if (!ft_strncmp(cmd[i], ">>", 2))
+		{
+			if (!get_append(p, cmd[i + 1], i))
+				p->error = ft_strdup("nfile");
+		} 
 		i++;
 	}
 }
+
+void	chk_redirect(t_pro *p)
+{
+	int	i;
+
+	i = 0;
+	while (i < p->par.size)
+	{
+		if(!chk_redirect_cmd(p->par.cmd[i].allcmd))
+			p->par.cmd[i].error = ft_strdup("token\n");
+		while (p->par.cmd[i].error == NULL)
+		{
+			get_redirect_fd(&p->par.cmd[i], p->par.cmd[i].allcmd);
+			// if (!chk_redirect_infile(&p->par.cmd[i],p->par.cmd[i].allcmd))
+			// 	p->par.cmd[i].error = ft_strdup("nfile");
+			// if (!chk_redirect_heredoc(&p->par.cmd[i], p->par.cmd[i].allcmd))
+			// 	p->par.cmd[i].error = ft_strdup("heredoc");
+			// if (!chk_redirect_outfile(&p->par.cmd[i], p->par.cmd[i].allcmd))
+			// 	p->par.cmd[i].error = ft_strdup("nfile");
+			// if (!chk_redirect_append(&p->par.cmd[i], p->par.cmd[i].allcmd))
+			// 	p->par.cmd[i].error = ft_strdup("nfile");
+		}
+		i++;
+	}
+}
+
 
 void	parser(t_pro *p)
 {
 	create_cmd_parser(p, p->lex.lst);
-	if (!chk_error_redirect(p))
-	{
-		add_redirect(p);
-		add_here_doc(p);
-		add_opt_cmd(p);
-	}
+	print_chk_cmd(p);
+	chk_redirect(p);
+	// 	add_redirect(p);
 	// print_chk_cmd(p);
 }
