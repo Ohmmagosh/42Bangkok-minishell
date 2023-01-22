@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/21 21:21:28 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/22 22:22:37 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_cmd
 	char	*cmd;
 	char	**allcmd;
 	char	*error;
+	char	*heredoc;
 	t_ifd	re;
 } 				t_cmd;
 

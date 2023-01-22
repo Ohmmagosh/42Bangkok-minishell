@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/22 21:40:59 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/22 23:09:17 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,15 @@ char	*file_name_here_doc(int	idx, int cmd)
 int	here_doc_utils(char *name, char *eof)
 {
 	char	*line;
-	int	fd;
+	int		fd;
 	
-	fd = open(name, O_CREAT | O_RDWR | O_APPEND , 777);
+	fd = open(name, O_CREAT | O_RDWR | O_TRUNC , 700);
 	while (1)
 	{
-		write(1, "heredoc>", 13);
+		write(1, "heredoc->", 9);
 		line = get_next_line(0);
+		printf("eof -> |%s|\n", eof);
+		printf("line -> |%s|\n", line);
 		if (!ft_strncmp(line, eof, ft_strlen(eof)))
 		{
 			free(line);
@@ -144,6 +146,7 @@ t_cmd	init_cmd_parser(t_llst *p, int idx)
 	new.error = NULL;
 	new.re.infd = -1;
 	new.re.outfd = -1;
+	new.heredoc = NULL;
 	new.allcmd = get_allcmd(p, len);
 	if (new.allcmd[0] != NULL)
 		new.cmd = new.allcmd[0];
@@ -398,6 +401,7 @@ int	chk_redirect_heredoc(t_cmd *p, char **cmd)
 		if (!ft_strncmp(cmd[i], "<<", 3))
 		{
 			name = file_name_here_doc(i, p->index);
+			p->heredoc = ft_strdup(name);
 			p->re.outfd = here_doc_utils(name, cmd[i + 1]);
 		}
 		i++;
@@ -475,7 +479,17 @@ int	get_heredoc(t_cmd *p, char *eof, int i)
 	char	*name;
 	
 	name = file_name_here_doc(i, p->index);
-	p->re.outfd = here_doc_utils(name, eof);
+	if (p->re.outfd != -1)
+		close(p->re.infd);
+	if (p->heredoc != NULL)
+	{
+		unlink(p->heredoc);
+		free(p->heredoc);
+		p->heredoc = NULL;
+	}
+	printf("%s----------heredoc----------%s\n", "\e[42m", "\e[0m");
+	printf("eof -> %s\n", eof);
+	p->re.infd = here_doc_utils(name, eof);
 	free(name);
 	return (1);
 }
@@ -545,8 +559,8 @@ void	chk_redirect(t_pro *p)
 void	parser(t_pro *p)
 {
 	create_cmd_parser(p, p->lex.lst);
-	chk_redirect(p);
 	print_chk_cmd(p);
+	// chk_redirect(p);
 
 	// 	add_redirect(p);
 	// print_chk_cmd(p);
