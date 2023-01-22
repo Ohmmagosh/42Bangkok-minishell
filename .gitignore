@@ -7,3 +7,5 @@ in_3
 o1
 o2
 o3
+*.o
+.gitignore

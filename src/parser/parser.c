@@ -6,11 +6,12 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/22 23:09:17 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/23 02:20:06 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <sys/fcntl.h>
 
 char	*file_name_here_doc(int	idx, int cmd)
 {
@@ -36,13 +37,11 @@ int	here_doc_utils(char *name, char *eof)
 	char	*line;
 	int		fd;
 	
-	fd = open(name, O_CREAT | O_RDWR | O_TRUNC , 700);
+	fd = open(name, O_CREAT | O_RDWR | O_APPEND , 0777);
 	while (1)
 	{
 		write(1, "heredoc->", 9);
 		line = get_next_line(0);
-		printf("eof -> |%s|\n", eof);
-		printf("line -> |%s|\n", line);
 		if (!ft_strncmp(line, eof, ft_strlen(eof)))
 		{
 			free(line);
@@ -287,39 +286,6 @@ int	ismetastr(char *s)
 	return (0);
 }
 
-// t_ifd	chk_redirect_file(char **s)
-// {
-// 	t_ifd	new;
-// 	int		i;
-
-// 	i = 0;
-// 	new.infd = -1;
-// 	new.outfd = -1;
-// 	while (s[i])
-// 	{
-// 		if (!ft_strncmp(s[i], "<", 2))
-// 			new.infd = open_file(s[i + 1], new.infd, 0);
-// 		else if (!ft_strncmp(s[i], ">", 2))
-// 			new.outfd = open_file(s[i + 1], new.outfd, 1);
-// 		else if (!ft_strncmp(s[i], ">>", 3))
-// 			new.outfd = open_file(s[i + 1], new.outfd, 2);
-// 		i++;
-// 	}
-// 	return (new);
-// }
-
-// void	add_redirect(t_pro *p)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < p->par.size)
-// 	{
-// 		p->par.cmd[i].re = chk_redirect_file(p->par.cmd[i].allcmd);
-// 		i++;
-// 	}
-// }
-
 
 int	chk_redirect_cmd(char **cmd)
 {
@@ -335,101 +301,51 @@ int	chk_redirect_cmd(char **cmd)
 	return (1);
 }
 
-int	chk_redirect_outfile(t_cmd *p, char **cmd)
-{
-	int	i;
-	int	time_open;
-
-	i = 0;
-	time_open = 0;
-	p->re.outfd = -1;
-	while (cmd[i] && cmd[i + 1])
-	{
-		if (!ft_strncmp(cmd[i], ">", 2))
-		{
-			if (time_open > 0 && p->re.outfd < 0)
-				close(p->re.outfd);
-			p->re.outfd = open(cmd[i + 1], O_RDWR| O_TRUNC);
-			time_open++ ;
-			if (p->re.outfd == -1)
-			{
-				p->re.outfd = open(cmd[i + 1], O_CREAT| O_RDWR| O_TRUNC, 0644);
-				if (p->re.outfd == -1)
-					return (0);
-			}
-		}
-		i++;
-	}
-	return (1);
-}
-//error 1 error redirect error near unexpected token
-//error 2 error No such file or directory
-int	chk_redirect_infile(t_cmd *p, char **cmd)
-{
-	int	i;
-	int	time_open;
-
-	i = 0;
-	time_open = 0;
-	p->re.infd = -1;
-	while (cmd[i] && cmd[i + 1])
-	{
-		if (!ft_strncmp(cmd[i], "<", 2))
-		{
-			if (time_open > 0 && p->re.infd == -1)
-				close(p->re.infd);
-			p->re.infd = open(cmd[i + 1], O_RDONLY);
-			time_open++ ;
-			if (p->re.infd == -1)
-				return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
-int	chk_redirect_heredoc(t_cmd *p, char **cmd)
-{
-	int	i;
-	int	time_open;
-	char	*name;
-
-	i = 0;
-	time_open = 0;
-	while (cmd[i] && cmd[i + 1])
-	{
-		if (!ft_strncmp(cmd[i], "<<", 3))
-		{
-			name = file_name_here_doc(i, p->index);
-			p->heredoc = ft_strdup(name);
-			p->re.outfd = here_doc_utils(name, cmd[i + 1]);
-		}
-		i++;
-	}
-	return (1);
-}
-
-// int	chk_redirect_append(t_cmd *p, char **cmd)
+// int	chk_redirect_outfile(t_cmd *p, char **cmd)
 // {
 // 	int	i;
 // 	int	time_open;
 
 // 	i = 0;
 // 	time_open = 0;
+// 	p->re.outfd = -1;
 // 	while (cmd[i] && cmd[i + 1])
 // 	{
-// 		if (!ft_strncmp(cmd[i], ">>", 3))
+// 		if (!ft_strncmp(cmd[i], ">", 2))
 // 		{
-// 			if (time_open > 0 && p->re.outfd == -1)
+// 			if (time_open > 0 && p->re.outfd < 0)
 // 				close(p->re.outfd);
-// 			p->re.infd = open(cmd[i + 1], O_RDWR | O_APPEND);
+// 			p->re.outfd = open(cmd[i + 1], O_RDWR| O_TRUNC);
 // 			time_open++ ;
 // 			if (p->re.outfd == -1)
 // 			{
-// 				p->re.outfd = open(cmd[i + 1], O_CREAT| O_RDWR | O_APPEND, 0644);
+// 				p->re.outfd = open(cmd[i + 1], O_CREAT| O_RDWR| O_TRUNC, 0644);
 // 				if (p->re.outfd == -1)
 // 					return (0);
 // 			}
+// 		}
+// 		i++;
+// 	}
+// 	return (1);
+// }
+
+
+// int	chk_redirect_heredoc(t_cmd *p, char **cmd)
+// {
+// 	int	i;
+// 	int	time_open;
+// 	char	*name;
+
+// 	i = 0;
+// 	time_open = 0;
+// 	while (cmd[i] && cmd[i + 1])
+// 	{
+// 		if (!ft_strncmp(cmd[i], "<<", 3))
+// 		{
+// 			name = file_name_here_doc(i, p->index);
+// 			p->heredoc = ft_strdup(name);
+// 			printf("p->heredoc -> %s\n", p->heredoc);
+// 			p->re.infd = here_doc_utils(name, cmd[i + 1]);
 // 		}
 // 		i++;
 // 	}
@@ -487,9 +403,8 @@ int	get_heredoc(t_cmd *p, char *eof, int i)
 		free(p->heredoc);
 		p->heredoc = NULL;
 	}
-	printf("%s----------heredoc----------%s\n", "\e[42m", "\e[0m");
-	printf("eof -> %s\n", eof);
 	p->re.infd = here_doc_utils(name, eof);
+	p->heredoc = ft_strdup(name);
 	free(name);
 	return (1);
 }
@@ -541,29 +456,54 @@ void	chk_redirect(t_pro *p)
 		while (p->par.cmd[i].error == NULL)
 		{
 			get_redirect_fd(&p->par.cmd[i], p->par.cmd[i].allcmd);
-			// if (!chk_redirect_infile(&p->par.cmd[i],p->par.cmd[i].allcmd))
-			// 	p->par.cmd[i].error = ft_strdup("nfile");
-			// if (!chk_redirect_heredoc(&p->par.cmd[i], p->par.cmd[i].allcmd))
-			// 	p->par.cmd[i].error = ft_strdup("heredoc");
-			// if (!chk_redirect_outfile(&p->par.cmd[i], p->par.cmd[i].allcmd))
-			// 	p->par.cmd[i].error = ft_strdup("nfile");
-			// if (!chk_redirect_append(&p->par.cmd[i], p->par.cmd[i].allcmd))
-			// 	p->par.cmd[i].error = ft_strdup("nfile");
 		}
 		i++;
 	}
 }
 
+void	new_str(char *re, char *file)
+{
+	
+}
+
+char	**new_allcmd(char **cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i] && cmd[i + 1])
+	{
+		if (!ft_strncmp(cmd[i], "<", 2))
+			new_str(cmd[i], cmd[i + 1]);
+		else if (!ft_strncmp(cmd[i], "<<", 3))
+			continue;
+		else if (!ft_strncmp(cmd[i], ">", 2))
+			continue;
+		else if (!ft_strncmp(cmd[i], ">>", 3))
+			continue;
+		i++;
+	}
+}
+
 // void	print_chk_cmd2()
+void	clear_redirect(t_pro *p)
+{
+	int	i;
+
+	i = 0;
+	while (i < p->par.size)
+	{
+		p->par.cmd[i].allcmd = new_allcmd(p->par.cmd[i].allcmd);
+		i++;
+	}
+}
 
 void	parser(t_pro *p)
 {
 	create_cmd_parser(p, p->lex.lst);
+	chk_redirect(p);
 	print_chk_cmd(p);
-	// chk_redirect(p);
 
-	// 	add_redirect(p);
-	// print_chk_cmd(p);
 
 	// char	*ft_expand(char *ptr, t_pro *p)
 }
