@@ -34,9 +34,13 @@
 // 	}
 // }
 
-int	main(void)
+// int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_pro	p;
+
+	(void)argc;
+	(void)argv;
 	// struct sigaction	sig_quit;
 	// struct sigaction	sig_int;
 
@@ -46,6 +50,19 @@ int	main(void)
 	// sig_int.sa_sigaction = sig_handle;
 	// sig_int.sa_flags = SA_SIGINFO;
 	// sigaction(SIGINT, &sig_int, NULL);
+
+	// ft_cpyenv(&ownenv, envp);
+	ft_cpyenv(&(p.ownenv), envp);
+
+	// printf("show cpy env\n");
+	// t_list	*tmpenv = p.ownenv;
+	// while (tmpenv != NULL)
+	// {
+	// 	printf("env:%s\n", (char *)tmpenv->content);
+	// 	tmpenv = tmpenv->next;
+	// }
+	// printf("end show cpy env\n");
+
 	while (1)
 	{
 		// p.prompt = init_prompt();

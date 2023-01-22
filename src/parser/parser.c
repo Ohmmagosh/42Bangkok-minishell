@@ -564,6 +564,8 @@ void	parser(t_pro *p)
 
 	// 	add_redirect(p);
 	// print_chk_cmd(p);
+
+	// char	*ft_expand(char *ptr, t_pro *p)
 }
 
 

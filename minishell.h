@@ -48,6 +48,7 @@ typedef struct s_infd
 typedef struct s_cmd
 {
 	int		index;
+	int		cmdabpath;
 	char	*cmd;
 	char	**allcmd;
 	char	*error;
@@ -74,6 +75,7 @@ typedef struct s_program
 {
 	t_lex	lex;
 	t_par	par;
+	t_list	*ownenv;
 	char	*prompt;
 }				t_pro;
 
@@ -93,5 +95,6 @@ void	ft_echo(t_pro *p);
 void	ft_pwd(t_pro *p);
 void	ft_cd(t_pro *p);
 char	*init_prompt(void);
+void	ft_cpyenv(t_list **envlst, char **envp);
 
 #endif

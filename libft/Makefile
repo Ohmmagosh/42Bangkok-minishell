@@ -52,17 +52,26 @@ SRCS	= ft_isalnum.c \
 	  ft_printf_check.c \
 	  get_next_line_utils.c \
 	  get_next_line.c \
+	  ft_lstnew.c \
+		ft_lstadd_front.c \
+		ft_lstsize.c \
+		ft_lstlast.c \
+		ft_lstadd_back.c \
+		ft_lstdelone.c \
+		ft_lstclear.c \
+		ft_lstiter.c \
+		ft_lstmap.c
 
-BONUS_SRCS	= $(SRCS) \
-		  ft_lstnew.c \
-		  ft_lstadd_front.c \
-		  ft_lstsize.c \
-		  ft_lstlast.c \
-		  ft_lstadd_back.c \
-		  ft_lstdelone.c \
-		  ft_lstclear.c \
-		  ft_lstiter.c \
-		  ft_lstmap.c
+# BONUS_SRCS	= $(SRCS) \
+# 		  ft_lstnew.c \
+# 		  ft_lstadd_front.c \
+# 		  ft_lstsize.c \
+# 		  ft_lstlast.c \
+# 		  ft_lstadd_back.c \
+# 		  ft_lstdelone.c \
+# 		  ft_lstclear.c \
+# 		  ft_lstiter.c \
+# 		  ft_lstmap.c
 
 LIBC	= ar -rcs
 CC	= gcc -Wall -Werror -Wextra -std=c99
@@ -85,9 +94,9 @@ $(NAME): $(SRCS)
 
 all: $(NAME)
 
-bonus: $(BONUS_SRCS)
-	@$(CC) -c $(BONUS_SRCS)
-	@$(LIBC) $(NAME) *.o
+# bonus: $(BONUS_SRCS)
+# 	@$(CC) -c $(BONUS_SRCS)
+# 	@$(LIBC) $(NAME) *.o
 
 clean:
 	@$(RM) *.o

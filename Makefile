@@ -35,7 +35,8 @@ PARSER = src/parser/parser.c
 
 EXPANDER = src/expander/expander.c
 
-BUILDIN = src/buildin/ft_echo.c
+BUILDIN = src/buildin/ft_echo.c \
+			src/buildin/ft_env.c
 
 EXECUTE = src/execute/execute.c
 
