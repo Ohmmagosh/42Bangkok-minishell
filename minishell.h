@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/22 22:22:37 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/24 20:56:30 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ char	*join_char(char *s, char c);
 void	parser(t_pro *p);
 
 // EXPANDER
-char	*expander(char *s);
+void	expander(t_pro *p);
+// char	*expander(char *s);
 // EXECUTER
 void	executer(t_pro *p);
 // BUILDINFUNCTION

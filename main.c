@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/16 21:59:55 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/24 20:56:50 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	main(int argc, char **argv, char **envp)
 		if (p.lex.status)
 		{
 			parser(&p);
+			expander(&p);
 		}
 	}
 	return 0;

@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/24 20:07:15 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/24 23:57:03 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,26 +178,26 @@ void	create_cmd_parser(t_pro *p, t_llst *lst)
 	}
 }
 
-void	print_chk_cmd(t_pro	*p)
-{
-	int	i = 0;
-	int	j = 0;
-	while (i < p->par.size)
-	{
-		printf("index %d\n",p->par.cmd[i].index);
-		printf("cmd 1 %s\n", p->par.cmd[i].cmd);
-		j = 0;
-		printf("-----------cmd %d------------\n", i);
-		printf("p->par.cmd[i].re.infd -> %d\n", p->par.cmd[i].re.infd);
-		printf("p->par.cmd[i].re.outfd -> %d\n", p->par.cmd[i].re.outfd);
-		while (p->par.cmd[i].allcmd[j])
-		{
-			printf("%d %s\n", j,p->par.cmd[i].allcmd[j]);
-			j++;
-		}
-		i++;
-	}
-}
+// void	print_chk_cmd(t_pro	*p)
+// {
+// 	int	i = 0;
+// 	int	j = 0;
+// 	while (i < p->par.size)
+// 	{
+// 		printf("index %d\n",p->par.cmd[i].index);
+// 		printf("cmd 1 %s\n", p->par.cmd[i].cmd);
+// 		j = 0;
+// 		printf("-----------cmd %d------------\n", i);
+// 		printf("p->par.cmd[i].re.infd -> %d\n", p->par.cmd[i].re.infd);
+// 		printf("p->par.cmd[i].re.outfd -> %d\n", p->par.cmd[i].re.outfd);
+// 		while (p->par.cmd[i].allcmd[j])
+// 		{
+// 			printf("%d %s\n", j,p->par.cmd[i].allcmd[j]);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
 
 int	ismetastr(char *s)
 {
@@ -395,7 +395,7 @@ char	**new_str(char **cmd)
 
 	i = 0;
 	ret = NULL;
-	while (cmd[i])
+	while (cmd[i] && cmd[i])
 	{
 		if (ismetastr(cmd[i]) && cmd[i])
 		{	
