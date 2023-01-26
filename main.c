@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/24 20:56:50 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/25 21:46:57 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 // }
 
 // int	main(void)
-int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **env)
 {
 	t_pro	p;
 
@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 	// sigaction(SIGINT, &sig_int, NULL);
 
 	// ft_cpyenv(&ownenv, envp);
-	ft_cpyenv(&(p.ownenv), envp);
+	ft_cpyenv(&(p.ownenv), env);
 
 	// printf("show cpy env\n");
 	// t_list	*tmpenv = p.ownenv;
@@ -84,6 +84,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			parser(&p);
 			expander(&p);
+			executer(&p, env);
 		}
 	}
 	return 0;

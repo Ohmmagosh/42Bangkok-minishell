@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/24 20:56:30 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/25 21:46:26 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,17 @@
 # include <fcntl.h>
 # include <curses.h>
 
-typedef struct s_variable
+// typedef struct s_variable
+// {
+// 	int	i;
+// 	int	token;
+// }			t_var;
+
+typedef struct s_execute
 {
-	int	i;
-	int	token;
-}			t_var;
+	int			pipe_fd[2];
+	int			pid;
+}				t_exe;
 
 typedef struct s_lexlst
 {
@@ -59,7 +65,7 @@ typedef struct s_cmd
 typedef struct s_lexer
 {
 	int		status;
-	t_var	v;
+	// t_var	v;
 	char	*cmd;
 	char	*trim;
 	t_llst	*lst;
@@ -73,10 +79,11 @@ typedef struct s_parser
 
 typedef struct s_program
 {
+	char	*prompt;
 	t_lex	lex;
 	t_par	par;
 	t_list	*ownenv;
-	char	*prompt;
+	t_exe	exe;
 }				t_pro;
 
 // LEXER
@@ -90,12 +97,12 @@ void	parser(t_pro *p);
 void	expander(t_pro *p);
 // char	*expander(char *s);
 // EXECUTER
-void	executer(t_pro *p);
+void	executer(t_pro *p, char **env);
 // BUILDINFUNCTION
 void	ft_echo(t_pro *p);
 void	ft_pwd(t_pro *p);
 void	ft_cd(t_pro *p);
 char	*init_prompt(void);
-void	ft_cpyenv(t_list **envlst, char **envp);
+void	ft_cpyenv(t_list **envlst, char **env);
 
 #endif
