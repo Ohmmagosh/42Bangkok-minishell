@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/28 20:25:23 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/28 22:07:31 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ void	ft_echo(t_pro *p);
 void	ft_pwd(t_pro *p);
 void	ft_cd(t_pro *p);
 char	*init_prompt(void);
-void	ft_cpyenv(t_list **envlst, char **env);
+void	ft_cpyenv(t_list **envlst, char **envp);
 t_list	*ft_findnodeenv(t_list **lstenv, char *env);
-char	*ft_getenvval(char **ptrst, char **ptrend);
+char	*ft_getenv(t_list **lstenv, char *envvar);
 
 #endif
