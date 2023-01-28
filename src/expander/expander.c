@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 01:27:24 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/25 22:38:47 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/28 17:30:19 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,6 +348,374 @@ char	*ft_expand(char *ptr, t_pro *p)
 	printf("%s----------hello----------%s\n", "\e[42m", "\e[0m");
 	return (t_ptrc);
 }
+
+// st is a start charactor
+// end is an end charactor
+char	*ft_strcreate(char *st, char *end)
+{
+	size_t	siz_str;
+	char	*res;
+	char	*t_res;
+
+	res = NULL;
+	// printf("str create\npst:%p pend:%p\n", st, end);
+	if (end >= st)
+	{
+		siz_str = end - st;
+		res = malloc(sizeof(char) * (siz_str + 2));
+		if (res != NULL)
+		{
+			t_res = res;
+			while (st != end)
+			{
+				*t_res = *st;
+				st++;
+				t_res++;
+			}
+			*t_res = *st;
+			t_res++;
+			*t_res = '\0';
+		}
+	}
+	return (res);
+}
+
+// envname must be sent since $
+char	*ft_getenv(char **ptrst, char **ptrend)
+{
+	char	*pchr;
+	char	*envst;
+	char	*envend;
+
+	printf("getenv\n");
+	envst = *ptrst;
+	envend = envst + 1;
+	printf("bef while envst:%s envend:%s\n", envst, envend);
+	fflush(stdout);
+	while ((*envend != ' ') && (*envend != '\'') && \
+			(*envend != '\"') && (*envend != '$') && (*envend != '\0'))
+		envend++;
+	printf("end while envst:%s envend:%s\n", envst, envend);
+	printf("envst:%d envend:%d\n", (int)(*envst), (int)(*envend));
+	fflush(stdout);
+	pchr = ft_strcreate(envst, (envend - 1));
+	// printf("bef chg $ 2  @\n");
+	// fflush(stdout);
+	// *pchr = '@';
+	*ptrend = envend;
+	return (pchr);
+}
+
+void	ft_joinres(char **t_res, char **t_str)
+{
+	char	*res;
+	char	*t_res0;
+	char	*t_res1;
+
+	res = *t_res;
+	t_res0 = *t_str;
+	if (res == NULL)
+		res = t_res0;
+	else
+	{
+		t_res1 = ft_strjoin(res, t_res0);
+		free(res);
+		free(t_res0);
+		res = t_res1;
+	}
+	*t_res = res;
+}
+
+char	*ft_getres(char *t_ptrst, char *t_ptrend, char **t_res)
+{
+	char	*ptrst;
+	char	*ptrend;
+	char	*t_res0;
+
+	ptrst = t_ptrst;
+	ptrend = t_ptrend;
+	// printf("getres st:%s end:%s\n", ptrst, ptrend);
+	// fflush(stdout);
+	// t_res0 = ft_strcreate(ptrst + 1, ptrend - 1);
+	t_res0 = ft_strcreate(ptrst, ptrend);
+	ft_joinres(t_res, &t_res0);
+
+	// if (res == NULL)
+	// 	res = t_res0;
+	// else
+	// {
+	// 	t_res1 = ft_strjoin(res, t_res0);
+	// 	free(res);
+	// 	free(t_res0);
+	// 	res = t_res1;
+	// }
+
+	// if (*ptrend != '\0')
+	// 	ptrst = ptrend + 1;
+	// else
+	// 	ptrst = ptrend;
+
+	ptrst = ptrend;
+	
+	// *t_res = res;
+	return (ptrst);
+}
+
+char	*ft_clenptr(char *ptr)
+{
+	char	*ptrst;
+	char	*ptrend;
+	char	*res;
+	char	*t_res0;
+	// char	*t_res1;
+
+	int	i = 0;
+
+	ptrst = ptr;
+	res = NULL;
+	while (*ptrst != '\0')
+	// while ((*ptrst != '\0') && (i < 10))
+	{
+		if (*ptrst == '\'')
+		{
+			ptrend = ptrst + 1;
+			while ((*ptrend != '\'') && (*ptrend != '\0'))
+				ptrend++;
+			ptrst = ft_getres(ptrst + 1, ptrend - 1, &res) + 2;
+			// t_res0 = ft_strcreate(ptrst + 1, ptrend - 1);
+			// if (res == NULL)
+			// {
+			// 	res = t_res0;
+			// }
+			// else
+			// {
+			// 	t_res1 = ft_strjoin(res, t_res0);
+			// 	free(res);
+			// 	free(t_res0);
+			// 	res = t_res1;
+			// }
+			// // if (*ptrend != '\0')
+			// // 	ptrst = ptrend + 1;
+			// // else
+			// // 	ptrst = ptrend;
+			// ptrst = (ptrend + 1);
+		}
+		else if (*ptrst == '\"')
+		{
+			// printf("case \"\n");
+			ptrst = ptrst + 1;
+			ptrend = ptrst;
+			// printf("bef \" ptr st:%s end:%s\n", ptrst, ptrend);
+			while (*ptrst != '\"')
+			// while ((*ptrst != '\"') && (i < 10))
+			{
+				while ((*ptrend != '\"') && (*ptrend != '$') && (*ptrend != '\0'))
+					ptrend++;
+				if (*ptrst != '$')
+				{
+					ptrst = ft_getres(ptrst, ptrend - 1, &res) + 1;
+					// zt_res0 = ft_strcreate(ptrst, ptrend - 1);
+					// if (res == NULL)
+					// {
+					// 	res = t_res0;
+					// }
+					// else
+					// {
+					// 	t_res1 = ft_strjoin(res, t_res0);
+					// 	free(res);
+					// 	free(t_res0);
+					// 	res = t_res1;
+					// }
+					// // printf("case \" bef trans ptr st:%s end:%s res:%s\n", ptrst, ptrend, res);
+					// ptrst = (ptrend);
+					// i++;
+				}
+				// "@$he 'll'o",
+				// found env
+				else
+				{
+					t_res0 = ft_getenv(&ptrst, &ptrend);
+					ft_joinres(&res, &t_res0);
+
+					// if (res == NULL)
+					// {
+					// 	res = t_res0;
+					// }
+					// else
+					// {
+					// 	t_res1 = ft_strjoin(res, t_res0);
+					// 	free(res);
+					// 	free(t_res0);
+					// 	res = t_res1;
+					// }
+
+					// if (*ptrend != '\0')
+					// 	ptrst = ptrend + 1;
+					// else
+					// 	ptrst = ptrend;
+
+					// if (*ptrend != '\"')
+					// 	ptrst = ptrend;
+					// else
+					//  	ptrst = (ptrend + 1);
+
+					ptrst = ptrend;
+				}
+				// printf("case \" ptr st:%s end:%s res:%s\n", ptrst, ptrend, res);
+				// fflush(stdout);
+			}
+			ptrst = ptrst + 1;
+		}
+		else if (*ptrst == '$')
+		{
+			// printf("case env\n");
+			// fflush(stdout);
+
+			t_res0 = ft_getenv(&ptrst, &ptrend);
+			ft_joinres(&res, &t_res0);
+
+			// if (res == NULL)
+			// {
+			// 	res = t_res0;
+			// }
+			// else
+			// {
+			// 	t_res1 = ft_strjoin(res, t_res0);
+			// 	free(res);
+			// 	free(t_res0);
+			// 	res = t_res1;
+			// }
+
+			// printf("bef trans ptr st:%s end:%s\n", ptrst, ptrend);
+			// if (*ptrend != '\0')
+			// 	ptrst = ptrend + 1;
+			// else
+			// 	ptrst = ptrend;
+			
+			ptrst = ptrend;
+		}
+		else
+		{
+			// printf("case char\n");
+			// fflush(stdout);
+			ptrend = ptrst + 1;
+			while ((*ptrend != '\'') && (*ptrend != '\"') && \
+				(*ptrend != '$') && (*ptrend != '\0'))
+				ptrend++;
+			// t_res0 = ft_strcreate((ptrst + 1), (ptrend - 1));
+			ptrst = ft_getres(ptrst, ptrend - 1, &res);
+
+			// t_res0 = ft_strcreate((ptrst), (ptrend - 1));
+			// if (res == NULL)
+			// {
+			// 	res = t_res0;
+			// }
+			// else
+			// {
+			// 	t_res1 = ft_strjoin(res, t_res0);
+			// 	free(res);
+			// 	free(t_res0);
+			// 	res = t_res1;
+			// }
+
+			// if (*ptrend != '\0')
+			// 	ptrst = ptrend + 1;
+			// else
+			// 	ptrst = ptrend;
+
+			ptrst = ptrend;
+
+			// printf("st:%s end:%s\n", ptrst, ptrend);
+			// printf("res:%s\n", res);
+			// fflush(stdout);
+		}
+		// if (*ptrst != '\0')
+		// // if ((*ptrst != '$') && (*ptrst != '\0'))
+		// 	ptrst++;
+		i++;
+	}
+	return (res);
+}
+
+// 0 no need absolute path
+// 1 need absolute path
+// char	*ft_expander(char *ptr, t_pro *p, int cmdabpath)
+char	*ft_expand(char *ptr, t_pro *p)
+// char	*ft_expander(char *ptr)
+{
+	char	*res;
+	(void)p;
+
+	res = ft_clenptr(ptr);
+	free(ptr);
+	return (res);
+}
+
+// int	main (void)
+// {
+// 	char	ex[10][30] = {"\'$HOME\'",
+// 							"\"hello\"",
+// 							"\"e\"\"c\"\"h\"\"o\"",
+// 							"\"he'll'o\"",
+// 							"he'll'o",
+// 							"@$HOME@",
+// 							"\"$HOME\"",
+// 							"@$he 'll'o",
+// 							"\0"};
+// 	// char	ex[10][20];
+// 	char	*t_ex;
+// 	char	*t_res;
+
+// 	printf("before:%s\n", ex[0]);
+// 	t_ex = ft_strdup(ex[0]);
+// 	t_res = ft_expander(t_ex);
+// 	printf("aft:%s\n\n", t_res);
+// 	free(t_res);
+
+// 	printf("before:%s\n", ex[1]);
+// 	t_ex = ft_strdup(ex[1]);
+// 	t_res = ft_expander(t_ex);
+// 	printf("aft:%s\n\n", t_res);
+// 	free(t_res);
+
+// 	printf("before:%s\n", ex[2]);
+// 	t_ex = ft_strdup(ex[2]);
+// 	t_res = ft_expander(t_ex);
+// 	printf("aft:%s\n\n", t_res);
+// 	free(t_res);
+
+// 	printf("before:%s\n", ex[3]);
+// 	t_ex = ft_strdup(ex[3]);
+// 	t_res = ft_expander(t_ex);
+// 	printf("aft:%s\n\n", t_res);
+// 	free(t_res);
+
+// 	printf("before:%s\n", ex[4]);
+// 	t_ex = ft_strdup(ex[4]);
+// 	t_res = ft_expander(t_ex);
+// 	printf("aft:%s\n\n", t_res);
+// 	free(t_res);
+
+// 	printf("before:%s\n", ex[5]);
+// 	t_ex = ft_strdup(ex[5]);
+// 	t_res = ft_expander(t_ex);
+// 	printf("aft:%s\n\n", t_res);
+// 	free(t_res);
+
+// 	printf("before:%s\n", ex[6]);
+// 	t_ex = ft_strdup(ex[6]);
+// 	t_res = ft_expander(t_ex);
+// 	printf("aft:%s\n\n", t_res);
+// 	free(t_res);
+
+// 	printf("before:%s\n", ex[7]);
+// 	t_ex = ft_strdup(ex[7]);
+// 	t_res = ft_expander(t_ex);
+// 	printf("aft:%s\n\n", t_res);
+// 	free(t_res);
+
+// 	return (0);
+// }
 
 // int    main(void)
 // {
