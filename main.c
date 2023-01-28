@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/25 21:46:57 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/28 20:47:09 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ int	main(int argc, char **argv, char **env)
 		{
 			parser(&p);
 			expander(&p);
-			executer(&p, env);
+			execute(&p, env);
+			//dprintf(2,"%s----------hello----------%s\n", "\e[42m", "\e[0m");
 		}
 	}
 	return 0;

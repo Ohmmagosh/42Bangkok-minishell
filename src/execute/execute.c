@@ -6,39 +6,41 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/26 20:32:37 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/28 21:09:50 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include <stdio.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 
-typedef struct s_test
-{
-	int		idx;
-	int		pfd[2];
-	int		pid;
-	char	**cmd;
-} 				t_test;
+//typedef struct s_test
+//{
+//	int		idx;
+//	int		pfd[2];
+//	int		pid;
+//	char	**cmd;
+//} 				t_test;
 
-// void	test_executer(void)
-// {
-// 	//if 5 cmd will create 4 pipe
-// 	//ls -la | wc -l
-// 	int	i = 0;
-// 	// while (i < 2)
-// 	// {
-// 	// 	pipe();
-// 	// }
-// }
+//// void	test_executer(void)
+//// {
+//// 	//if 5 cmd will create 4 pipe
+//// 	//ls -la | wc -l
+//// 	int	i = 0;
+//// 	// while (i < 2)
+//// 	// {
+//// 	// 	pipe();
+//// 	// }
+//// }
 
-void	close_pipe(t_test *p, int idx, int lencmd)
+void	close_pipe(t_cmd *p, int idx, int lencmd)
 {
 	int	i;
 
 	i= 0;
+	//dprintf(2,"%s----------close pipe----------%s\n", "\e[42m", "\e[0m");
 	if (lencmd == 1)
 		return;
 	while (i < lencmd)
@@ -46,18 +48,18 @@ void	close_pipe(t_test *p, int idx, int lencmd)
 		// if (idx == 0)
 		// 	close(p[i].pfd[0]);
 		if (i == idx - 1)
-			close(p[i].pfd[1]);
+			close(p[i].re.pfd[1]);
 		if (i != idx && i == idx - 1)
 		{
-			close(p[i].pfd[0]);
-			close(p[i].pfd[1]);
+			close(p[i].re.pfd[0]);
+			close(p[i].re.pfd[1]);
 		}
 		i++;
 		// dprintf(0, "ja ekk 0 i --> %d\n", i);
 	}
 }
 
-void	test_cmd(t_test *p, char **env, int	lencmd)
+void	executer(t_cmd *p, char **env, int lencmd)
 {
 	int	i;
 	int	tmp_rd;
@@ -66,86 +68,126 @@ void	test_cmd(t_test *p, char **env, int	lencmd)
 	i = 0;
 	while (i < lencmd)
 	{
+		//printf("%s----------hello----------%s\n", "\e[42m", "\e[0m");
 		if (i != lencmd - 1)
-			pipe(p[i].pfd);
+		{
+			pipe(p[i].re.pfd);
+		}
 		i++;
 	}
 	i = 0;
-	tmp_rd = dup(0);
-	tmp_wr = dup(1);
+	//tmp_rd = dup(0);
+	//tmp_wr = dup(1);
 	while (i < lencmd)
 	{
-				// dprintf(2, "hello100 ---> %d\n", i);
-		p[i].pid = fork();
-		if (p[i].pid == 0)
+		p[i].re.pid = fork();
+		//dprintf(2,"p[i].re.pid -> %d\n", p[i].re.pid);
+		if (p[i].re.pid == 0)
 		{
 			if (i == 0 && lencmd != 1)
 			{
-				dup2(p[i].pfd[1], 1);
+				dprintf(2,"%s----------1----------%s\n", "\e[42m", "\e[0m");
+				dup2(p[i].re.pfd[1], 1);
 			}
 			else if (i == lencmd - 1 && lencmd != 1)
 			{
-				dup2(p[i - 1].pfd[0], 0);
+				dprintf(2,"%s----------2----------%s\n", "\e[42m", "\e[0m");
+				dup2(p[i - 1].re.pfd[0], 0);
 			}
 			else if (lencmd != 1)
 			{
-				dup2(p[i - 1].pfd[0], 0);
-				dup2(p[i].pfd[1], 1);
+				dprintf(2,"%s----------3----------%s\n", "\e[42m", "\e[0m");
+				dup2(p[i - 1].re.pfd[0], 0);
+				dup2(p[i].re.pfd[1], 1);
 			}
-			// if (lencmd != 1)
-			
 			close_pipe(p , i, lencmd);
-				// dprintf(2, "hello\n");
-			// dprintf(1, "i %d\n", i);
-			execve(p[i].cmd[0], p[i].cmd, env);
+			//execve(p[i].allcmd[0], p[i].allcmd, env);
+			char	*a[] = {"/bin/ls", NULL};
+			execve("/bin/ls",a , env);
+			//dprintf(2,"%s----------after exe----------%s\n", "\e[42m", "\e[0m");
+			//printf("%s----------after exe----------%s\n", "\e[42m", "\e[0m");
+			//exit(0);
+			
 		}
 		else
 		{
+			//waitpid(p[i].re.pid, 0, 0);
 			if (i != 0)
 			{
+				dprintf(2,"%s----------parent----------%s\n", "\e[42m", "\e[0m");
 				dup2(tmp_rd, 0);
 				dup2(tmp_wr, 1);
-				close(p[i - 1].pfd[0]);
-				close(p[i - 1].pfd[1]);
+				close(p[i - 1].re.pfd[0]);
+				close(p[i - 1].re.pfd[1]);
 			}
 		}
 		i++;
 	}
 	i = 0;
 	int	status;
+	//printf(" -> %d\n", );
 	while (i < lencmd)
 	{
-		waitpid(p[i].pid, &status, 0);
+		//printf("i -> %d\n", i);
+		waitpid(p[i].re.pid, &status, 0);
+		i++;
+	}
+	//dprintf(2,"%s----------hello child <<<<<<----------%s\n", "\e[42m", "\e[0m");
+}
+
+//int	main(int ac, char **av, char **env)
+//{
+//	t_test	*allcmd;
+//	(void)ac;
+//	(void)av;
+//	int	cmds = 3;
+//	allcmd = (t_test *)malloc(sizeof(t_test) * cmds);
+//	allcmd[0].cmd = ft_split("/bin/cat", ' ');
+//	allcmd[0].idx = 0;
+
+//	allcmd[1].cmd = ft_split("/bin/cat", ' ');
+//	allcmd[1].idx = 1;
+
+//	allcmd[2].cmd = ft_split("/bin/ls", ' ');
+//	allcmd[2].idx = 2;
+
+//	// allcmd[3].cmd = ft_split("/usr/bin/sort", ' ');
+//	// allcmd[3].idx = 3;
+
+//	// allcmd[0].cmd = ft_split("/bin/echo hello", ' ');
+//	// allcmd[0].idx = 0;
+
+//	// allcmd[1].cmd = ft_split("/usr/bin/rev", ' ');
+//	// allcmd[1].idx = 1;
+
+
+	
+//}
+//	test_cmd(allcmd, env, cmds);
+void	print_chk_cmd(t_pro	*p)
+{
+	int	i = 0;
+	int	j = 0;
+	while (i < p->par.size)
+	{
+		printf("index %d\n",p->par.cmd[i].index);
+		printf("cmd 1 %s\n", p->par.cmd[i].cmd);
+		j = 0;
+		printf("-----------cmd %d------------\n", i);
+		printf("p->par.cmd[i].re.infd -> %d\n", p->par.cmd[i].re.infd);
+		printf("p->par.cmd[i].re.outfd -> %d\n", p->par.cmd[i].re.outfd);
+		while (p->par.cmd[i].allcmd[j])
+		{
+			printf("allcmd[%d] %s\n", j,p->par.cmd[i].allcmd[j]);
+			j++;
+		}
 		i++;
 	}
 }
 
-int	main(int ac, char **av, char **env)
+void	execute(t_pro *p, char **env)
 {
-	t_test	*allcmd;
-	(void)ac;
-	(void)av;
-	int	cmds = 1;
-	allcmd = (t_test *)malloc(sizeof(t_test) * cmds);
-	allcmd[0].cmd = ft_split("/bin/cat", ' ');
-	allcmd[0].idx = 0;
-
-	allcmd[1].cmd = ft_split("/bin/cat", ' ');
-	allcmd[1].idx = 1;
-
-	allcmd[2].cmd = ft_split("/bin/ls", ' ');
-	allcmd[2].idx = 2;
-
-	// allcmd[3].cmd = ft_split("/usr/bin/sort", ' ');
-	// allcmd[3].idx = 3;
-
-	// allcmd[0].cmd = ft_split("/bin/echo hello", ' ');
-	// allcmd[0].idx = 0;
-
-	// allcmd[1].cmd = ft_split("/usr/bin/rev", ' ');
-	// allcmd[1].idx = 1;
-
-
-	test_cmd(allcmd, env, cmds);
-	
+	printf("%s----------execute----------%s\n", "\e[42m", "\e[0m");
+	print_chk_cmd(p);
+	executer(p->par.cmd, env, p->par.size);
 }

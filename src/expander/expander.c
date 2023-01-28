@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 01:27:24 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/28 17:30:19 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/01/28 19:29:32 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,7 +338,7 @@ char	*ft_clenvar(char *ptr)
 
 // cmdabpath == 1 need absolute path of cmd
 // cmdabpath == 0 no need absolute path of cmd
-char	*ft_expand(char *ptr, t_pro *p)
+char	*ft_expand_utils(char *ptr, t_pro *p)
 {
 	char	*t_ptrc;
 
@@ -381,7 +381,7 @@ char	*ft_strcreate(char *st, char *end)
 }
 
 // envname must be sent since $
-char	*ft_getenv(char **ptrst, char **ptrend)
+char	*ft_getenvval(char **ptrst, char **ptrend)
 {
 	char	*pchr;
 	char	*envst;
@@ -534,7 +534,7 @@ char	*ft_clenptr(char *ptr)
 				// found env
 				else
 				{
-					t_res0 = ft_getenv(&ptrst, &ptrend);
+					t_res0 = ft_getenvval(&ptrst, &ptrend);
 					ft_joinres(&res, &t_res0);
 
 					// if (res == NULL)
@@ -571,7 +571,7 @@ char	*ft_clenptr(char *ptr)
 			// printf("case env\n");
 			// fflush(stdout);
 
-			t_res0 = ft_getenv(&ptrst, &ptrend);
+			t_res0 = ft_getenvval(&ptrst, &ptrend);
 			ft_joinres(&res, &t_res0);
 
 			// if (res == NULL)
@@ -651,142 +651,27 @@ char	*ft_expand(char *ptr, t_pro *p)
 	return (res);
 }
 
-// int	main (void)
-// {
-// 	char	ex[10][30] = {"\'$HOME\'",
-// 							"\"hello\"",
-// 							"\"e\"\"c\"\"h\"\"o\"",
-// 							"\"he'll'o\"",
-// 							"he'll'o",
-// 							"@$HOME@",
-// 							"\"$HOME\"",
-// 							"@$he 'll'o",
-// 							"\0"};
-// 	// char	ex[10][20];
-// 	char	*t_ex;
-// 	char	*t_res;
 
-// 	printf("before:%s\n", ex[0]);
-// 	t_ex = ft_strdup(ex[0]);
-// 	t_res = ft_expander(t_ex);
-// 	printf("aft:%s\n\n", t_res);
-// 	free(t_res);
-
-// 	printf("before:%s\n", ex[1]);
-// 	t_ex = ft_strdup(ex[1]);
-// 	t_res = ft_expander(t_ex);
-// 	printf("aft:%s\n\n", t_res);
-// 	free(t_res);
-
-// 	printf("before:%s\n", ex[2]);
-// 	t_ex = ft_strdup(ex[2]);
-// 	t_res = ft_expander(t_ex);
-// 	printf("aft:%s\n\n", t_res);
-// 	free(t_res);
-
-// 	printf("before:%s\n", ex[3]);
-// 	t_ex = ft_strdup(ex[3]);
-// 	t_res = ft_expander(t_ex);
-// 	printf("aft:%s\n\n", t_res);
-// 	free(t_res);
-
-// 	printf("before:%s\n", ex[4]);
-// 	t_ex = ft_strdup(ex[4]);
-// 	t_res = ft_expander(t_ex);
-// 	printf("aft:%s\n\n", t_res);
-// 	free(t_res);
-
-// 	printf("before:%s\n", ex[5]);
-// 	t_ex = ft_strdup(ex[5]);
-// 	t_res = ft_expander(t_ex);
-// 	printf("aft:%s\n\n", t_res);
-// 	free(t_res);
-
-// 	printf("before:%s\n", ex[6]);
-// 	t_ex = ft_strdup(ex[6]);
-// 	t_res = ft_expander(t_ex);
-// 	printf("aft:%s\n\n", t_res);
-// 	free(t_res);
-
-// 	printf("before:%s\n", ex[7]);
-// 	t_ex = ft_strdup(ex[7]);
-// 	t_res = ft_expander(t_ex);
-// 	printf("aft:%s\n\n", t_res);
-// 	free(t_res);
-
-// 	return (0);
-// }
-
-// int    main(void)
-// {
-// //   char  ret[8][20] = {"\"hello\"", "\"he'll'o\"", "\"e\"\"c\"\"h\"\"o\"", "he'll'o", "\"$HOME\"","'$HOME'", NULL };
-// 	char	**t_ptr;
-// 	char	**tmp_ptr;
-// 	char	*res;
-// 	char	str1[30] = "'$HOME'";
-// 	char	str2[30] = "\"e\"\"c\"\"h\"\"o\"";
-// 	char	str3[30] = "\"he'll'o\"";
-// 	// char	str3[30] = ""e""c""h""o"";
-// 	char	str4[30] = "\"hello\"";
-// 	char	str5[30] = "he'll'o";
-// 	char	str6[30] = "\"$HOME\"";
-
-// 	"echo", "ls", "-la", NULL
-
-// 	t_ptr = malloc(sizeof(char *) * 7);
-// 	if (t_ptr != NULL)
-// 	{
-// 		tmp_ptr = t_ptr;
-// 		tmp_ptr[0] = ft_strdup(str1);
-// 		tmp_ptr[1] = ft_strdup(str2);
-// 		tmp_ptr[2] = ft_strdup(str3);
-// 		tmp_ptr[3] = ft_strdup(str4);
-// 		tmp_ptr[4] = ft_strdup(str5);
-// 		tmp_ptr[5] = ft_strdup(str6);
-// 		tmp_ptr[6] = NULL;
-
-// 		while (*tmp_ptr != NULL)
-// 		{
-// 			// ft_printd(*tmp_ptr);
-// 			ft_putstr("Example\n");
-// 			ft_putstr(*tmp_ptr);
-// 			ft_putstr("\n");
-// 			res = ft_expand(*tmp_ptr);
-// 			ft_putstr("aft\n");
-// 			ft_putstr(res);
-// 			ft_putstr("\n");
-// 			ft_putstr("\n");
-// 			tmp_ptr++;
-// 		}
-// 		// free(t_ptr);
-
-// 		// while (*tmp_ptr != NULL)
-// 		// {
-// 		// 	*tmp_ptr = ft_expand(*tmp_ptr);
-// 		// 	tmp_ptr++;
-// 		// }
-// 	}
-// }
-void	print_chk_cmd(t_pro	*p)
-{
-	int	i = 0;
-	int	j = 0;
-	while (i < p->par.size)
-	{
-		printf("index %d\n",p->par.cmd[i].index);
-		printf("cmd 1 %s\n", p->par.cmd[i].cmd);
-		j = 0;
-		printf("-----------cmd %d------------\n", i);
-		printf("p->par.cmd[i].re.infd -> %d\n", p->par.cmd[i].re.infd);
-		printf("p->par.cmd[i].re.outfd -> %d\n", p->par.cmd[i].re.outfd);
-		while (p->par.cmd[i].allcmd[j])
-		{
-			printf("%d %s\n", j,p->par.cmd[i].allcmd[j]);
-			j++;
-		}
-		i++;
-	}
-}
+//void	print_chk_cmd(t_pro	*p)
+//{
+//	int	i = 0;
+//	int	j = 0;
+//	while (i < p->par.size)
+//	{
+//		printf("index %d\n",p->par.cmd[i].index);
+//		printf("cmd 1 %s\n", p->par.cmd[i].cmd);
+//		j = 0;
+//		printf("-----------cmd %d------------\n", i);
+//		printf("p->par.cmd[i].re.infd -> %d\n", p->par.cmd[i].re.infd);
+//		printf("p->par.cmd[i].re.outfd -> %d\n", p->par.cmd[i].re.outfd);
+//		while (p->par.cmd[i].allcmd[j])
+//		{
+//			printf("%d %s\n", j,p->par.cmd[i].allcmd[j]);
+//			j++;
+//		}
+//		i++;
+//	}
+//}
 
 void	new_expand(t_cmd *cmd, t_pro *p)
 {
@@ -814,6 +699,6 @@ void	expander(t_pro *p)
 			p->par.cmd[i].cmd = ft_strdup(p->par.cmd[i].allcmd[0]);
 		i++;
 	}
-	printf("%s----------hello expand----------%s\n", "\e[42m", "\e[0m");
-	print_chk_cmd(p);
+	//printf("%s----------hello expand----------%s\n", "\e[42m", "\e[0m");
+	//print_chk_cmd(p);
 }
