@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/28 21:09:50 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/01/29 00:11:12 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,12 @@ void	executer(t_cmd *p, char **env, int lencmd)
 				dup2(p[i].re.pfd[1], 1);
 			}
 			close_pipe(p , i, lencmd);
-			//execve(p[i].allcmd[0], p[i].allcmd, env);
-			char	*a[] = {"/bin/ls", NULL};
-			execve("/bin/ls",a , env);
+			
+			execve(p[i].allcmd[0], p[i].allcmd, env);
+
+			// char	*a[] = {"/bin/ls", NULL};
+			// execve("/bin/ls",a , env);
+
 			//dprintf(2,"%s----------after exe----------%s\n", "\e[42m", "\e[0m");
 			//printf("%s----------after exe----------%s\n", "\e[42m", "\e[0m");
 			//exit(0);

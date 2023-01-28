@@ -155,14 +155,13 @@ char	ft_chk_perm(char *path)
 
 	permission = 0;
 	if (access(path, F_OK) == 0)
-		permission = (permission | (1 << 3));
+		permission = (permission | (0b1000));
 	if (access(path, R_OK) == 0)
-		permission = (permission | (1 << 2));
+		permission = (permission | (0b0100));
 	if (access(path, W_OK) == 0)
-		permission = (permission | (1 << 1));
+		permission = (permission | (0b0010));
 	if (access(path, X_OK) == 0)
-		permission = (permission | 1);
-	// printf("permission:%d\n", (int)permission);
+		permission = (permission | (0b0001));
 	return (permission);
 }
 
@@ -435,6 +434,7 @@ int	main(int argc, char **argv, char **envp)
 	// 	tmpenvp++;
 	// }
 	// start copy own env
+
 	printf("\nstart store own env\n");
 	ft_cpyenv(&ownenv, envp);
 	printf("show cpy env\n");
@@ -446,17 +446,23 @@ int	main(int argc, char **argv, char **envp)
 	}
 	printf("end show cpy env\n");
 
-	// test pwd
-	printf("test pwd\n");
-	ft_pwd();
+	// test permission of path
+	char	pathls[100];
+	printf("permission of:");
+	scanf("%s", &pathls[0]);
+	printf("chk permission of %s:%d\n", pathls, (int)(ft_chk_perm(pathls)) );
 
-	// test cd
-	printf("test cd\n");
-	char	a[100];
-	printf("input path:");
-	scanf("%s", &a[0]);
-	fflush(stdin);
-	ft_cd(&ownenv, &a[0]);
+	// // test pwd
+	// printf("test pwd\n");
+	// ft_pwd();
+
+	// // test cd
+	// printf("test cd\n");
+	// char	a[100];
+	// printf("input path:");
+	// scanf("%s", &a[0]);
+	// fflush(stdin);
+	// ft_cd(&ownenv, &a[0]);
 
 	// test search env
 	printf("get env:");
@@ -477,41 +483,41 @@ int	main(int argc, char **argv, char **envp)
 	else
 		printf("content in node %s\n", (char *)nodeenv->content);
 
-	// test export env
-	printf("export env:");
-	char	d[100];
-	scanf("%s", &d[0]);
-	ft_export(&ownenv, &d[0]);
+	// // test export env
+	// printf("export env:");
+	// char	d[100];
+	// scanf("%s", &d[0]);
+	// ft_export(&ownenv, &d[0]);
 
-	printf("show export env\n");
-	tmpenv = ownenv;
-	while (tmpenv != NULL)
-	{
-		printf("env:%s\n", (char *)tmpenv->content);
-		tmpenv = tmpenv->next;
-	}
-	printf("end show export env\n");
+	// printf("show export env\n");
+	// tmpenv = ownenv;
+	// while (tmpenv != NULL)
+	// {
+	// 	printf("env:%s\n", (char *)tmpenv->content);
+	// 	tmpenv = tmpenv->next;
+	// }
+	// printf("end show export env\n");
 
-	// test unset env
-	printf("test unset\n");
-	printf("unset env:");
-	char	e[100];
-	scanf("%s", &e[0]);
-	ft_unset(&ownenv, &e[0]);
-	printf("show unset env\n");
-	tmpenv = ownenv;
-	while (tmpenv != NULL)
-	{
-		printf("env:%s\n", (char *)tmpenv->content);
-		tmpenv = tmpenv->next;
-	}
-	printf("end show unset env\n");
+	// // test unset env
+	// printf("test unset\n");
+	// printf("unset env:");
+	// char	e[100];
+	// scanf("%s", &e[0]);
+	// ft_unset(&ownenv, &e[0]);
+	// printf("show unset env\n");
+	// tmpenv = ownenv;
+	// while (tmpenv != NULL)
+	// {
+	// 	printf("env:%s\n", (char *)tmpenv->content);
+	// 	tmpenv = tmpenv->next;
+	// }
+	// printf("end show unset env\n");
 
-	// test echo
-	printf("echo:");
-	char	f[100];
-	scanf("%s", &f[0]);
-	ft_echo(&ownenv, &f[0], NULL);
+	// // test echo
+	// printf("echo:");
+	// char	f[100];
+	// scanf("%s", &f[0]);
+	// ft_echo(&ownenv, &f[0], NULL);
 
 	ft_lstclr(&ownenv);
 

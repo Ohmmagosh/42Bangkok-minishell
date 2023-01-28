@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/28 22:07:31 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/01/29 02:17:30 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	parser(t_pro *p);
 
 // EXPANDER
 void	expander(t_pro *p);
+void	ft_freesplit(char ***split);
 // char	*expander(char *s);
 // EXECUTER
 void	execute(t_pro *p, char **env);

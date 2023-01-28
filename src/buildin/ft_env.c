@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 23:26:27 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/01/28 17:23:44 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/01/29 02:44:27 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ t_list	*ft_findnodeenv(t_list **lstenv, char *env)
 	return (NULL);
 }
 
-// *** not test yet ***
 // chk for $(name)
 // env need to be in form $(env_name)
 // return value of env if env exist
