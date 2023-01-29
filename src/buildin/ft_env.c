@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 23:26:27 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/01/29 02:44:27 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/01/29 21:09:14 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_list	*ft_findnodeenv(t_list **lstenv, char *env)
 	char	*tmpenv;
 	t_list	*tlstenv;
 
-	printf("search env:%s\n", env);
+	// printf("search env:%s\n", env);
 	tlstenv = *lstenv;
 	while (tlstenv != NULL)
 	{
@@ -94,4 +94,45 @@ char	*ft_getenv(t_list **lstenv, char *envvar)
 	}
 	else
 		return (NULL);
+}
+
+// input val ex PATH=/usr:/usr/bin
+// output will be /usr:/usr/bin return in the same pointer
+void	ft_cutenvval(char **val)
+{
+	size_t	len;
+	char	*t_val0;
+	char	*t_res;
+	char	*res;
+
+	t_val0 = *val;
+	len = ft_strlen(t_val0);
+	while (*t_val0 != '=')
+		t_val0++;
+	t_val0 = t_val0 + 1;
+	t_res = malloc(sizeof(char) * len);
+	res = t_res;
+	while (*t_val0 != '\0')
+	{
+		*t_res = *t_val0;
+		t_val0++;
+		t_res++;
+	}
+	*t_res = '\0';
+	t_val0 = *val;
+	free(t_val0);
+	*val = res;
+}
+
+void	ft_env(t_list **lstenv)
+{
+	t_list	*env;
+
+	env = *lstenv;
+	while (env != NULL)
+	{
+		printf("%s\n", (char *)(env->content));
+		env = env->next;
+	}
+	exit(0);
 }

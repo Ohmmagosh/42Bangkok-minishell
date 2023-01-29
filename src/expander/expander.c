@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 01:27:24 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/29 02:37:05 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/01/29 16:41:12 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,34 +77,6 @@ char	*ft_strcreate(char *st, char *end)
 		}
 	}
 	return (res);
-}
-
-// input val ex PATH=/usr:/usr/bin
-// output will be /usr:/usr/bin return in the same pointer
-void	ft_cutenvval(char **val)
-{
-	size_t	len;
-	char	*t_val0;
-	char	*t_res;
-	char	*res;
-
-	t_val0 = *val;
-	len = ft_strlen(t_val0);
-	while (*t_val0 != '=')
-		t_val0++;
-	t_val0 = t_val0 + 1;
-	t_res = malloc(sizeof(char) * len);
-	res = t_res;
-	while (*t_val0 != '\0')
-	{
-		*t_res = *t_val0;
-		t_val0++;
-		t_res++;
-	}
-	*t_res = '\0';
-	t_val0 = *val;
-	free(t_val0);
-	*val = res;
 }
 
 // envname must be sent since $

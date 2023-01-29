@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/29 00:11:12 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/01/29 21:11:32 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	close_pipe(t_cmd *p, int idx, int lencmd)
 	}
 }
 
-void	executer(t_cmd *p, char **env, int lencmd)
+void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 {
 	int	i;
 	int	tmp_rd;
@@ -100,6 +100,39 @@ void	executer(t_cmd *p, char **env, int lencmd)
 				dup2(p[i - 1].re.pfd[0], 0);
 				dup2(p[i].re.pfd[1], 1);
 			}
+			// close_pipe(p , i, lencmd);
+			
+			// execve(p[i].allcmd[0], p[i].allcmd, env);
+
+			// if build in cmd
+			// 	if echo pwd env
+			// 		call function build in
+			// 	else
+			// 		exit ();
+
+			if ( (ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
+				(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
+				(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
+				(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
+				(ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) == 0) || \
+				(ft_strncmp(p[i].allcmd[0], "env", ft_strlen(p[i].allcmd[0]))== 0) || \
+				(ft_strncmp(p[i].allcmd[0], "exit", ft_strlen(p[i].allcmd[0])) == 0) )
+			{
+				if (ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0)
+					ft_pwd(ownenv);
+				else if (ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0)
+				{
+					if (ft_strncmp(p[i].allcmd[1], "-n", ft_strlen(p[i].allcmd[1])) == 0)
+						ft_echowtopt(p[i].allcmd);
+					else
+						ft_echonoopt(p[i].allcmd);
+				}
+				else if (ft_strncmp(p[i].allcmd[0], "env", ft_strlen(p[i].allcmd[0]))== 0)
+					ft_env(ownenv);
+				else
+					exit (0);
+			}
+
 			close_pipe(p , i, lencmd);
 			
 			execve(p[i].allcmd[0], p[i].allcmd, env);
@@ -117,7 +150,26 @@ void	executer(t_cmd *p, char **env, int lencmd)
 			//waitpid(p[i].re.pid, 0, 0);
 			if (i != 0)
 			{
+				// dprintf(2,"%s----------parent----------%s\n", "\e[42m", "\e[0m");
+				// dup2(tmp_rd, 0);
+				// dup2(tmp_wr, 1);
+				// close(p[i - 1].re.pfd[0]);
+				// close(p[i - 1].re.pfd[1]);
+
 				dprintf(2,"%s----------parent----------%s\n", "\e[42m", "\e[0m");
+
+				// if build in cmd
+				// 	if cd export unset exit
+				// 		call fn build in
+				// if ( (ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
+				// (ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
+				// (ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
+				// (ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
+				// (ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) == 0) || \
+				// (ft_strncmp(p[i].allcmd[0], "env", ft_strlen(p[i].allcmd[0]))== 0) || \
+				// (ft_strncmp(p[i].allcmd[0], "exit", ft_strlen(p[i].allcmd[0])) == 0) )
+				// {}
+
 				dup2(tmp_rd, 0);
 				dup2(tmp_wr, 1);
 				close(p[i - 1].re.pfd[0]);
@@ -192,5 +244,5 @@ void	execute(t_pro *p, char **env)
 {
 	printf("%s----------execute----------%s\n", "\e[42m", "\e[0m");
 	print_chk_cmd(p);
-	executer(p->par.cmd, env, p->par.size);
+	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
 }
