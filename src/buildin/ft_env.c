@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 23:26:27 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/01/29 21:09:14 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/01/30 23:16:18 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_cpyenv(t_list **envlst, char **envp)
 
 // chk for $(name)
 // env need to be in form $(env_name)
+// env could be (env_name) => (optional)
 // return "node" if env exist
 // return "NULL" if env don't exist
 t_list	*ft_findnodeenv(t_list **lstenv, char *env)
@@ -53,7 +54,11 @@ t_list	*ft_findnodeenv(t_list **lstenv, char *env)
 	tlstenv = *lstenv;
 	while (tlstenv != NULL)
 	{
-		envname = &env[1];
+		// envname = &env[1];
+		if (env[0] == '$')
+			envname = &env[1];
+		else
+			envname = &env[0];
 		tmpenv = (char *)tlstenv->content;
 		while (*envname != '\0')
 		{
@@ -134,5 +139,4 @@ void	ft_env(t_list **lstenv)
 		printf("%s\n", (char *)(env->content));
 		env = env->next;
 	}
-	exit(0);
 }

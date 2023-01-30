@@ -6,7 +6,7 @@
 #    By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 16:17:38 by psuanpro          #+#    #+#              #
-#    Updated: 2023/01/29 21:14:03 by psrikamo         ###   ########.fr        #
+#    Updated: 2023/01/30 22:31:47 by psrikamo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,9 @@ EXPANDER = src/expander/expander.c
 
 BUILDIN = src/buildin/ft_echo.c \
 			src/buildin/ft_env.c \
+			src/buildin/ft_export.c \
+			src/buildin/ft_unset.c \
+			src/buildin/ft_cd.c \
 			src/buildin/ft_pwd.c
 
 EXECUTE = src/execute/execute.c

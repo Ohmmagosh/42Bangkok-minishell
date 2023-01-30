@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:46:05 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/29 21:17:45 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/01/30 23:11:04 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	ft_echonoopt(char **allcmd)
 		printf("%s\n", *t_allcmd);
 		t_allcmd++;
 	}
-	exit(0);
 }
 
 void	ft_echowtopt(char **allcmd)
@@ -35,5 +34,4 @@ void	ft_echowtopt(char **allcmd)
 		printf("%s", *t_allcmd);
 		t_allcmd++;
 	}
-	exit(0);
 }
