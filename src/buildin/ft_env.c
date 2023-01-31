@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 23:26:27 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/01/28 17:23:44 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/01/30 23:16:18 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_cpyenv(t_list **envlst, char **envp)
 
 // chk for $(name)
 // env need to be in form $(env_name)
+// env could be (env_name) => (optional)
 // return "node" if env exist
 // return "NULL" if env don't exist
 t_list	*ft_findnodeenv(t_list **lstenv, char *env)
@@ -49,11 +50,15 @@ t_list	*ft_findnodeenv(t_list **lstenv, char *env)
 	char	*tmpenv;
 	t_list	*tlstenv;
 
-	printf("search env:%s\n", env);
+	// printf("search env:%s\n", env);
 	tlstenv = *lstenv;
 	while (tlstenv != NULL)
 	{
-		envname = &env[1];
+		// envname = &env[1];
+		if (env[0] == '$')
+			envname = &env[1];
+		else
+			envname = &env[0];
 		tmpenv = (char *)tlstenv->content;
 		while (*envname != '\0')
 		{
@@ -69,7 +74,6 @@ t_list	*ft_findnodeenv(t_list **lstenv, char *env)
 	return (NULL);
 }
 
-// *** not test yet ***
 // chk for $(name)
 // env need to be in form $(env_name)
 // return value of env if env exist
@@ -95,4 +99,44 @@ char	*ft_getenv(t_list **lstenv, char *envvar)
 	}
 	else
 		return (NULL);
+}
+
+// input val ex PATH=/usr:/usr/bin
+// output will be /usr:/usr/bin return in the same pointer
+void	ft_cutenvval(char **val)
+{
+	size_t	len;
+	char	*t_val0;
+	char	*t_res;
+	char	*res;
+
+	t_val0 = *val;
+	len = ft_strlen(t_val0);
+	while (*t_val0 != '=')
+		t_val0++;
+	t_val0 = t_val0 + 1;
+	t_res = malloc(sizeof(char) * len);
+	res = t_res;
+	while (*t_val0 != '\0')
+	{
+		*t_res = *t_val0;
+		t_val0++;
+		t_res++;
+	}
+	*t_res = '\0';
+	t_val0 = *val;
+	free(t_val0);
+	*val = res;
+}
+
+void	ft_env(t_list **lstenv)
+{
+	t_list	*env;
+
+	env = *lstenv;
+	while (env != NULL)
+	{
+		printf("%s\n", (char *)(env->content));
+		env = env->next;
+	}
 }

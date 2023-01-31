@@ -6,11 +6,47 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 01:27:24 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/28 22:12:56 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/01/29 16:41:12 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	ft_freesplit(char ***split)
+{
+	char	**t_split;
+
+	t_split = *split;
+	while (*t_split != NULL)
+	{
+		free(*t_split);
+		t_split++;
+	}
+	t_split = *split;
+	free(t_split);
+	*split = NULL;
+}
+
+// return
+// bit 0 = execute
+// bit 1 = write
+// bit 2 = read
+// bit 3 = file exist
+char	ft_chk_perm(char *path)
+{
+	char	permission;
+
+	permission = 0;
+	if (access(path, F_OK) == 0)
+		permission = (permission | (0b1000));
+	if (access(path, R_OK) == 0)
+		permission = (permission | (0b0100));
+	if (access(path, W_OK) == 0)
+		permission = (permission | (0b0010));
+	if (access(path, X_OK) == 0)
+		permission = (permission | (0b0001));
+	return (permission);
+}
 
 // st is a start charactor
 // end is an end charactor
@@ -41,32 +77,6 @@ char	*ft_strcreate(char *st, char *end)
 		}
 	}
 	return (res);
-}
-
-void	ft_cutenvval(char **val)
-{
-	size_t	len;
-	char	*t_val0;
-	char	*t_res;
-	char	*res;
-
-	t_val0 = *val;
-	len = ft_strlen(t_val0);
-	while (*t_val0 != '=')
-		t_val0++;
-	t_val0 = t_val0 + 1;
-	t_res = malloc(sizeof(char) * len);
-	res = t_res;
-	while (*t_val0 != '\0')
-	{
-		*t_res = *t_val0;
-		t_val0++;
-		t_res++;
-	}
-	*t_res = '\0';
-	t_val0 = *val;
-	free(t_val0);
-	*val = res;
 }
 
 // envname must be sent since $
@@ -359,15 +369,93 @@ char	*ft_clenptr(char *ptr, t_pro *p)
 
 // }
 
+char	*ft_cratetestpath(char *path, char *cmd)
+{
+	char	*t_path;
+	char	*t_cmd;
+
+	t_path = join_char(path, '/');
+	// printf("add / to path:%s\n", t_path);
+	// printf("cmd:%s\n", cmd);
+	// fflush(stdout);
+	t_cmd = cmd;
+	while (*t_cmd != '\0')
+	{
+		t_path = join_char(t_path, *t_cmd);
+		t_cmd++;
+	}
+	t_path = join_char(t_path, *t_cmd);
+	printf("full create path:%s\n", t_path);
+	fflush(stdout);
+	// free(t_path);
+	return (t_path);
+}
+
+// ******* need to free split and check leak ************
+void	ft_getabpath(char **cmd, t_pro *p)
+{
+	char	*t_cmd;
+	char	*t_path;
+	char	**t_spitpath;
+	char	**spitpath;
+	char	*t_chr;
+
+	// printf("get aboslute path of cmd\n");
+	t_cmd = *cmd;
+	if ( (ft_strncmp(t_cmd, "echo", ft_strlen(t_cmd)) != 0) && (ft_strncmp(t_cmd, "cd", ft_strlen(t_cmd)) != 0) && \
+		(ft_strncmp(t_cmd, "pwd", ft_strlen(t_cmd)) != 0) && (ft_strncmp(t_cmd, "export", ft_strlen(t_cmd)) != 0) && \
+		(ft_strncmp(t_cmd, "unset", ft_strlen(t_cmd)) != 0) && (ft_strncmp(t_cmd, "env", ft_strlen(t_cmd)) != 0) && \
+		(ft_strncmp(t_cmd, "exit", ft_strlen(t_cmd)) != 0) )
+	{
+		// printf("Found cmd not built-in\n");
+		// fflush(stdout);
+		
+		t_path = ft_getenv(&p->ownenv, "$PATH");
+		ft_cutenvval(&t_path);
+		spitpath = ft_split(t_path, ':');
+		t_spitpath = spitpath;
+		if (t_path != NULL)
+			free(t_path);
+		while (*t_spitpath != NULL)
+		{
+			// printf("path:%s\n", *t_spitpath);
+			t_chr = ft_cratetestpath(*t_spitpath, t_cmd);
+			if ((ft_chk_perm(t_chr) & (0b0001)) != 0)
+			{
+				printf("found correct path\n");
+				break ;
+			}
+			else
+			{
+				printf("not correct path\n");
+				free(t_chr);
+			}
+			t_spitpath++;
+		}
+		// ft_freesplit(&spitpath);
+		*cmd = t_chr;
+		free(t_cmd);
+	}
+}
+
 // 0 no need absolute path
 // 1 need absolute path
 // char	*ft_expander(char *ptr, t_pro *p, int cmdabpath)
-char	*ft_expand(char *ptr, t_pro *p)
+char	*ft_expand(char *ptr, t_pro *p, int cmdabpath)
+// char	*ft_expand(char *ptr, t_pro *p)
 // char	*ft_expander(char *ptr)
 {
 	char	*res;
+	char	*envpath;
 
 	res = ft_clenptr(ptr, p);
+	// printf("cmd:%s\n", res);
+	// fflush(stdout);
+	if (cmdabpath == 1)
+	{
+		ft_getabpath(&res, p);
+		printf("show absolute path:%s\n", res);
+	}
 	free(ptr);
 	return (res);
 }
@@ -401,7 +489,10 @@ void	new_expand(t_cmd *cmd, t_pro *p)
 	i = 0;
 	while (cmd->allcmd[i])
 	{
-		cmd->allcmd[i] = ft_expand(cmd->allcmd[i], p);
+		if (i == 0)
+			cmd->allcmd[i] = ft_expand(cmd->allcmd[i], p, 1);
+		else
+			cmd->allcmd[i] = ft_expand(cmd->allcmd[i], p, 0);
 		i++;
 	}
 }
