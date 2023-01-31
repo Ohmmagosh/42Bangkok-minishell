@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/31 20:00:16 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/01 00:51:25 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,10 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 	int	tmp_rd;
 	int	tmp_wr;
 
-	int	retdup2;
-
-	i = 0;
+	i = 1;
 	while (i < lencmd)
 	{
-		//printf("%s----------hello----------%s\n", "\e[42m", "\e[0m");
-		if (i != lencmd - 1)
-		{
-			pipe(p[i].re.pfd);
-		}
+		pipe(p[i].re.pfd);
 		i++;
 	}
 	i = 0;
@@ -85,31 +79,27 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 		//dprintf(2,"p[i].re.pid -> %d\n", p[i].re.pid);
 		if (p[i].re.pid == 0)
 		{
-			if (i == 0 && lencmd != 1)
+			if (i != lencmd - 1)
 			{
-				dprintf(2,"%s----------1----------%s\n", "\e[42m", "\e[0m");
-				// dup2(p[i].re.pfd[1], 1);
-				retdup2 = dup2(p[i].re.pfd[1], 1);
-				// dprintf(2,"%s----------1----------%s  retdup2%d\n", "\e[42m", "\e[0m", retdup2);
+				for(int a = 1; a < lencmd; a++)
+				{
+					close(p[a].re.pfd[0]);
+					if (a != i + 1)
+						close(p[a].re.pfd[1]);
+				}
+				dup2(p[i + 1].re.pfd[1], STDOUT_FILENO);
+			}
+			if (i != 0)
+			{
+				for(int a = 1; a < lencmd; a++)
+				{
+					close(p[a].re.pfd[1]);
+					if (a != i)
+						close(p[a].re.pfd[0]);
+				}
+				dup2(p[i].re.pfd[0], STDIN_FILENO);
+			}
 
-			}
-			else if (i == lencmd - 1 && lencmd != 1)
-			{
-				dprintf(2,"%s----------2----------%s\n", "\e[42m", "\e[0m");
-				// dup2(p[i - 1].re.pfd[0], 0);
-				retdup2 = dup2(p[i - 1].re.pfd[0], 0);
-				// dprintf(2,"%s----------2----------%s  retdup2%d\n", "\e[42m", "\e[0m", retdup2);
-			}
-			else if (lencmd != 1)
-			{
-				dprintf(2,"%s----------3----------%s\n", "\e[42m", "\e[0m");
-				// dup2(p[i - 1].re.pfd[0], 0);
-				// dup2(p[i].re.pfd[1], 1);
-				retdup2 = dup2(p[i - 1].re.pfd[0], 0);
-				// dprintf(2,"%s----------3----------%s  retdup2%d\n", "\e[42m", "\e[0m", retdup2);
-				retdup2 = dup2(p[i].re.pfd[1], 1);
-				// dprintf(2,"%s----------3----------%s  retdup2%d\n", "\e[42m", "\e[0m", retdup2);
-			}
 			// close_pipe(p , i, lencmd);
 
 			// execve(p[i].allcmd[0], p[i].allcmd, env);
@@ -120,12 +110,10 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 			// 	else
 			// 		exit ();
 
-			close_pipe(p , i, lencmd);
-			if (!execve(p[i].allcmd[0], p[i].allcmd, env))
-			//char	*a[] = {"/bin/ls", NULL};
-			//execve("/bin/ls",a , env);
+			//close_pipe(p , i, lencmd);
+			//if (!execve(p[i].allcmd[0], p[i].allcmd, env))
 
-			if ( (ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
+			if ((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
@@ -159,23 +147,12 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				else
 					exit (0);
 			}
-
-			dprintf(2, "%s----------Should not show----------%s\n", "\e[42m", "\e[0m");
-
 			execve(p[i].allcmd[0], p[i].allcmd, env);
-
-			// char	*a[] = {"/bin/ls", NULL};
-			// execve("/bin/ls",a , env);
-			//dprintf(2,"%s----------after exe----------%s\n", "\e[42m", "\e[0m");
-			//printf("%s----------after exe----------%s\n", "\e[42m", "\e[0m");
-			//exit(0);
-
 		}
 		else
 		{
-			dprintf(2,"%s----------TEST----------%s\n", "\e[42m", "\e[0m");
 
-			if ( (ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
+			if ((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
@@ -218,19 +195,19 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 
 				// dup2(tmp_rd, 0);
 				// dup2(tmp_wr, 1);
-				retdup2 = dup2(tmp_rd, 0);
+				dup2(tmp_rd, 0);
 				// dprintf(2,"%s----------parent----------%s 0%d\n", "\e[42m", "\e[0m", retdup2);
-				retdup2 = dup2(tmp_wr, 1);
+				dup2(tmp_wr, 1);
 				// dprintf(2,"%s----------parent----------%s 0%d\n", "\e[42m", "\e[0m", retdup2);
-				close(p[i - 1].re.pfd[0]);
-				close(p[i - 1].re.pfd[1]);
+				close(p[i].re.pfd[0]);
+				close(p[i].re.pfd[1]);
 			}
 		}
 		i++;
 	}
+	while(wait(NULL) != -1);
 	i = 0;
 	int	status;
-	//printf(" -> %d\n", );
 	while (i < lencmd)
 	{
 		//printf("i -> %d\n", i);
