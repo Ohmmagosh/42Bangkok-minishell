@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/01/28 23:36:07 by psuanpro         ###   ########.fr       */
-=======
-/*   Updated: 2023/01/31 00:12:18 by psrikamo         ###   ########.fr       */
->>>>>>> d8603a23c391fd593beac7a0d6f43103295c6ff9
+/*   Updated: 2023/01/31 20:00:16 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +65,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 	int	tmp_wr;
 
 	int	retdup2;
-	
+
 	i = 0;
 	while (i < lencmd)
 	{
@@ -115,7 +111,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				// dprintf(2,"%s----------3----------%s  retdup2%d\n", "\e[42m", "\e[0m", retdup2);
 			}
 			// close_pipe(p , i, lencmd);
-			
+
 			// execve(p[i].allcmd[0], p[i].allcmd, env);
 
 			// if build in cmd
@@ -125,11 +121,9 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 			// 		exit ();
 
 			close_pipe(p , i, lencmd);
-<<<<<<< HEAD
 			if (!execve(p[i].allcmd[0], p[i].allcmd, env))
 			//char	*a[] = {"/bin/ls", NULL};
 			//execve("/bin/ls",a , env);
-=======
 
 			if ( (ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
@@ -167,17 +161,15 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 			}
 
 			dprintf(2, "%s----------Should not show----------%s\n", "\e[42m", "\e[0m");
-			
+
 			execve(p[i].allcmd[0], p[i].allcmd, env);
 
 			// char	*a[] = {"/bin/ls", NULL};
 			// execve("/bin/ls",a , env);
-
->>>>>>> d8603a23c391fd593beac7a0d6f43103295c6ff9
 			//dprintf(2,"%s----------after exe----------%s\n", "\e[42m", "\e[0m");
 			//printf("%s----------after exe----------%s\n", "\e[42m", "\e[0m");
 			//exit(0);
-			
+
 		}
 		else
 		{
@@ -222,7 +214,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				// if build in cmd
 				// 	if cd export unset exit
 				// 		call fn build in
-				
+
 
 				// dup2(tmp_rd, 0);
 				// dup2(tmp_wr, 1);
@@ -274,7 +266,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 //	// allcmd[1].idx = 1;
 
 
-	
+
 //}
 //	test_cmd(allcmd, env, cmds);
 void	print_chk_cmd(t_pro	*p)
