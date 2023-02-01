@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/01 00:51:25 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:34:59 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,7 +269,8 @@ void	print_chk_cmd(t_pro	*p)
 
 void	execute(t_pro *p, char **env)
 {
-	printf("%s----------execute----------%s\n", "\e[42m", "\e[0m");
-	print_chk_cmd(p);
+	//printf("%s----------execute----------%s\n", "\e[42m", "\e[0m");
+	//print_chk_cmd(p);
+	//exit(0);
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
 }

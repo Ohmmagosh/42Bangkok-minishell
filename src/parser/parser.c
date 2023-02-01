@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/24 23:57:03 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:46:41 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	here_doc_utils(char *name, char *eof)
 {
 	char	*line;
 	int		fd;
-	
+
 	fd = open(name, O_CREAT | O_RDWR | O_APPEND , 0777);
 	while (1)
 	{
@@ -272,7 +272,7 @@ int	get_outfile(t_cmd *p, char *file ,int ot)
 int	get_heredoc(t_cmd *p, char *eof, int i)
 {
 	char	*name;
-	
+
 	name = file_name_here_doc(i, p->index);
 	if (p->re.outfd != -1)
 		close(p->re.infd);
@@ -398,7 +398,7 @@ char	**new_str(char **cmd)
 	while (cmd[i] && cmd[i])
 	{
 		if (ismetastr(cmd[i]) && cmd[i])
-		{	
+		{
 			cmd[i] = newrealloc(cmd[i]);
 			if (cmd[i + 1])
 				cmd[i + 1] = newrealloc(cmd[i + 1]);
@@ -437,7 +437,7 @@ void	parser(t_pro *p)
 	create_cmd_parser(p, p->lex.lst);
 	chk_redirect(p);
 
-	// print_chk_cmd(p);
+	print_chk_cmd(p);
 
 
 	// char	*ft_expand(char *ptr, t_pro *p)

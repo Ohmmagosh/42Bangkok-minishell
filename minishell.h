@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/30 22:51:00 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:35:36 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_cmd
 typedef struct s_lexer
 {
 	int		status;
-	// t_var	v;
+	char	*stack;
 	char	*cmd;
 	char	*trim;
 	t_llst	*lst;
@@ -110,4 +110,6 @@ void	ft_env(t_list **lstenv);
 void	ft_export(t_list **lstenv, char *arg);
 void	ft_unset(t_list **lstenv, char *arg);
 
+
+void	print_chk_cmd(t_pro *p);
 #endif

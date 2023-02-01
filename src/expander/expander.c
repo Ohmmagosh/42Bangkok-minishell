@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 01:27:24 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/29 16:41:12 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:35:38 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ char	*ft_getres(char *t_ptrst, char *t_ptrend, char **t_res)
 	// 	ptrst = ptrend;
 
 	ptrst = ptrend;
-	
+
 	// *t_res = res;
 	return (ptrst);
 }
@@ -312,7 +312,7 @@ char	*ft_clenptr(char *ptr, t_pro *p)
 			// 	ptrst = ptrend + 1;
 			// else
 			// 	ptrst = ptrend;
-			
+
 			ptrst = ptrend;
 		}
 		else
@@ -409,7 +409,7 @@ void	ft_getabpath(char **cmd, t_pro *p)
 	{
 		// printf("Found cmd not built-in\n");
 		// fflush(stdout);
-		
+
 		t_path = ft_getenv(&p->ownenv, "$PATH");
 		ft_cutenvval(&t_path);
 		spitpath = ft_split(t_path, ':');
@@ -512,5 +512,5 @@ void	expander(t_pro *p)
 		i++;
 	}
 	//printf("%s----------hello expand----------%s\n", "\e[42m", "\e[0m");
-	//print_chk_cmd(p);
+	print_chk_cmd(p);
 }
