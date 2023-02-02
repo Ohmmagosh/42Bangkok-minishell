@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 22:12:13 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/01 18:16:42 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/01 21:31:08 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,26 @@ void	lexer_init(t_pro *p, int *i)
 		return ;
 }
 
+void	lexer_lst_utils(t_pro *p, char *s, int *i)
+{
+	if (s[(*i)] == '|' && s[(*i) + 1] == '<' && s[(*i) + 2] == '<')
+			repipe(p, i, s, 0);
+	else if (s[(*i)] == '<' && s[(*i) + 1] == '<' && s[(*i) + 2] == '|')
+		repipe(p, i, s, 0);
+	else if (s[(*i)] != '|' && s[(*i)] != '<' && s[(*i)] != '>' && s[(*i) + 1] != '>'\
+		&& s[(*i) + 1] != '<' && !ft_isalnum(s[(*i)]))
+		join_char_utils(p, s, i);
+	else if (ft_isalnum(s[(*i)]))
+		join_char_utils(p, s, i);
+	if (s[(*i)] == ' ' || s[(*i)] == '\0' || s[(*i)] == '|'|| s[(*i)] == '<' || s[(*i)] == '>')
+	{
+		create_linklst(p, p->lex.stack);
+		p->lex.stack = ft_calloc(1, 1);
+		if (s[(*i)] == ' ')
+			(*i)++;
+	}
+}
+
 void	lexer_lst(t_pro *p, char *s)
 {
 	int		i;
@@ -208,22 +228,8 @@ void	lexer_lst(t_pro *p, char *s)
 			create_linklst(p, "|");
 			plus_i(&i, ' ', s);
 		}
-		else if (s[i] == '|' && s[i + 1] == '<' && s[i + 2] == '<')
-			repipe(p, &i, s, 0);
-		else if (s[i] == '<' && s[i + 1] == '<' && s[i + 2] == '|')
-			repipe(p, &i, s, 0);
-		else if (s[i] != '|' && s[i] != '<' && s[i] != '>' && s[i + 1] != '>'\
-			&& s[i + 1] != '<' && !ft_isalnum(s[i]))
-			join_char_utils(p, s, &i);
-		else if (ft_isalnum(s[i]))
-			join_char_utils(p, s, &i);
-		if (s[i] == ' ' || s[i] == '\0' || s[i] == '|'|| s[i] == '<' || s[i] == '>')
-		{
-			create_linklst(p, p->lex.stack);
-			p->lex.stack = ft_calloc(1, 1);
-			if (s[i] == ' ')
-				i++;
-		}
+		else
+			lexer_lst_utils(p, s, &i);
 	}
 	free(p->lex.stack);
 }

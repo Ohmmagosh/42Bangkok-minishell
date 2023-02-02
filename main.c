@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/01 16:37:27 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/01 22:41:53 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ int	main(int argc, char **argv, char **env)
 		if (p.lex.status)
 		{
 			parser(&p);
-			//expander(&p);
-			//execute(&p, env);
+			expander(&p);
+			execute(&p, env);
 			//dprintf(2,"%s----------hello----------%s\n", "\e[42m", "\e[0m");
 		}
 	}

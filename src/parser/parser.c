@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/01 16:46:41 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/01 23:02:26 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,8 +293,8 @@ void	get_redirect_fd(t_cmd *p, char **cmd)
 	int		i;
 
 	i = 0;
-	p->re.infd = -1;
-	p->re.outfd = -1;
+	p->re.infd = 0;
+	p->re.outfd = 1;
 	while (cmd[i] && cmd[i + 1])
 	{
 		if (!ft_strncmp(cmd[i], "<", 2))
@@ -437,7 +437,7 @@ void	parser(t_pro *p)
 	create_cmd_parser(p, p->lex.lst);
 	chk_redirect(p);
 
-	print_chk_cmd(p);
+	//print_chk_cmd(p);
 
 
 	// char	*ft_expand(char *ptr, t_pro *p)

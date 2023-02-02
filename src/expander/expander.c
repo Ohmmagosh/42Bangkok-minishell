@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 01:27:24 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/01 16:35:38 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/02 00:01:08 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -502,6 +502,7 @@ void	expander(t_pro *p)
 	int	i;
 
 	i = 0;
+	//printf("%s----------hello expand----------%s\n", "\e[42m", "\e[0m");
 	while (i < p->par.size)
 	{
 		new_expand(&p->par.cmd[i], p);
@@ -511,6 +512,5 @@ void	expander(t_pro *p)
 			p->par.cmd[i].cmd = ft_strdup(p->par.cmd[i].allcmd[0]);
 		i++;
 	}
-	//printf("%s----------hello expand----------%s\n", "\e[42m", "\e[0m");
-	print_chk_cmd(p);
+	//print_chk_cmd(p);
 }
