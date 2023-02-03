@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+         #
+#    By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 16:17:38 by psuanpro          #+#    #+#              #
-#    Updated: 2023/01/30 22:31:47 by psrikamo         ###   ########.fr        #
+#    Updated: 2023/02/03 19:08:38 by psuanpro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRC = main.c \
 	$(EXECUTE) \
 	$(EXPANDER)
 
-LEXER = src/lexer/lexer.c 
+LEXER = src/lexer/lexer.c
 
 PARSER = src/parser/parser.c
 
@@ -49,7 +49,7 @@ LIBFTDIR = libft
 RDFLAG = -lreadline
 
 OBJS = $(SRC:.c=.o)
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
 BRED =\033[1;31m
@@ -62,13 +62,13 @@ CLEAN = echo "$(BYEL)Minishell clean....$(RES)"
 FCLEAN = echo "$(BRED)Minishell fclean....$(RES)"
 
 .c.o:
-	@$(CC) $(CLAFGS) $(RDIN) -c $< -o $@
+	@$(CC) -g $(CLAFGS) $(RDIN) -c $< -o $@
 
 all:$(NAME)
 
 $(NAME): $(OBJS)
 	@make -C $(LIBFTDIR)
-	@$(CC) $(CFLAGS) $(RDLIB) $(OBJS) $(LIBFT) -o $@ $(RDFLAG)
+	@$(CC) -g $(CFLAGS) $(RDLIB) $(OBJS) $(LIBFT) -o $@ $(RDFLAG)
 	@$(COMPILE)
 
 v:all

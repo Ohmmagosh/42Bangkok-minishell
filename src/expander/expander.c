@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 01:27:24 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/02 00:01:08 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/02 23:43:07 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -454,7 +454,7 @@ char	*ft_expand(char *ptr, t_pro *p, int cmdabpath)
 	if (cmdabpath == 1)
 	{
 		ft_getabpath(&res, p);
-		printf("show absolute path:%s\n", res);
+		//printf("show absolute path:%s\n", res);
 	}
 	free(ptr);
 	return (res);

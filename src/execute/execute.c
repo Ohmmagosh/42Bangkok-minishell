@@ -6,12 +6,13 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/02 23:01:26 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/03 23:36:36 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -71,6 +72,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 			}
 			if (i != 0)//not first command
 			{
+				//dprintf(2,"%s----------not first----------%s\n", "\e[42m", "\e[0m");
 				for(int a = 1; a < lencmd; a++)
 				{
 					close(p[a].re.pfd[1]);
@@ -79,9 +81,12 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				}
 				dup2(p[i].re.pfd[0], STDIN_FILENO);
 			}
+
 			//dprintf(2, "hello 1 cmd\n");
 			dup2(p[i].re.infd, STDIN_FILENO);
 			dup2(p[i].re.outfd, STDOUT_FILENO);
+			close(p[i].re.infd);
+			close(p[i].re.outfd);
 			if ((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
@@ -93,6 +98,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				if (ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0)
 				{
 					ft_pwd(ownenv);
+					//dup2(p[i].re.outfd, STDOUT_FILENO);
 					exit(0);
 				}
 				else if (ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0)
@@ -100,6 +106,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 					if (ft_strncmp(p[i].allcmd[1], "-n", ft_strlen(p[i].allcmd[1])) == 0)
 					{
 						ft_echowtopt(p[i].allcmd);
+						//dup2(p[i].re.outfd, STDOUT_FILENO);
 						exit(0);
 					}
 					else
@@ -120,7 +127,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 		}
 		else
 		{
-			if ((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
+			if (
 				(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
@@ -161,9 +168,9 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				// 		call fn build in
 
 
-				 dup2(tmp_rd, 0);
-				 dup2(tmp_wr, 1);
 				//dup2(tmp_rd, 0);
+				//dup2(tmp_rd, 0);
+				//dup2(tmp_wr, 1);
 
 				//dprintf(0,"%s----------parent----------%s 0%d\n", "\e[42m", "\e[0m", dup2(tmp_rd, 0));
 				////dup2(tmp_wr, 1);
@@ -171,12 +178,14 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				close(p[i].re.pfd[0]);
 				close(p[i].re.pfd[1]);
 			}
-			dup2(STDIN_FILENO,tmp_rd);
-			dup2(STDOUT_FILENO,tmp_wr);
+
+			//close(p[i].re.pfd[0]);
+			//close(p[i].re.pfd[1]);
 		}
 		i++;
 	}
 	while(wait(NULL) != -1);
+	//while(waitpid(p[i].re.pid, 0, WNOHANG) != -1);
 	i = 0;
 	int	status;
 	while (i < lencmd)
@@ -185,6 +194,8 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 		waitpid(p[i].re.pid, &status, 0);
 		i++;
 	}
+	//dup2(tmp_rd, 0);
+	//dup2(tmp_wr, 1);
 	//dprintf(2,"%s----------hello child <<<<<<----------%s\n", "\e[42m", "\e[0m");
 }
 
@@ -216,5 +227,6 @@ void	execute(t_pro *p, char **env)
 	//printf("%s----------execute----------%s\n", "\e[42m", "\e[0m");
 	//print_chk_cmd(p);
 	//exit(0);
+
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
 }

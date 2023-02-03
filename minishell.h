@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/01 16:35:36 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/03 23:16:16 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+#include <sys/_types/_pid_t.h>
 # include <sys/signal.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -42,7 +43,7 @@ typedef struct s_lexlst
 typedef struct s_infd
 {
 	int		pfd[2];
-	int		pid;
+	pid_t	pid;
 	int		infd;
 	int		outfd;
 }				t_ifd;

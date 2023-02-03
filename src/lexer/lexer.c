@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 22:12:13 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/01 21:31:08 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:49:05 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_llst	*create_head(char *s)
 {
 	t_llst	*new;
 
+	new = NULL;
 	new = (t_llst *)malloc(sizeof(t_llst));
 	if (!new)
 		return (perror("lexer : malloc error\n"), (t_llst *)NULL);
@@ -28,6 +29,7 @@ void	create_next(t_llst	*lst, char *s)
 {
 	t_llst	*new;
 
+	new = NULL;
 	new = (t_llst *)malloc(sizeof(t_llst));
 	if (!new)
 		return ;
@@ -183,6 +185,7 @@ void	lexer_init(t_pro *p, int *i)
 {
 	(*i) = 0;
 	p->lex.lst = NULL;
+	p->lex.cmd = NULL;
 	p->lex.stack = ft_calloc(1, 1);
 	if (!p->lex.stack)
 		return ;
@@ -241,4 +244,5 @@ void	lexer(t_pro *p)
 	free(p->lex.cmd);
 	lexer_lst(p, p->lex.trim);
 	free(p->lex.trim);
+	p->lex.cmd = NULL;
 }

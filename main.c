@@ -6,12 +6,16 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/01 22:41:53 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/03 23:23:33 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
 
+
+int	in;
+int	out;
 // void	sig_handle(int signo, siginfo_t *info, void *ucontext)
 // {
 // 	(void)ucontext;
@@ -41,6 +45,8 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+	//in = dup(0);
+	//out = dup(1);
 	// struct sigaction	sig_quit;
 	// struct sigaction	sig_int;
 
@@ -53,7 +59,6 @@ int	main(int argc, char **argv, char **env)
 
 	// ft_cpyenv(&ownenv, envp);
 	ft_cpyenv(&(p.ownenv), env);
-
 	// printf("show cpy env\n");
 	// t_list	*tmpenv = p.ownenv;
 	// while (tmpenv != NULL)
@@ -63,15 +68,18 @@ int	main(int argc, char **argv, char **env)
 	// }
 	// printf("end show cpy env\n");
 
+
 	while (1)
 	{
 		// p.prompt = init_prompt();
 		p.lex.cmd = readline("\e[0;102mminishell->>\033[0m");
+		dprintf(2, "ready\n");
 		// if (p.lex.cmd == NULL)
 		// {
 		// 	printf("found Ctrl+D\n");
 		// 	exit(0);
 		// }
+
 		add_history(p.lex.cmd);
 		if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
 		{
@@ -79,14 +87,20 @@ int	main(int argc, char **argv, char **env)
 			free(p.lex.cmd);
 			exit(0);
 		}
+		//printf("hellloooooooo0\n");
 		lexer(&p);
 		if (p.lex.status)
 		{
+			//printf("hellloooooooo1\n");
 			parser(&p);
+			//printf("hellloooooooo2\n");
 			expander(&p);
+			//printf("hellloooooooo3\n");
 			execute(&p, env);
 			//dprintf(2,"%s----------hello----------%s\n", "\e[42m", "\e[0m");
 		}
+		//dup2(in, 0);
+		//dup2(out, 1);
 	}
 	return 0;
 }
