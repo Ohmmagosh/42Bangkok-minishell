@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 01:27:24 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/05 01:30:50 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/05 03:11:55 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ char	*ft_clenptr(char *ptr, t_pro *p)
 
 	int	i = 0;
 
-	dprintf(2, "cmd bef clean:%s\n", ptr);
+	// dprintf(2, "cmd bef clean:%s\n", ptr);
 	
 	ptrst = ptr;
 	res = NULL;
@@ -498,7 +498,7 @@ void	new_expand(t_cmd *cmd, t_pro *p)
 			cmd->allcmd[i] = ft_expand(cmd->allcmd[i], p, 0);
 		i++;
 	}
-	dprintf(2, "nex expand i:%d\n", i);
+	// dprintf(2, "nex expand i:%d\n", i);
 }
 
 void	expander(t_pro *p)
