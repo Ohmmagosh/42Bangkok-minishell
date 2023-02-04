@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:34:37 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/01/30 23:16:17 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:47:25 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	ft_unset(t_list **lstenv, char *arg)
 				tlstenv->next = tlstenv->next->next;
 				printf("address %p\n", tlstenv->next);
 				printf("content in unset:%s\n", (char *)unsetenv->content);
+				fflush(stdout);
 				free(unsetenv->content);
 				// unsetenv->next = NULL;
 				free(unsetenv);

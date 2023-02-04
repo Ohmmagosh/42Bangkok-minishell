@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 23:26:27 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/01/30 23:16:18 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:46:52 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@ void	ft_cpyenv(t_list **envlst, char **envp)
 		if (temenv == NULL)
 		{
 			printf("cannot cpy %s\n", *envp);
+			fflush(stdout);
 			break;
 		}
 		tmplstenv = ft_lstnew(temenv);
 		if (tmplstenv == NULL)
 		{
 			printf("cannot create node\n");
+			fflush(stdout);
 			break;
 		}
 		ft_lstadd_back(&lstenv,tmplstenv);
@@ -137,6 +139,7 @@ void	ft_env(t_list **lstenv)
 	while (env != NULL)
 	{
 		printf("%s\n", (char *)(env->content));
+		fflush(stdout);
 		env = env->next;
 	}
 }

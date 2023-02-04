@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/04 16:27:13 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:23:52 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,62 @@
 // 		// rl_on_new_line();
 // 	}
 // }
+
+void	sig_handle(int signo, siginfo_t *info, void *ucontext)
+{
+	(void)ucontext;
+	(void)info;
+
+	// if (signo == SIGQUIT)
+	// {
+	// 	// printf("found ctrl+\\\n");
+	// 	// rl_redisplay();
+	// 	// rl_on_new_line();
+	// 	// rl_replace_line("minihell>", 9);
+	// }
+	// else if (signo == SIGINT)
+	if (signo == SIGINT)
+	{
+		// // printf("found Ctrl+C\n");
+		// rl_redisplay();
+		// rl_replace_line("", 0);
+		// rl_replace_line("minihell>", 9);
+		// // rl_on_new_line();
+
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+// void	sig_handler(int signo, siginfo_t *s, void *old)
+// {
+// 	(void) old;
+// 	(void) s;
+// 	if (signo == SIGINT)
+// 	{
+// 		ft_putstr_fd("\n", STDOUT_FILENO);
+// 		rl_on_new_line();
+// 		rl_replace_line("", 0);
+// 		rl_redisplay();
+// 	}
+// }
+
+void	sig_hand_main(void)
+{
+	struct sigaction	sig_quit;
+	struct sigaction	sig_int;
+
+	// sig_quit.sa_sigaction = sig_handle;
+	sig_quit.sa_handler = SIG_IGN;
+	sig_quit.sa_flags = SA_RESTART;
+	sigemptyset(&sig_quit.sa_mask);
+	sigaction(SIGQUIT, &sig_quit, NULL);
+	sig_int.sa_sigaction = sig_handle;
+	sig_int.sa_flags = SA_SIGINFO;
+	sigemptyset(&sig_int.sa_mask);
+	sigaction(SIGINT, &sig_int, NULL);
+}
 
 // int	main(void)
 int	main(int argc, char **argv, char **env)
@@ -65,34 +121,36 @@ int	main(int argc, char **argv, char **env)
 	// }
 	// printf("end show cpy env\n");
 
+	sig_hand_main();
 
 	while (1)
 	{
 		// p.prompt = init_prompt();
 		p.lex.cmd = readline("\e[0;102mminishell->>\033[0m");
-		// if (p.lex.cmd == NULL)
-		// {
-		// 	printf("found Ctrl+D\n");
-		// 	exit(0);
-		// }
-
-		add_history(p.lex.cmd);
-		if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
+		if (p.lex.cmd != NULL)
 		{
-			ft_putendl_fd("exit", 1);
-			free(p.lex.cmd);
-			exit(0);
+			add_history(p.lex.cmd);
+			if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
+			{
+				ft_putendl_fd("exit", 1);
+				free(p.lex.cmd);
+				exit(0);
+			}
+			lexer(&p);
+			if (p.lex.status)
+			{
+				parser(&p);
+				expander(&p);
+				execute(&p, env);
+
+				//dprintf(2,"%s----------hello----------%s\n", "\e[42m", "\e[0m");
+			}
 		}
-		lexer(&p);
-		if (p.lex.status)
+		else
 		{
-			parser(&p);
-			expander(&p);
-			execute(&p, env);
-
-			//dprintf(2,"%s----------hello----------%s\n", "\e[42m", "\e[0m");
+			printf("found exit\n");
+			exit (0);
 		}
-
 	}
 	return 0;
 }

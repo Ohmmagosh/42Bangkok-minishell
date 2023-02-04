@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:46:05 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/01 23:31:54 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:31:24 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_echonoopt(char **allcmd)
 	while (*t_allcmd != NULL)
 	{
 		printf("%s\n", *t_allcmd);
+		fflush(stdout);
 		t_allcmd++;
 	}
 }
@@ -32,6 +33,7 @@ void	ft_echowtopt(char **allcmd)
 	while (*t_allcmd != NULL)
 	{
 		printf("%s", *t_allcmd);
+		fflush(stdout);
 		t_allcmd++;
 	}
 }
