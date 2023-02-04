@@ -6,11 +6,12 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/01 22:41:53 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 19:06:26 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
 
 // void	sig_handle(int signo, siginfo_t *info, void *ucontext)
 // {
@@ -66,6 +67,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		// p.prompt = init_prompt();
+		dprintf(2, "ready\n");
 		p.lex.cmd = readline("\e[0;102mminishell->>\033[0m");
 		// if (p.lex.cmd == NULL)
 		// {

@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/02 23:01:26 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 21:19:45 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,8 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				// 		call fn build in
 
 
-				 dup2(tmp_rd, 0);
-				 dup2(tmp_wr, 1);
+				// dup2(tmp_rd, 0);
+				// dup2(tmp_wr, 1);
 				//dup2(tmp_rd, 0);
 
 				//dprintf(0,"%s----------parent----------%s 0%d\n", "\e[42m", "\e[0m", dup2(tmp_rd, 0));
@@ -171,8 +171,8 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				close(p[i].re.pfd[0]);
 				close(p[i].re.pfd[1]);
 			}
-			dup2(STDIN_FILENO,tmp_rd);
-			dup2(STDOUT_FILENO,tmp_wr);
+			dup2(tmp_rd, 0);
+			dup2(tmp_wr, 1);
 		}
 		i++;
 	}
@@ -216,5 +216,6 @@ void	execute(t_pro *p, char **env)
 	//printf("%s----------execute----------%s\n", "\e[42m", "\e[0m");
 	//print_chk_cmd(p);
 	//exit(0);
+	//print_chk_cmd(p);
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
 }

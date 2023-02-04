@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/01 23:02:26 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:56:39 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,7 @@ int	chk_redirect_cmd(char **cmd)
 
 int	get_append(t_cmd *p, char *file, int ot)
 {
-	if (ot > 0 && p->re.outfd != -1)
+	if (ot > 0 && p->re.outfd != 1)
 		close(p->re.outfd);
 	p->re.infd = open(file, O_RDWR | O_APPEND);
 	if (p->re.outfd == -1)
@@ -247,7 +247,7 @@ int	get_append(t_cmd *p, char *file, int ot)
 
 int	get_infile(t_cmd *p,char *file, int ot)
 {
-	if (ot > 0 && p->re.infd != -1)
+	if (ot > 0 && p->re.infd != 0)
 		close(p->re.infd);
 	p->re.infd = open(file, O_RDONLY);
 	if (p->re.infd == -1)
@@ -257,7 +257,7 @@ int	get_infile(t_cmd *p,char *file, int ot)
 
 int	get_outfile(t_cmd *p, char *file ,int ot)
 {
-	if (ot > 0 && p->re.outfd != -1)
+	if (ot > 0 && p->re.outfd != 1)
 		close(p->re.outfd);
 	p->re.outfd = open(file, O_RDWR| O_TRUNC);
 	if (p->re.outfd == -1)
@@ -274,7 +274,7 @@ int	get_heredoc(t_cmd *p, char *eof, int i)
 	char	*name;
 
 	name = file_name_here_doc(i, p->index);
-	if (p->re.outfd != -1)
+	if (p->re.outfd != 1)
 		close(p->re.infd);
 	if (p->heredoc != NULL)
 	{
