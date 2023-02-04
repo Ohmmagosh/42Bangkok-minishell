@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/04 22:07:07 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 23:35:29 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,13 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 			}
 			dup2(p[i].re.infd, STDIN_FILENO);
 			dup2(p[i].re.outfd, STDOUT_FILENO);
-			close(p[i].re.infd);
-			close(p[i].re.outfd);
+			if (p[i].re.infd != 0 )
+				close(p[i].re.infd);
+			if (p[i].re.outfd != 1)
+				close(p[i].re.outfd);
 			if (p[i].heredoc != NULL)
 				unlink(p[i].heredoc);
+			//dprintf(1, "helllofadsfdsaf\n");
 			if ((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
@@ -89,6 +92,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 					else
 					{
 						ft_echonoopt(p[i].allcmd);
+						//dprintf(1,"hellofdsafdsaf\n");
 						exit(0);
 					}
 				}
@@ -163,6 +167,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 			}
 			dup2(tmp_rd, 0);
 			dup2(tmp_wr, 1);
+			//printf("hellodasdsad\n");
 		}
 		i++;
 	}
@@ -241,5 +246,6 @@ void	execute(t_pro *p, char **env)
 	//exit(0);
 	//print_chk_cmd(p);
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
-	free_par(p);
+	//printf("helllo234567890\n");
+	//
 }
