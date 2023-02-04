@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/04 16:27:53 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 21:47:21 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,12 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 			{
 				if (ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0)
 				{
-					ft_export(ownenv, p[i].allcmd[1]);
-					// exit(0);
+					// ft_export(ownenv, p[i].allcmd[1]);
+					// // exit(0);
+					if (p[i].allcmd[1] != NULL)
+						ft_export(ownenv, p[i].allcmd[1]);
+					else
+						ft_exportNull(ownenv);
 				}
 				else if (ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) == 0)
 				{

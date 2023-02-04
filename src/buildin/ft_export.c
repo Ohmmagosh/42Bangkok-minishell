@@ -6,11 +6,26 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:34:25 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/04 18:47:13 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/04 21:48:11 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	ft_exportNull(t_list **lstenv)
+{
+	t_list	*tlstenv;
+
+	tlstenv = *lstenv;
+	while (tlstenv != NULL)
+	{
+		// printf("%s\n", (char *)(tlstenv->content));
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd((char *)(tlstenv->content), 1);
+		ft_putstr_fd("\n", 1);
+		tlstenv = tlstenv->next;
+	}
+}
 
 // arg need to "(envname)=(value)"
 void	ft_export(t_list **lstenv, char *arg)
