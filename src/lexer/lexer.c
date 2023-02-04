@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 22:12:13 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/03 21:49:05 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/05 02:56:05 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ t_llst	*create_head(char *s)
 {
 	t_llst	*new;
 
-	new = NULL;
 	new = (t_llst *)malloc(sizeof(t_llst));
 	if (!new)
 		return (perror("lexer : malloc error\n"), (t_llst *)NULL);
@@ -29,7 +28,6 @@ void	create_next(t_llst	*lst, char *s)
 {
 	t_llst	*new;
 
-	new = NULL;
 	new = (t_llst *)malloc(sizeof(t_llst));
 	if (!new)
 		return ;
@@ -185,30 +183,9 @@ void	lexer_init(t_pro *p, int *i)
 {
 	(*i) = 0;
 	p->lex.lst = NULL;
-	p->lex.cmd = NULL;
 	p->lex.stack = ft_calloc(1, 1);
 	if (!p->lex.stack)
 		return ;
-}
-
-void	lexer_lst_utils(t_pro *p, char *s, int *i)
-{
-	if (s[(*i)] == '|' && s[(*i) + 1] == '<' && s[(*i) + 2] == '<')
-			repipe(p, i, s, 0);
-	else if (s[(*i)] == '<' && s[(*i) + 1] == '<' && s[(*i) + 2] == '|')
-		repipe(p, i, s, 0);
-	else if (s[(*i)] != '|' && s[(*i)] != '<' && s[(*i)] != '>' && s[(*i) + 1] != '>'\
-		&& s[(*i) + 1] != '<' && !ft_isalnum(s[(*i)]))
-		join_char_utils(p, s, i);
-	else if (ft_isalnum(s[(*i)]))
-		join_char_utils(p, s, i);
-	if (s[(*i)] == ' ' || s[(*i)] == '\0' || s[(*i)] == '|'|| s[(*i)] == '<' || s[(*i)] == '>')
-	{
-		create_linklst(p, p->lex.stack);
-		p->lex.stack = ft_calloc(1, 1);
-		if (s[(*i)] == ' ')
-			(*i)++;
-	}
 }
 
 void	lexer_lst(t_pro *p, char *s)
@@ -231,8 +208,22 @@ void	lexer_lst(t_pro *p, char *s)
 			create_linklst(p, "|");
 			plus_i(&i, ' ', s);
 		}
-		else
-			lexer_lst_utils(p, s, &i);
+		else if (s[i] == '|' && s[i + 1] == '<' && s[i + 2] == '<')
+			repipe(p, &i, s, 0);
+		else if (s[i] == '<' && s[i + 1] == '<' && s[i + 2] == '|')
+			repipe(p, &i, s, 0);
+		else if (s[i] != '|' && s[i] != '<' && s[i] != '>' && s[i + 1] != '>'\
+			&& s[i + 1] != '<' && !ft_isalnum(s[i]))
+			join_char_utils(p, s, &i);
+		else if (ft_isalnum(s[i]))
+			join_char_utils(p, s, &i);
+		if (s[i] == ' ' || s[i] == '\0' || s[i] == '|'|| s[i] == '<' || s[i] == '>')
+		{
+			create_linklst(p, p->lex.stack);
+			p->lex.stack = ft_calloc(1, 1);
+			if (s[i] == ' ')
+				i++;
+		}
 	}
 	free(p->lex.stack);
 }
@@ -244,5 +235,4 @@ void	lexer(t_pro *p)
 	free(p->lex.cmd);
 	lexer_lst(p, p->lex.trim);
 	free(p->lex.trim);
-	p->lex.cmd = NULL;
 }
