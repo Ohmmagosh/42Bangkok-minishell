@@ -6,57 +6,16 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/01 00:51:25 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 16:27:53 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
-//typedef struct s_test
-//{
-//	int		idx;
-//	int		pfd[2];
-//	int		pid;
-//	char	**cmd;
-//} 				t_test;
-
-//// void	test_executer(void)
-//// {
-//// 	//if 5 cmd will create 4 pipe
-//// 	//ls -la | wc -l
-//// 	int	i = 0;
-//// 	// while (i < 2)
-//// 	// {
-//// 	// 	pipe();
-//// 	// }
-//// }
-
-void	close_pipe(t_cmd *p, int idx, int lencmd)
-{
-	int	i;
-
-	i= 0;
-	//dprintf(2,"%s----------close pipe----------%s\n", "\e[42m", "\e[0m");
-	if (lencmd == 1)
-		return;
-	while (i < lencmd)
-	{
-		// if (idx == 0)
-		// 	close(p[i].pfd[0]);
-		if (i == idx - 1)
-			close(p[i].re.pfd[1]);
-		if (i != idx && i == idx - 1)
-		{
-			close(p[i].re.pfd[0]);
-			close(p[i].re.pfd[1]);
-		}
-		i++;
-		// dprintf(0, "ja ekk 0 i --> %d\n", i);
-	}
-}
 
 void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 {
@@ -76,10 +35,9 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 	while (i < lencmd)
 	{
 		p[i].re.pid = fork();
-		//dprintf(2,"p[i].re.pid -> %d\n", p[i].re.pid);
 		if (p[i].re.pid == 0)
 		{
-			if (i != lencmd - 1)
+			if (i != lencmd - 1)//not last commmand
 			{
 				for(int a = 1; a < lencmd; a++)
 				{
@@ -89,8 +47,9 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				}
 				dup2(p[i + 1].re.pfd[1], STDOUT_FILENO);
 			}
-			if (i != 0)
+			if (i != 0)//not first command
 			{
+				//dprintf(2,"%s----------not first----------%s\n", "\e[42m", "\e[0m");
 				for(int a = 1; a < lencmd; a++)
 				{
 					close(p[a].re.pfd[1]);
@@ -100,19 +59,13 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				dup2(p[i].re.pfd[0], STDIN_FILENO);
 			}
 
-			// close_pipe(p , i, lencmd);
-
-			// execve(p[i].allcmd[0], p[i].allcmd, env);
-
-			// if build in cmd
-			// 	if echo pwd env
-			// 		call function build in
-			// 	else
-			// 		exit ();
-
-			//close_pipe(p , i, lencmd);
-			//if (!execve(p[i].allcmd[0], p[i].allcmd, env))
-
+			//dprintf(2, "hello 1 cmd\n");
+			dup2(p[i].re.infd, STDIN_FILENO);
+			dup2(p[i].re.outfd, STDOUT_FILENO);
+			close(p[i].re.infd);
+			close(p[i].re.outfd);
+			if (p[i].heredoc != NULL)
+				unlink(p[i].heredoc);
 			if ((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
@@ -124,6 +77,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				if (ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0)
 				{
 					ft_pwd(ownenv);
+					//dup2(p[i].re.outfd, STDOUT_FILENO);
 					exit(0);
 				}
 				else if (ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0)
@@ -131,6 +85,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 					if (ft_strncmp(p[i].allcmd[1], "-n", ft_strlen(p[i].allcmd[1])) == 0)
 					{
 						ft_echowtopt(p[i].allcmd);
+						//dup2(p[i].re.outfd, STDOUT_FILENO);
 						exit(0);
 					}
 					else
@@ -151,8 +106,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 		}
 		else
 		{
-
-			if ((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
+			if (
 				(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
@@ -193,12 +147,13 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				// 		call fn build in
 
 
-				// dup2(tmp_rd, 0);
-				// dup2(tmp_wr, 1);
-				dup2(tmp_rd, 0);
-				// dprintf(2,"%s----------parent----------%s 0%d\n", "\e[42m", "\e[0m", retdup2);
-				dup2(tmp_wr, 1);
-				// dprintf(2,"%s----------parent----------%s 0%d\n", "\e[42m", "\e[0m", retdup2);
+				//dup2(tmp_rd, 0);
+				//dup2(tmp_rd, 0);
+				//dup2(tmp_wr, 1);
+
+				//dprintf(0,"%s----------parent----------%s 0%d\n", "\e[42m", "\e[0m", dup2(tmp_rd, 0));
+				////dup2(tmp_wr, 1);
+				//dprintf(0,"%s----------parent----------%s 0%d\n", "\e[42m", "\e[0m", dup2(tmp_wr, 1));
 				close(p[i].re.pfd[0]);
 				close(p[i].re.pfd[1]);
 			}
@@ -206,46 +161,18 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 		i++;
 	}
 	while(wait(NULL) != -1);
+	//while(waitpid(p[i].re.pid, 0, WNOHANG) != -1);
 	i = 0;
 	int	status;
 	while (i < lencmd)
 	{
-		//printf("i -> %d\n", i);
 		waitpid(p[i].re.pid, &status, 0);
 		i++;
 	}
-	//dprintf(2,"%s----------hello child <<<<<<----------%s\n", "\e[42m", "\e[0m");
 }
 
-//int	main(int ac, char **av, char **env)
-//{
-//	t_test	*allcmd;
-//	(void)ac;
-//	(void)av;
-//	int	cmds = 3;
-//	allcmd = (t_test *)malloc(sizeof(t_test) * cmds);
-//	allcmd[0].cmd = ft_split("/bin/cat", ' ');
-//	allcmd[0].idx = 0;
-
-//	allcmd[1].cmd = ft_split("/bin/cat", ' ');
-//	allcmd[1].idx = 1;
-
-//	allcmd[2].cmd = ft_split("/bin/ls", ' ');
-//	allcmd[2].idx = 2;
-
-//	// allcmd[3].cmd = ft_split("/usr/bin/sort", ' ');
-//	// allcmd[3].idx = 3;
-
-//	// allcmd[0].cmd = ft_split("/bin/echo hello", ' ');
-//	// allcmd[0].idx = 0;
-
-//	// allcmd[1].cmd = ft_split("/usr/bin/rev", ' ');
-//	// allcmd[1].idx = 1;
 
 
-
-//}
-//	test_cmd(allcmd, env, cmds);
 void	print_chk_cmd(t_pro	*p)
 {
 	int	i = 0;
@@ -267,9 +194,46 @@ void	print_chk_cmd(t_pro	*p)
 	}
 }
 
+void	free_par_utils(t_cmd *p)
+{
+	int	i;
+
+	i = 0;
+	while (p->allcmd[i])
+	{
+		free(p->allcmd[i]);
+		i++;
+	}
+	if (!p->allcmd)
+		free(p->allcmd);
+	if (!p->cmd)
+		free(p->cmd);
+	if (!p->error)
+		free(p->error);
+	if (p[i].heredoc != NULL)
+		unlink(p[i].heredoc);
+	free(p->heredoc);
+}
+
+void	free_par(t_pro *p)
+{
+	int	i;
+
+	i = 0;
+	while (i < p->par.size)
+	{
+		free_par_utils(&p->par.cmd[i]);
+		i++;
+	}
+	free(p->par.cmd);
+}
+
 void	execute(t_pro *p, char **env)
 {
-	printf("%s----------execute----------%s\n", "\e[42m", "\e[0m");
-	print_chk_cmd(p);
+	//printf("%s----------execute----------%s\n", "\e[42m", "\e[0m");
+	//print_chk_cmd(p);
+	//exit(0);
+
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
+	free_par(p);
 }
