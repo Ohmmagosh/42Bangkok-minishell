@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/03 23:36:36 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 16:27:53 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-//void	close_pipe(t_cmd *p, int idx, int lencmd)
-//{
-//	int	i;
-
-//	i= 0;
-//	//dprintf(2,"%s----------close pipe----------%s\n", "\e[42m", "\e[0m");
-//	if (lencmd == 1)
-//		return;
-//	while (i < lencmd)
-//	{
-//		// if (idx == 0)
-//		// 	close(p[i].pfd[0]);
-//		if (i == idx - 1)
-//			close(p[i].re.pfd[1]);
-//		if (i != idx && i == idx - 1)
-//		{
-//			close(p[i].re.pfd[0]);
-//			close(p[i].re.pfd[1]);
-//		}
-//		i++;
-//		// dprintf(0, "ja ekk 0 i --> %d\n", i);
-//	}
-//}
 
 void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 {
@@ -87,6 +64,8 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 			dup2(p[i].re.outfd, STDOUT_FILENO);
 			close(p[i].re.infd);
 			close(p[i].re.outfd);
+			if (p[i].heredoc != NULL)
+				unlink(p[i].heredoc);
 			if ((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
 				(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
@@ -178,9 +157,6 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				close(p[i].re.pfd[0]);
 				close(p[i].re.pfd[1]);
 			}
-
-			//close(p[i].re.pfd[0]);
-			//close(p[i].re.pfd[1]);
 		}
 		i++;
 	}
@@ -190,13 +166,9 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 	int	status;
 	while (i < lencmd)
 	{
-		//printf("i -> %d\n", i);
 		waitpid(p[i].re.pid, &status, 0);
 		i++;
 	}
-	//dup2(tmp_rd, 0);
-	//dup2(tmp_wr, 1);
-	//dprintf(2,"%s----------hello child <<<<<<----------%s\n", "\e[42m", "\e[0m");
 }
 
 
@@ -222,6 +194,40 @@ void	print_chk_cmd(t_pro	*p)
 	}
 }
 
+void	free_par_utils(t_cmd *p)
+{
+	int	i;
+
+	i = 0;
+	while (p->allcmd[i])
+	{
+		free(p->allcmd[i]);
+		i++;
+	}
+	if (!p->allcmd)
+		free(p->allcmd);
+	if (!p->cmd)
+		free(p->cmd);
+	if (!p->error)
+		free(p->error);
+	if (p[i].heredoc != NULL)
+		unlink(p[i].heredoc);
+	free(p->heredoc);
+}
+
+void	free_par(t_pro *p)
+{
+	int	i;
+
+	i = 0;
+	while (i < p->par.size)
+	{
+		free_par_utils(&p->par.cmd[i]);
+		i++;
+	}
+	free(p->par.cmd);
+}
+
 void	execute(t_pro *p, char **env)
 {
 	//printf("%s----------execute----------%s\n", "\e[42m", "\e[0m");
@@ -229,4 +235,5 @@ void	execute(t_pro *p, char **env)
 	//exit(0);
 
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
+	free_par(p);
 }
