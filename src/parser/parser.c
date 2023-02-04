@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/24 23:57:03 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 22:06:21 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	here_doc_utils(char *name, char *eof)
 {
 	char	*line;
 	int		fd;
-	
+
 	fd = open(name, O_CREAT | O_RDWR | O_APPEND , 0777);
 	while (1)
 	{
@@ -143,8 +143,8 @@ t_cmd	init_cmd_parser(t_llst *p, int idx)
 	len = len_cmd_allcmd(p);
 	new.index = idx;
 	new.error = NULL;
-	new.re.infd = -1;
-	new.re.outfd = -1;
+	new.re.infd = 0;
+	new.re.outfd = 1;
 	new.heredoc = NULL;
 	new.allcmd = get_allcmd(p, len);
 	if (new.allcmd[0] != NULL)
@@ -154,7 +154,7 @@ t_cmd	init_cmd_parser(t_llst *p, int idx)
 
 t_llst	*next_cmd(t_llst *lst)
 {
-	while (lst->next != NULL && ft_strncmp(lst->content, "|", 2))
+	while (lst && lst->next != NULL && ft_strncmp(lst->content, "|", 2))
 		lst = lst->next;
 	if (!ft_strncmp(lst->content, "|", 2) && lst != NULL)
 		lst = lst->next;
@@ -166,6 +166,7 @@ void	create_cmd_parser(t_pro *p, t_llst *lst)
 	int	i;
 
 	i = 0;
+
 	p->par.size = len_pipe(p->lex.lst);
 	p->par.cmd = (t_cmd *)malloc(sizeof(t_cmd) * p->par.size);
 	if (!p->par.cmd)
@@ -233,7 +234,7 @@ int	chk_redirect_cmd(char **cmd)
 
 int	get_append(t_cmd *p, char *file, int ot)
 {
-	if (ot > 0 && p->re.outfd != -1)
+	if (ot > 0 && p->re.outfd != 1)
 		close(p->re.outfd);
 	p->re.infd = open(file, O_RDWR | O_APPEND);
 	if (p->re.outfd == -1)
@@ -247,7 +248,7 @@ int	get_append(t_cmd *p, char *file, int ot)
 
 int	get_infile(t_cmd *p,char *file, int ot)
 {
-	if (ot > 0 && p->re.infd != -1)
+	if (ot > 0 && p->re.infd != 0)
 		close(p->re.infd);
 	p->re.infd = open(file, O_RDONLY);
 	if (p->re.infd == -1)
@@ -257,7 +258,7 @@ int	get_infile(t_cmd *p,char *file, int ot)
 
 int	get_outfile(t_cmd *p, char *file ,int ot)
 {
-	if (ot > 0 && p->re.outfd != -1)
+	if (ot > 0 && p->re.outfd != 1)
 		close(p->re.outfd);
 	p->re.outfd = open(file, O_RDWR| O_TRUNC);
 	if (p->re.outfd == -1)
@@ -272,9 +273,9 @@ int	get_outfile(t_cmd *p, char *file ,int ot)
 int	get_heredoc(t_cmd *p, char *eof, int i)
 {
 	char	*name;
-	
+
 	name = file_name_here_doc(i, p->index);
-	if (p->re.outfd != -1)
+	if (p->re.outfd != 1)
 		close(p->re.infd);
 	if (p->heredoc != NULL)
 	{
@@ -293,8 +294,8 @@ void	get_redirect_fd(t_cmd *p, char **cmd)
 	int		i;
 
 	i = 0;
-	p->re.infd = -1;
-	p->re.outfd = -1;
+	p->re.infd = 0;
+	p->re.outfd = 1;
 	while (cmd[i] && cmd[i + 1])
 	{
 		if (!ft_strncmp(cmd[i], "<", 2))
@@ -398,7 +399,7 @@ char	**new_str(char **cmd)
 	while (cmd[i] && cmd[i])
 	{
 		if (ismetastr(cmd[i]) && cmd[i])
-		{	
+		{
 			cmd[i] = newrealloc(cmd[i]);
 			if (cmd[i + 1])
 				cmd[i + 1] = newrealloc(cmd[i + 1]);
@@ -421,7 +422,10 @@ void	chk_redirect(t_pro *p)
 		if(!chk_redirect_cmd(p->par.cmd[i].allcmd))
 			p->par.cmd[i].error = ft_strdup("token\n");
 		while (p->par.cmd[i].error == NULL)
+		{
 			get_redirect_fd(&p->par.cmd[i], p->par.cmd[i].allcmd);
+
+		}
 		i++;
 	}
 	i = 0;
@@ -434,10 +438,11 @@ void	chk_redirect(t_pro *p)
 
 void	parser(t_pro *p)
 {
+
 	create_cmd_parser(p, p->lex.lst);
 	chk_redirect(p);
 
-	// print_chk_cmd(p);
+	//print_chk_cmd(p);
 
 
 	// char	*ft_expand(char *ptr, t_pro *p)

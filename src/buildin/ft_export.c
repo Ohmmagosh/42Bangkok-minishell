@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:34:25 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/04 21:43:55 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/05 00:14:14 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	ft_export(t_list **lstenv, char *arg)
 	else
 	{
 		printf("show env:%s\n", (char *)tlstenv->content);
+		fflush(stdout);
 		free(tlstenv->content);
 		tlstenv->content = ft_strdup(arg);
 	}

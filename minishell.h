@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/04 21:33:09 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/05 00:14:03 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+#include <sys/_types/_pid_t.h>
 # include <sys/signal.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -42,7 +43,7 @@ typedef struct s_lexlst
 typedef struct s_infd
 {
 	int		pfd[2];
-	int		pid;
+	pid_t	pid;
 	int		infd;
 	int		outfd;
 }				t_ifd;
@@ -61,7 +62,7 @@ typedef struct s_cmd
 typedef struct s_lexer
 {
 	int		status;
-	// t_var	v;
+	char	*stack;
 	char	*cmd;
 	char	*trim;
 	t_llst	*lst;
@@ -111,4 +112,6 @@ void	ft_export(t_list **lstenv, char *arg);
 void	ft_exportNull(t_list **lstenv);
 void	ft_unset(t_list **lstenv, char *arg);
 
+
+void	print_chk_cmd(t_pro *p);
 #endif

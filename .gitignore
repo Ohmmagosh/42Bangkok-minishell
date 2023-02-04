@@ -10,3 +10,5 @@ o3
 *.o
 .gitignore
 test.c
+p1
+out1

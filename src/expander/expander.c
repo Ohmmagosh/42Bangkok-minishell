@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 01:27:24 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/29 16:41:12 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/04 22:06:44 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ char	*ft_getres(char *t_ptrst, char *t_ptrend, char **t_res)
 	// 	ptrst = ptrend;
 
 	ptrst = ptrend;
-	
+
 	// *t_res = res;
 	return (ptrst);
 }
@@ -312,7 +312,7 @@ char	*ft_clenptr(char *ptr, t_pro *p)
 			// 	ptrst = ptrend + 1;
 			// else
 			// 	ptrst = ptrend;
-			
+
 			ptrst = ptrend;
 		}
 		else
@@ -409,7 +409,7 @@ void	ft_getabpath(char **cmd, t_pro *p)
 	{
 		// printf("Found cmd not built-in\n");
 		// fflush(stdout);
-		
+
 		t_path = ft_getenv(&p->ownenv, "$PATH");
 		ft_cutenvval(&t_path);
 		spitpath = ft_split(t_path, ':');
@@ -454,7 +454,7 @@ char	*ft_expand(char *ptr, t_pro *p, int cmdabpath)
 	if (cmdabpath == 1)
 	{
 		ft_getabpath(&res, p);
-		printf("show absolute path:%s\n", res);
+		//printf("show absolute path:%s\n", res);
 	}
 	free(ptr);
 	return (res);
@@ -502,6 +502,7 @@ void	expander(t_pro *p)
 	int	i;
 
 	i = 0;
+	//printf("%s----------hello expand----------%s\n", "\e[42m", "\e[0m");
 	while (i < p->par.size)
 	{
 		new_expand(&p->par.cmd[i], p);
@@ -511,6 +512,5 @@ void	expander(t_pro *p)
 			p->par.cmd[i].cmd = ft_strdup(p->par.cmd[i].allcmd[0]);
 		i++;
 	}
-	//printf("%s----------hello expand----------%s\n", "\e[42m", "\e[0m");
 	//print_chk_cmd(p);
 }
