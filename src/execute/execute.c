@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/04 21:19:45 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 21:40:44 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				}
 				dup2(p[i].re.pfd[0], STDIN_FILENO);
 			}
-			//dprintf(2, "hello 1 cmd\n");
 			dup2(p[i].re.infd, STDIN_FILENO);
 			dup2(p[i].re.outfd, STDOUT_FILENO);
 			if ((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
