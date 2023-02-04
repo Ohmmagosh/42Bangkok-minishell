@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 23:26:27 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/01/30 23:16:18 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/04 19:42:08 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,9 @@ void	ft_env(t_list **lstenv)
 	env = *lstenv;
 	while (env != NULL)
 	{
-		printf("%s\n", (char *)(env->content));
+		// printf("%s\n", (char *)(env->content));
+		ft_putstr_fd((char *)(env->content), 1);
+		ft_putstr_fd("\n", 1);
 		env = env->next;
 	}
 }

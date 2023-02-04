@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/01/30 22:51:00 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/04 21:33:09 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ char	*ft_getenv(t_list **lstenv, char *envvar);
 void	ft_cutenvval(char **val);
 void	ft_env(t_list **lstenv);
 void	ft_export(t_list **lstenv, char *arg);
+void	ft_exportNull(t_list **lstenv);
 void	ft_unset(t_list **lstenv, char *arg);
 
 #endif
