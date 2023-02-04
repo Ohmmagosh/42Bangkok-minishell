@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:33:48 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/01/31 00:36:05 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/05 00:42:17 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void    ft_cd(t_list **ownenv, char *t_path)
     char    *t_chr2;
     char    perm;
 
-    printf("raw path:%s\n", t_path);
+    // printf("raw path:%s\n", t_path);
     path = ft_chgtilde(t_path, ownenv);
-    printf("cd for path:%s\n", path);
+    // printf("cd for path:%s\n", path);
     perm = ft_chk_perm(path);
     if ((perm & (0b1000)) == 0)
     {

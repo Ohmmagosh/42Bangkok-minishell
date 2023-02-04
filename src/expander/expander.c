@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 01:27:24 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/04 22:06:44 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/05 00:37:47 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,34 +88,35 @@ char	*ft_getenvval(char **ptrst, char **ptrend, t_pro *p)
 	char	*envend;
 
 	(void)p;
-	printf("getenvval\n");
+	// printf("getenvval\n");
 	envst = *ptrst;
 	envend = envst + 1;
-	printf("bef while envst:%s envend:%s\n", envst, envend);
-	fflush(stdout);
+	// printf("bef while envst:%s envend:%s\n", envst, envend);
+	// fflush(stdout);
 	while ((*envend != ' ') && (*envend != '\'') && \
 			(*envend != '\"') && (*envend != '$') && (*envend != '\0'))
 		envend++;
 	pchr = ft_strcreate(envst, (envend - 1));
-	printf("end while envst:%s envend:%s\n", envst, envend);
-	printf("envst:%d envend:%d\n", (int)(*envst), (int)(*envend));
-	printf("env name:%s\n", pchr);
+	// printf("end while envst:%s envend:%s\n", envst, envend);
+	// printf("envst:%d envend:%d\n", (int)(*envst), (int)(*envend));
+	// printf("env name:%s\n", pchr);
 	penv = ft_getenv(&p->ownenv, pchr);
 	if (penv != NULL)
 	{
-		printf("env val:%s\n", penv);
+		// printf("env val:%s\n", penv);
 		ft_cutenvval(&penv);
-		printf("env val aft cut:%s\n", penv);
-		fflush(stdout);
+		// printf("env val aft cut:%s\n", penv);
+		// fflush(stdout);
 	}
 	else
 	{
-		printf("env Not found\n");
+		// printf("env Not found\n");
 		penv = ft_calloc(1, 1);
-		printf("env str:%s\n", penv);
-		fflush(stdout);
+		// printf("env str:%s\n", penv);
+		// fflush(stdout);
 	}
-	fflush(stdout);
+	// fflush(stdout);
+
 	// printf("bef chg $ 2  @\n");
 	// fflush(stdout);
 	// *pchr = '@';
@@ -291,8 +292,8 @@ char	*ft_clenptr(char *ptr, t_pro *p)
 			// fflush(stdout);
 
 			t_res0 = ft_getenvval(&ptrst, &ptrend, p);
-			printf("case $ res0:%s\n", t_res0);
-			fflush(stdout);
+			// printf("case $ res0:%s\n", t_res0);
+			// fflush(stdout);
 			ft_joinres(&res, &t_res0);
 
 			// if (res == NULL)
@@ -385,8 +386,8 @@ char	*ft_cratetestpath(char *path, char *cmd)
 		t_cmd++;
 	}
 	t_path = join_char(t_path, *t_cmd);
-	printf("full create path:%s\n", t_path);
-	fflush(stdout);
+	// printf("full create path:%s\n", t_path);
+	// fflush(stdout);
 	// free(t_path);
 	return (t_path);
 }
@@ -422,12 +423,12 @@ void	ft_getabpath(char **cmd, t_pro *p)
 			t_chr = ft_cratetestpath(*t_spitpath, t_cmd);
 			if ((ft_chk_perm(t_chr) & (0b0001)) != 0)
 			{
-				printf("found correct path\n");
+				// printf("found correct path\n");
 				break ;
 			}
 			else
 			{
-				printf("not correct path\n");
+				// printf("not correct path\n");
 				free(t_chr);
 			}
 			t_spitpath++;

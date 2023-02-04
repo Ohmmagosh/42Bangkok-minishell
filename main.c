@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/05 00:22:45 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/05 00:30:58 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	main(int argc, char **argv, char **env)
 	// }
 	// printf("end show cpy env\n");
 
-	sig_hand_main();
+	// sig_hand_main();
 
 	while (1)
 	{
@@ -146,6 +146,11 @@ int	main(int argc, char **argv, char **env)
 
 				//dprintf(2,"%s----------hello----------%s\n", "\e[42m", "\e[0m");
 			}
+		}
+		else
+		{
+			write(1, "Found Ctrl+D => exit\n", 21);
+			exit(0);
 		}
 	}
 
