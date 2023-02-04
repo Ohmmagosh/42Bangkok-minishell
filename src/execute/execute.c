@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/04 22:07:07 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 22:54:18 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 	int	tmp_rd;
 	int	tmp_wr;
 
+	printf("executer bef doing things\n");
+	fflush(stdout);
 	i = 1;
 	while (i < lencmd)
 	{
@@ -32,6 +34,8 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 	i = 0;
 	tmp_rd = dup(0);
 	tmp_wr = dup(1);
+	dprintf(2, "executer aft pipe\n");
+	dprintf(2,"i:%d, lencmd:%d\n", i, lencmd);
 	while (i < lencmd)
 	{
 		p[i].re.pid = fork();
@@ -80,6 +84,8 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				}
 				else if (ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0)
 				{
+					dprintf(2, "before echo fn\n");
+					fflush(stdout);
 					if (ft_strncmp(p[i].allcmd[1], "-n", ft_strlen(p[i].allcmd[1])) == 0)
 					{
 						ft_echowtopt(p[i].allcmd);
@@ -131,6 +137,11 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 					ft_cd(ownenv, p[i].allcmd[1]);
 					// exit(0);
 				}
+				// else if (ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0)
+				// {
+				// 	printf("found echo in parent\n");
+				// 	fflush(stdout);
+				// }
 			}
 
 			//waitpid(p[i].re.pid, 0, 0);
@@ -166,6 +177,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 		}
 		i++;
 	}
+	dprintf(2, "exit while i:%d, len:%d\n", i, lencmd);
 	while(wait(NULL) != -1);
 	//while(waitpid(p[i].re.pid, 0, WNOHANG) != -1);
 	i = 0;
@@ -241,5 +253,5 @@ void	execute(t_pro *p, char **env)
 	//exit(0);
 	//print_chk_cmd(p);
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
-	free_par(p);
+	// free_par(p);
 }
