@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/05 00:13:44 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/05 00:22:45 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ int	main(int argc, char **argv, char **env)
 				parser(&p);
 				expander(&p);
 				execute(&p, env);
+				//printf("hello\n");
 
 				//dprintf(2,"%s----------hello----------%s\n", "\e[42m", "\e[0m");
 			}

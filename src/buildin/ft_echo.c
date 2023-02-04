@@ -6,11 +6,12 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:46:05 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/05 00:19:52 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/05 00:22:34 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stdio.h>
 
 void	ft_echonoopt(char **allcmd)
 {
@@ -24,7 +25,6 @@ void	ft_echonoopt(char **allcmd)
 	dprintf(2, "allcmd:%s, arg:%s\n", *allcmd, *t_allcmd);
 	while (*t_allcmd != NULL)
 	{
-		dprintf(2, "arg:%s\n", *t_allcmd);
 		// printf("%s\n", *t_allcmd);
 		// fflush(stdout);
 		ft_putstr_fd(*t_allcmd, 1);

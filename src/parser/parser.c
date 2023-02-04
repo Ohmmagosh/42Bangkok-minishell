@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/04 22:06:21 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/04 23:23:57 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -441,8 +441,9 @@ void	parser(t_pro *p)
 
 	create_cmd_parser(p, p->lex.lst);
 	chk_redirect(p);
-
+	//printf("hello0000000\n");
 	//print_chk_cmd(p);
+
 
 
 	// char	*ft_expand(char *ptr, t_pro *p)
