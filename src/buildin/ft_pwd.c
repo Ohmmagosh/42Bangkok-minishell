@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:28:13 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/01/31 00:07:18 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/04 20:48:57 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void    ft_pwd(t_list **ownenv)
     // printf("get env pwd:%s\n", t_pwd);
     // ft_cutenvval(&t_pwd);
     t_pwd = getcwd(NULL, 0);
-    printf("res cmd:%s\n", t_pwd);
-    fflush(stdout);
+    // printf("res cmd:%s\n", t_pwd);
+    // fflush(stdout);
+    ft_putstr_fd(t_pwd, 1);
+    ft_putstr_fd("\n", 1);
     free(t_pwd);
 }
