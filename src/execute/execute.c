@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/04 21:47:21 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/04 22:07:07 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				}
 				dup2(p[i].re.pfd[0], STDIN_FILENO);
 			}
-
-			//dprintf(2, "hello 1 cmd\n");
 			dup2(p[i].re.infd, STDIN_FILENO);
 			dup2(p[i].re.outfd, STDOUT_FILENO);
 			close(p[i].re.infd);
@@ -151,6 +149,8 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				// 		call fn build in
 
 
+				// dup2(tmp_rd, 0);
+				// dup2(tmp_wr, 1);
 				//dup2(tmp_rd, 0);
 				//dup2(tmp_rd, 0);
 				//dup2(tmp_wr, 1);
@@ -161,6 +161,8 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				close(p[i].re.pfd[0]);
 				close(p[i].re.pfd[1]);
 			}
+			dup2(tmp_rd, 0);
+			dup2(tmp_wr, 1);
 		}
 		i++;
 	}
@@ -237,7 +239,7 @@ void	execute(t_pro *p, char **env)
 	//printf("%s----------execute----------%s\n", "\e[42m", "\e[0m");
 	//print_chk_cmd(p);
 	//exit(0);
-
+	//print_chk_cmd(p);
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
 	free_par(p);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/04 18:23:52 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/04 22:05:38 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,10 +146,13 @@ int	main(int argc, char **argv, char **env)
 				//dprintf(2,"%s----------hello----------%s\n", "\e[42m", "\e[0m");
 			}
 		}
-		else
+		dprintf(2, "ready\n");
+		lexer(&p);
+		if (p.lex.status)
 		{
-			printf("found exit\n");
-			exit (0);
+			parser(&p);
+			expander(&p);
+			execute(&p, env);
 		}
 	}
 	return 0;
