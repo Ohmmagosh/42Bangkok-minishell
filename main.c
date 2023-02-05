@@ -6,12 +6,13 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/05 03:14:46 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/05 15:04:08 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 // void	sig_handle(int signo, siginfo_t *info, void *ucontext)
 // {
@@ -127,24 +128,37 @@ int	main(int argc, char **argv, char **env)
 	{
 		// p.prompt = init_prompt();
 		p.lex.cmd = readline("\e[0;102mminishell->>\033[0m");
+
+		// printf("readline:%s\n", p.lex.cmd);
+		// printf("readline:%d\n", (int)(*p.lex.cmd));
+		// fflush(stdout);
+
 		if (p.lex.cmd != NULL)
 		{
-			add_history(p.lex.cmd);
-			if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
+			if (*p.lex.cmd != '\0')
 			{
-				ft_putendl_fd("exit", 1);
-				free(p.lex.cmd);
-				exit(0);
-			}
-			lexer(&p);
-			if (p.lex.status)
-			{
-				parser(&p);
-				expander(&p);
-				execute(&p, env);
-				//printf("hello\n");
+				dprintf(2, "found cmd\n");
+				add_history(p.lex.cmd);
+				if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
+				{
+					ft_putendl_fd("exit", 1);
+					free(p.lex.cmd);
+					exit(0);
+				}
+				lexer(&p);
+				if (p.lex.status)
+				{
+					parser(&p);
+					expander(&p);
+					execute(&p, env);
+					//printf("hello\n");
 
-				//dprintf(2,"%s----------hello----------%s\n", "\e[42m", "\e[0m");
+					//dprintf(2,"%s----------hello----------%s\n", "\e[42m", "\e[0m");
+				}
+			}
+			else
+			{
+				free(p.lex.cmd);
 			}
 		}
 		else
