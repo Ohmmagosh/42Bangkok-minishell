@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 15:46:06 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 19:39:45 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,11 @@ void	ft_budn_child(t_cmd *p, int i, t_list **ownenv)
 void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 {
 	int	i;
+	int	status;
 	int	tmp_rd;
 	int	tmp_wr;
 
+	// status = 127;
 	i = 1;
 	while (i < lencmd)
 	{
@@ -155,7 +157,10 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 
 			ft_budn_child(p, i, ownenv);
 
-			execve(p[i].allcmd[0], p[i].allcmd, env);
+			// dprintf(2, "bef execve\n");
+			
+			// execve(p[i].allcmd[0], p[i].allcmd, env);
+			status = execve(p[i].allcmd[0], p[i].allcmd, env);
 		}
 		else
 		{
@@ -196,8 +201,15 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 		i++;
 	}
 	// dprintf(2, "exit while i:%d, len:%d\n", i, lencmd);
-	while(wait(NULL) != -1);
+
+	// while(wait(NULL) != -1);
+	
 	//while(waitpid(p[i].re.pid, 0, WNOHANG) != -1);
+
+	// dprintf(2, "aft execve test:%d\n", status);
+	// g_status = WEXITSTATUS(status);
+	// dprintf(2, "g_status aft:%d\n", g_status);
+
 	i = 0;
 	// int	status;
 	while (i < lencmd)
@@ -208,15 +220,13 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 
 		waitpid(p[i].re.pid, &g_status, 0);
 
-		dprintf(2, "pid %d, status:%d wexit:%d\n", p[i].re.pid, g_status, WEXITSTATUS(g_status));
+		// dprintf(2, "pid %d, status:%d wexit:%d\n", p[i].re.pid, g_status, WEXITSTATUS(g_status));
 		g_status = WEXITSTATUS(g_status);
-		dprintf(2, "g_status aft:%d\n", g_status);
+		// dprintf(2, "g_status aft:%d\n", g_status);
 
 		i++;
 	}
 }
-
-
 
 void	print_chk_cmd(t_pro	*p)
 {

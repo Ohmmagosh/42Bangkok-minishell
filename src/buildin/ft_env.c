@@ -6,11 +6,27 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 23:26:27 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/06 15:54:29 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:19:14 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	ft_lstclr(t_list **lst)
+{
+	t_list	*tmplst0;
+	t_list	*tmplst1;
+
+	tmplst0 = *lst;
+	while (tmplst0 != NULL)
+	{
+		free(tmplst0->content);
+		tmplst1 = tmplst0->next;
+		free(tmplst0);
+		tmplst0 = tmplst1;
+	}
+	*lst = NULL;
+}
 
 void	ft_cpyenv(t_list **envlst, char **envp)
 {

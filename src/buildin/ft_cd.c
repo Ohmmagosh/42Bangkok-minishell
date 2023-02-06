@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 21:59:55 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/05 22:25:58 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:41:10 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ void	ft_cd(t_list **ownenv, char *t_path)
 	perm = ft_chk_perm(path);
 	if ((perm & (0b1000)) == 0)
 	{
-		write(1, "No Such File or Directory\n", 26);
+		// write(1, "No Such File or Directory\n", 26);
+		write(1, "hell No Such File or Directory\n", 31);
 		exit (1);
 	}
 	else

@@ -6,12 +6,12 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 20:26:28 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/05 00:20:15 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/05 22:26:21 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void    ft_exit()
+void	ft_exit()
 {
 }
