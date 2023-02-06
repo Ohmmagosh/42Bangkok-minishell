@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 23:49:55 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/07 00:34:26 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				unlink(p[i].heredoc);
 
 			ft_budn_child(p, i, ownenv);
-			dprintf(2, "child\n");
+			// dprintf(2, "child\n");
 			// dprintf(2, "bef execve\n");
 
 			// execve(p[i].allcmd[0], p[i].allcmd, env);

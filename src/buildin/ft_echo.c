@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:46:05 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/05 23:03:08 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/07 00:34:04 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ void	ft_echonoopt(char **allcmd)
 		// printf("%s\n", *t_allcmd);
 		// fflush(stdout);
 		ft_putstr_fd(*t_allcmd, 1);
-		ft_putstr_fd("\n", 1);
+		if ((t_allcmd + 1) != NULL)
+			ft_putstr_fd(" ", 1);
 		// dprintf(2, "fin putstr fd\n");
 		t_allcmd++;
 		// i++;
 		// dprintf(2, "status all cmd %p, i:%d\n", t_allcmd, i);
 	}
+		ft_putstr_fd("\n", 1);
 	// dprintf(2, "allcmd:%s, arg:%s, i:%d\n", *allcmd, (*t_allcmd) - 1, i);
 	// dprintf(2, "hello\n");
 }
