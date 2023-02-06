@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 23:00:26 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/07 00:12:36 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,15 @@ int	here_doc_utils(char *name, char *eof)
 {
 	char	*line;
 	int		fd;
+	int		len;
 
 	fd = open(name, O_CREAT | O_RDWR | O_APPEND , 0777);
+	len = ft_strlen(eof);
 	while (1)
 	{
 		write(1, ">", 1);
 		line = get_next_line(0);
-		if (!ft_strncmp(line, eof, ft_strlen(eof)))
+		if (!ft_strncmp(line, eof, len))
 		{
 			free(line);
 			break ;
