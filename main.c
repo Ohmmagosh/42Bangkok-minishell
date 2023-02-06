@@ -6,13 +6,11 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/05 15:04:08 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 16:35:27 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 // void	sig_handle(int signo, siginfo_t *info, void *ucontext)
 // {
@@ -99,6 +97,9 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+
+	// g_status = 10;
+	
 	//in = dup(0);
 	//out = dup(1);
 	// struct sigaction	sig_quit;
@@ -137,7 +138,7 @@ int	main(int argc, char **argv, char **env)
 		{
 			if (*p.lex.cmd != '\0')
 			{
-				dprintf(2, "found cmd\n");
+				// dprintf(2, "found cmd\n");
 				add_history(p.lex.cmd);
 				if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
 				{

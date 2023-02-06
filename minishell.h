@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/05 01:21:52 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 14:51:21 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-#include <sys/_types/_pid_t.h>
 # include <sys/signal.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -27,6 +26,8 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <curses.h>
+
+int	g_status;
 
 //typedef struct s_execute
 //{

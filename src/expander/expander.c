@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 01:27:24 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/05 03:11:55 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 15:36:36 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ char	*ft_getenvval(char **ptrst, char **ptrend, t_pro *p)
 	// printf("envst:%d envend:%d\n", (int)(*envst), (int)(*envend));
 	// printf("env name:%s\n", pchr);
 	penv = ft_getenv(&p->ownenv, pchr);
+	// dprintf(2, "getenvval:%s\n", penv);
 	if (penv != NULL)
 	{
 		// printf("env val:%s\n", penv);
@@ -189,10 +190,10 @@ char	*ft_clenptr(char *ptr, t_pro *p)
 	char	*t_res0;
 	// char	*t_res1;
 
-	int	i = 0;
+	// int	i = 0;
 
 	// dprintf(2, "cmd bef clean:%s\n", ptr);
-	
+
 	ptrst = ptr;
 	res = NULL;
 	while (*ptrst != '\0')
@@ -257,6 +258,7 @@ char	*ft_clenptr(char *ptr, t_pro *p)
 				else
 				{
 					t_res0 = ft_getenvval(&ptrst, &ptrend, p);
+					// dprintf(2, "expander $? t_res0:%s\n", t_res0);
 					ft_joinres(&res, &t_res0);
 
 					// if (res == NULL)
@@ -293,7 +295,10 @@ char	*ft_clenptr(char *ptr, t_pro *p)
 			// printf("case env\n");
 			// fflush(stdout);
 
+			// dprintf(2, "expander $? t_res0 bef:%s\n", t_res0);
 			t_res0 = ft_getenvval(&ptrst, &ptrend, p);
+			// dprintf(2, "expander $? t_res0 aft:%s\n", t_res0);
+			// fflush(stderr);
 			// printf("case $ res0:%s\n", t_res0);
 			// fflush(stdout);
 			ft_joinres(&res, &t_res0);
@@ -356,7 +361,7 @@ char	*ft_clenptr(char *ptr, t_pro *p)
 		// if (*ptrst != '\0')
 		// // if ((*ptrst != '$') && (*ptrst != '\0'))
 		// 	ptrst++;
-		i++;
+		// i++;
 	}
 	return (res);
 }

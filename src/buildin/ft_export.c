@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:34:25 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/05 00:50:04 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/05 22:31:18 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	ft_export(t_list **lstenv, char *arg)
 	char	*envname;
 	char	*tmpenvname;
 
-    printf("fn export\n");
-	printf("arg:%s\n", arg);
+    // printf("fn export\n");
+	// printf("arg:%s\n", arg);
 	envend = arg;
 	while (*envend != '=')
 		envend++;
@@ -52,15 +52,15 @@ void	ft_export(t_list **lstenv, char *arg)
 		envst++;
 	}
 	*tmpenvname = '\0';
-	printf("arg cut:%s\n", envname);
+	// printf("arg cut:%s\n", envname);
 
 	tlstenv = ft_findnodeenv(lstenv, envname);
 	if (tlstenv == NULL)
 		ft_lstadd_back(lstenv, ft_lstnew(ft_strdup(arg)));
 	else
 	{
-		printf("show env:%s\n", (char *)tlstenv->content);
-		fflush(stdout);
+		// printf("show env:%s\n", (char *)tlstenv->content);
+		// fflush(stdout);
 		free(tlstenv->content);
 		tlstenv->content = ft_strdup(arg);
 	}

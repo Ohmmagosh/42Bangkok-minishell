@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 23:26:27 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/05 00:11:10 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 15:54:29 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,22 @@ t_list	*ft_findnodeenv(t_list **lstenv, char *env)
 	return (NULL);
 }
 
+char	*ft_createStatus(void)
+{
+	char	*env;
+	char	*tmp_chr;
+	
+	env = ft_strdup("?=");
+	tmp_chr = ft_itoa(g_status);
+	while (*tmp_chr != '\0')
+	{
+		env = join_char(env, *tmp_chr);
+		tmp_chr++;
+	}
+	// dprintf(2, "getenv ret:%s\n", env);
+	return (env);
+}
+
 // chk for $(name)
 // env need to be in form $(env_name)
 // return value of env if env exist
@@ -86,6 +102,12 @@ char	*ft_getenv(t_list **lstenv, char *envvar)
 	size_t	siz;
 	t_list	*noderes;
 
+	// dprintf(2, "fn getenv envvar:%s\n", envvar);
+	if (ft_strncmp(envvar, "$?", ft_strlen(envvar)) == 0)
+	{
+		env = ft_createStatus();
+		return (env);
+	}
 	noderes = ft_findnodeenv(lstenv, envvar);
 	if(noderes != NULL)
 	{
