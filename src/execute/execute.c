@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 20:31:10 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:59:49 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,4 +249,6 @@ void	print_chk_cmd(t_pro	*p)
 void	execute(t_pro *p, char **env)
 {
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
+	free_par(p);
+	free_lex(p);
 }

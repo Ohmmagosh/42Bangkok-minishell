@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 20:35:24 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:59:44 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ char	ft_chk_perm(char *path);
 // EXECUTER
 void	free_par(t_pro *p);
 void	execute(t_pro *p, char **env);
+void	free_lex(t_pro *p);
 
 // BUILDINFUNCTION
 void	ft_echonoopt(char **allcmd);
