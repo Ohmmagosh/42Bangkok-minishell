@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 20:26:28 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/06 20:59:09 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/06 21:22:17 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ void	free_par(t_pro *p)
 		{
 			free(p->par.cmd[i].error);
 			p->par.cmd[i].error = NULL;
+		}
+		if (!p->par.cmd[i].heredoc)
+		{
+			unlink(p->par.cmd[i].heredoc);
+			free(p->par.cmd[i].heredoc);
+			p->par.cmd[i].heredoc = NULL;
 		}
 		while (p->par.cmd[i].allcmd[j])
 		{
