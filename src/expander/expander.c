@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 01:27:24 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 15:36:36 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 23:14:24 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -511,15 +511,17 @@ void	expander(t_pro *p)
 	int	i;
 
 	i = 0;
-	//printf("%s----------hello expand----------%s\n", "\e[42m", "\e[0m");
 	while (i < p->par.size)
 	{
 		new_expand(&p->par.cmd[i], p);
-		if (p->par.cmd[i].allcmd == NULL)
+		if (p->par.cmd[i].allcmd != NULL)
+		{
 			p->par.cmd[i].cmd = NULL;
+		}
 		else
+		{
 			p->par.cmd[i].cmd = ft_strdup(p->par.cmd[i].allcmd[0]);
+		}
 		i++;
 	}
-	//print_chk_cmd(p);
 }

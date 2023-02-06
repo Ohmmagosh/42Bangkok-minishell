@@ -6,12 +6,13 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 20:27:57 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/06 23:00:26 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include <sys/fcntl.h>
+#include <unistd.h>
 
 char	*file_name_here_doc(int	idx, int cmd)
 {
@@ -40,7 +41,7 @@ int	here_doc_utils(char *name, char *eof)
 	fd = open(name, O_CREAT | O_RDWR | O_APPEND , 0777);
 	while (1)
 	{
-		write(1, "heredoc->", 9);
+		write(1, ">", 1);
 		line = get_next_line(0);
 		if (!ft_strncmp(line, eof, ft_strlen(eof)))
 		{
@@ -265,6 +266,7 @@ int	get_heredoc(t_cmd *p, char *eof, int i)
 	p->re.infd = here_doc_utils(name, eof);
 	p->heredoc = ft_strdup(name);
 	free(name);
+	name = NULL;
 	return (1);
 }
 
@@ -403,7 +405,6 @@ void	chk_redirect(t_pro *p)
 		while (p->par.cmd[i].error == NULL)
 		{
 			get_redirect_fd(&p->par.cmd[i], p->par.cmd[i].allcmd);
-
 		}
 		i++;
 	}
@@ -417,16 +418,7 @@ void	chk_redirect(t_pro *p)
 
 void	parser(t_pro *p)
 {
-
 	create_cmd_parser(p, p->lex.lst);
 	chk_redirect(p);
-	//printf("hello0000000\n");
-	//print_chk_cmd(p);
-
-
-
-	// char	*ft_expand(char *ptr, t_pro *p)
 }
 
-
-//<in1<in2<in3<<eof>o1>o2>o3 | <in_1<in_2<in_3<<eof>o_1>o_2 |<<eof <<eof <<eof > o_2_1

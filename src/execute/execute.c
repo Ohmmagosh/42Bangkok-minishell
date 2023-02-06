@@ -6,14 +6,19 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 20:59:49 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/06 23:49:55 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stdio.h>
 
 void	ft_budn_parent(t_cmd *p, int i, t_list **ownenv)
 {
+	if (p[i].allcmd[0] == (void *)0)
+	{
+		return ;
+	}
 	if ((ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
 		(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
 		(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
@@ -50,13 +55,19 @@ void	ft_budn_parent(t_cmd *p, int i, t_list **ownenv)
 
 void	ft_budn_child(t_cmd *p, int i, t_list **ownenv)
 {
+	if (p[i].allcmd[0] == (void *)0)
+	{
+		//dprintf(2, "found NULL string\n");
+		exit(1);
+	}
+
 	if ((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
 		(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
 		(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
 		(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
 		(ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) == 0) || \
 		(ft_strncmp(p[i].allcmd[0], "env", ft_strlen(p[i].allcmd[0]))== 0) || \
-		(ft_strncmp(p[i].allcmd[0], "exit", ft_strlen(p[i].allcmd[0])) == 0) )
+		(ft_strncmp(p[i].allcmd[0], "exit", ft_strlen(p[i].allcmd[0])) == 0))
 	{
 		if (ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0)
 		{
@@ -152,7 +163,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 				unlink(p[i].heredoc);
 
 			ft_budn_child(p, i, ownenv);
-
+			dprintf(2, "child\n");
 			// dprintf(2, "bef execve\n");
 
 			// execve(p[i].allcmd[0], p[i].allcmd, env);
@@ -198,7 +209,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 	}
 	// dprintf(2, "exit while i:%d, len:%d\n", i, lencmd);
 
-	// while(wait(NULL) != -1);
+	//while(wait(NULL) != -1);
 
 	//while(waitpid(p[i].re.pid, 0, WNOHANG) != -1);
 
@@ -248,6 +259,7 @@ void	print_chk_cmd(t_pro	*p)
 
 void	execute(t_pro *p, char **env)
 {
+
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
 	free_par(p);
 	free_lex(p);
