@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 20:22:18 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:31:10 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,47 +245,8 @@ void	print_chk_cmd(t_pro	*p)
 	}
 }
 
-void	free_par_utils(t_cmd *p)
-{
-	int	i;
-
-	i = 0;
-	while (p->allcmd[i])
-	{
-		free(p->allcmd[i]);
-		i++;
-	}
-	if (!p->allcmd)
-		free(p->allcmd);
-	if (!p->cmd)
-		free(p->cmd);
-	if (!p->error)
-		free(p->error);
-	if (p[i].heredoc != NULL)
-		unlink(p[i].heredoc);
-	free(p->heredoc);
-}
-
-void	free_par(t_pro *p)
-{
-		int	i = 0;
-	int	j = 0;
-	while (i < p->par.size)
-	{
-		j = 0;
-		free(p->par.cmd[i].cmd);
-		free(p->par.cmd[i].error);
-		while (p->par.cmd[i].allcmd[j])
-		{
-			free(p->par.cmd[i].allcmd[j]);
-			j++;
-		}
-		i++;
-	}
-}
 
 void	execute(t_pro *p, char **env)
 {
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
-	// free_par(p);
 }

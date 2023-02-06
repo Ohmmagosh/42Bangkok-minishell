@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 20:24:26 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:35:24 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,6 @@
 # include <curses.h>
 
 int	g_status;
-
-//typedef struct s_execute
-//{
-//	int			pipe_fd[2];
-//	int			pid;
-//}				t_exe;
 
 typedef struct s_lexlst
 {
@@ -94,12 +88,12 @@ void	parser(t_pro *p);
 void	expander(t_pro *p);
 void	ft_freesplit(char ***split);
 char	ft_chk_perm(char *path);
-// char	*expander(char *s);
+
 // EXECUTER
 void	free_par(t_pro *p);
 void	execute(t_pro *p, char **env);
+
 // BUILDINFUNCTION
-// void	ft_echo(t_pro *p);
 void	ft_echonoopt(char **allcmd);
 void	ft_echowtopt(char **allcmd);
 void	ft_pwd(t_list **ownenv);
