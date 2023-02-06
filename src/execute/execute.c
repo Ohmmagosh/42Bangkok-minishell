@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 20:16:49 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:22:18 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,5 +287,5 @@ void	free_par(t_pro *p)
 void	execute(t_pro *p, char **env)
 {
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
-	free_par(p);
+	// free_par(p);
 }

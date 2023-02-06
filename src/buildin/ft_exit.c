@@ -6,12 +6,14 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 20:26:28 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/05 22:26:21 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:23:09 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_exit()
+void	ft_exit(t_pro *p)
 {
+    ft_lstclr(&(p->ownenv));
+    free_par(p);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 16:17:38 by psuanpro          #+#    #+#              #
-#    Updated: 2023/02/03 19:08:38 by psuanpro         ###   ########.fr        #
+#    Updated: 2023/02/06 20:23:56 by psrikamo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ BUILDIN = src/buildin/ft_echo.c \
 			src/buildin/ft_export.c \
 			src/buildin/ft_unset.c \
 			src/buildin/ft_cd.c \
+			src/buildin/ft_exit.c \
 			src/buildin/ft_pwd.c
 
 EXECUTE = src/execute/execute.c

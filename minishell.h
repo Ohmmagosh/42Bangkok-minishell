@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 14:51:21 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:24:26 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	ft_freesplit(char ***split);
 char	ft_chk_perm(char *path);
 // char	*expander(char *s);
 // EXECUTER
+void	free_par(t_pro *p);
 void	execute(t_pro *p, char **env);
 // BUILDINFUNCTION
 // void	ft_echo(t_pro *p);
@@ -108,11 +109,11 @@ void	ft_cpyenv(t_list **envlst, char **envp);
 t_list	*ft_findnodeenv(t_list **lstenv, char *env);
 char	*ft_getenv(t_list **lstenv, char *envvar);
 void	ft_cutenvval(char **val);
+void	ft_lstclr(t_list **lst);
 void	ft_env(t_list **lstenv);
 void	ft_export(t_list **lstenv, char *arg);
 void	ft_exportNull(t_list **lstenv);
 void	ft_unset(t_list **lstenv, char *arg);
-
 
 void	print_chk_cmd(t_pro *p);
 #endif
