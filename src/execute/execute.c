@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 19:39:45 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:16:49 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <unistd.h>
 
 void	ft_budn_parent(t_cmd *p, int i, t_list **ownenv)
 {
@@ -158,7 +154,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 			ft_budn_child(p, i, ownenv);
 
 			// dprintf(2, "bef execve\n");
-			
+
 			// execve(p[i].allcmd[0], p[i].allcmd, env);
 			status = execve(p[i].allcmd[0], p[i].allcmd, env);
 		}
@@ -203,7 +199,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 	// dprintf(2, "exit while i:%d, len:%d\n", i, lencmd);
 
 	// while(wait(NULL) != -1);
-	
+
 	//while(waitpid(p[i].re.pid, 0, WNOHANG) != -1);
 
 	// dprintf(2, "aft execve test:%d\n", status);
@@ -272,24 +268,24 @@ void	free_par_utils(t_cmd *p)
 
 void	free_par(t_pro *p)
 {
-	int	i;
-
-	i = 0;
+		int	i = 0;
+	int	j = 0;
 	while (i < p->par.size)
 	{
-		free_par_utils(&p->par.cmd[i]);
+		j = 0;
+		free(p->par.cmd[i].cmd);
+		free(p->par.cmd[i].error);
+		while (p->par.cmd[i].allcmd[j])
+		{
+			free(p->par.cmd[i].allcmd[j]);
+			j++;
+		}
 		i++;
 	}
-	free(p->par.cmd);
 }
 
 void	execute(t_pro *p, char **env)
 {
-	//printf("%s----------execute----------%s\n", "\e[42m", "\e[0m");
-	//print_chk_cmd(p);
-	//exit(0);
-	//print_chk_cmd(p);
 	executer(p->par.cmd, env, p->par.size, &(p->ownenv));
-	//printf("helllo234567890\n");
-	//
+	free_par(p);
 }
