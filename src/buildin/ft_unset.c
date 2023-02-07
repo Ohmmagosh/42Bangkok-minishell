@@ -6,11 +6,13 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:34:37 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/05 22:28:42 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/07 16:50:06 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+extern int	g_status;
 
 // arg must be (envname)
 void	ft_unset(t_list **lstenv, char *arg)

@@ -6,11 +6,13 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 23:26:27 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/06 18:19:14 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/07 16:20:35 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+extern int	g_status;
 
 void	ft_lstclr(t_list **lst)
 {
@@ -96,7 +98,7 @@ char	*ft_createStatus(void)
 {
 	char	*env;
 	char	*tmp_chr;
-	
+
 	env = ft_strdup("?=");
 	tmp_chr = ft_itoa(g_status);
 	while (*tmp_chr != '\0')

@@ -6,11 +6,13 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 21:59:55 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/06 23:05:11 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:41:44 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+extern int	g_status;
 
 char	*ft_gethome(t_list **ownenv)
 {
@@ -20,7 +22,9 @@ char	*ft_gethome(t_list **ownenv)
 	if (homenv == NULL)
 	{
 		printf("$HOME not exist\n");
-		exit(1);
+		g_status = 1;
+		return (NULL);
+		// exit(1);
 	}
 	else
 	{
@@ -92,8 +96,10 @@ void	ft_cd(t_list **ownenv, char *t_path)
 	path = ft_chgtilde(t_path, ownenv);
 	if (((ft_chk_perm(path)) & (0b1000)) == 0)
 	{
-		write(1, "hell No Such File or Directory\n", 31);
-		exit (1);
+		write(1, "minihell No Such File or Directory\n", 35);
+		g_status = 1;
+		return ;
+		// exit (1);
 	}
 	else
 	{
@@ -102,12 +108,14 @@ void	ft_cd(t_list **ownenv, char *t_path)
 		{
 			ft_crate_oldpwd(ownenv, &t_chr);
 			ft_create_pwd(ownenv);
+			g_status = 0;
 		}
 		else
 		{
 			free(t_chr);
 			write(1, "Cannot change directory\n", 24);
-			exit(1);
+			g_status = 1;
+			// exit(1);
 		}
 	}
 	free(path);

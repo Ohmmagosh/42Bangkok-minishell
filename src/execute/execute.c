@@ -6,12 +6,15 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/07 00:34:26 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:40:41 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <readline/chardefs.h>
 #include <stdio.h>
+
+extern int	g_status;
 
 void	ft_budn_parent(t_cmd *p, int i, t_list **ownenv)
 {
@@ -113,11 +116,32 @@ void	ft_budn_child(t_cmd *p, int i, t_list **ownenv)
 void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 {
 	int	i;
+	int	runbuldncmdpar;
 	int	status;
 	int	tmp_rd;
 	int	tmp_wr;
 
+	// runbuldncmdpar = 0;
+	// dprintf(2, "hello\n");
+	// dprintf(2, "cmd:%s\n", p[i].allcmd[0]);
+	// if (p[i].allcmd[0] != NULL)
+	// {
+	// 	dprintf(2, "in if\n");
+	// 	if ((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) != 0) && \
+	// 		(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) != 0) && \
+	// 		(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) != 0) && \
+	// 		(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) != 0) && \
+	// 		(ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) != 0) && \
+	// 		(ft_strncmp(p[i].allcmd[0], "env", ft_strlen(p[i].allcmd[0])) != 0) && \
+	// 		(ft_strncmp(p[i].allcmd[0], "exit", ft_strlen(p[i].allcmd[0])) != 0))
+	// 	{
+	// 		runbuldncmdpar = 1;
+	// 	}
+	// }
+	// dprintf(2, "end hello:%d\n", runbuldncmdpar);
+
 	// status = 127;
+	// runbuldncmdpar = 0;
 	i = 1;
 	while (i < lencmd)
 	{
@@ -127,6 +151,7 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 	i = 0;
 	tmp_rd = dup(0);
 	tmp_wr = dup(1);
+	// dprintf(2, "bef execve or build-in cmd:%d\n", runbuldncmdpar);
 	while (i < lencmd)
 	{
 		p[i].re.pid = fork();
@@ -217,22 +242,69 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 	// g_status = WEXITSTATUS(status);
 	// dprintf(2, "g_status aft:%d\n", g_status);
 
+
+	// dprintf(2, "status from cmd:%s\n", p[i].allcmd[0]);
 	i = 0;
-	// int	status;
 	while (i < lencmd)
 	{
-		// waitpid(p[i].re.pid, &status, 0);
+		waitpid(p[i].re.pid, &status, 0);
+		// if (((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) == 0) || \
+		// 	(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
+		// 	(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) == 0) || \
+		// 	(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
+		// 	(ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) == 0) || \
+		// 	(ft_strncmp(p[i].allcmd[0], "env", ft_strlen(p[i].allcmd[0]))== 0) || \
+		// 	(ft_strncmp(p[i].allcmd[0], "exit", ft_strlen(p[i].allcmd[0])) == 0)))
 
-		// dprintf(2, "pid %d, status:%d wexit:%d\n", p[i].re.pid, status, WEXITSTATUS(status));
+		// if (((ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
+		// 	(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
+		// 	(ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) == 0) || \
+		// 	(ft_strncmp(p[i].allcmd[0], "exit", ft_strlen(p[i].allcmd[0])) == 0)))
+		// {
+		// 	// dprintf(2, "found build in cmd\n");
+		// 	g_status = g_status;
+		// }
+		// else
+		// {
+		// 	status = WEXITSTATUS(status);
+		// 	g_status = status;
+		// }
 
-		waitpid(p[i].re.pid, &g_status, 0);
-
-		// dprintf(2, "pid %d, status:%d wexit:%d\n", p[i].re.pid, g_status, WEXITSTATUS(g_status));
-		g_status = WEXITSTATUS(g_status);
-		// dprintf(2, "g_status aft:%d\n", g_status);
-
+		if (!(((ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
+			(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
+			(ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) == 0) || \
+			(ft_strncmp(p[i].allcmd[0], "exit", ft_strlen(p[i].allcmd[0])) == 0))))
+		{
+			status = WEXITSTATUS(status);
+			g_status = status;
+		}
 		i++;
 	}
+
+	// while (i < lencmd)
+	// {
+	// 	waitpid(p[i].re.pid, &status, 0);
+	// 	status = WEXITSTATUS(status);
+	// 	i++;
+	// }
+
+	// int	status;
+	// while (i < lencmd)
+	// {
+	// 	// waitpid(p[i].re.pid, &status, 0);
+
+	// 	// dprintf(2, "pid %d, status:%d wexit:%d\n", p[i].re.pid, status, WEXITSTATUS(status));
+
+	// 	waitpid(p[i].re.pid, &status, 0);
+	// 	// dprintf(2, "status from cmd:%s\n", p[i].allcmd[0]);
+
+	// 	// dprintf(2, "pid %d, status:%d wexit:%d\n", p[i].re.pid, g_status, WEXITSTATUS(g_status));
+	// 	status = WEXITSTATUS(status);
+	// 	// dprintf(2, "g_status aft:%d\n", g_status);
+
+	// 	i++;
+	// }
+	// g_status = status;
 }
 
 void	print_chk_cmd(t_pro	*p)

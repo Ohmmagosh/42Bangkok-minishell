@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/06 20:59:44 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:02:42 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <curses.h>
-
-int	g_status;
 
 typedef struct s_lexlst
 {
@@ -98,7 +96,7 @@ void	free_lex(t_pro *p);
 void	ft_echonoopt(char **allcmd);
 void	ft_echowtopt(char **allcmd);
 void	ft_pwd(t_list **ownenv);
-void    ft_cd(t_list **ownenv, char *t_path);
+void	ft_cd(t_list **ownenv, char *t_path);
 char	*init_prompt(void);
 void	ft_cpyenv(t_list **envlst, char **envp);
 t_list	*ft_findnodeenv(t_list **lstenv, char *env);
@@ -109,6 +107,7 @@ void	ft_env(t_list **lstenv);
 void	ft_export(t_list **lstenv, char *arg);
 void	ft_exportNull(t_list **lstenv);
 void	ft_unset(t_list **lstenv, char *arg);
+void	ft_exit(t_pro *p);
 
 void	print_chk_cmd(t_pro *p);
 #endif

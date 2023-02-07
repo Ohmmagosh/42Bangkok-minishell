@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 20:26:28 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/06 23:11:46 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/07 16:50:13 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+extern int	g_status;
 
 void	free_lex(t_pro *p)
 {

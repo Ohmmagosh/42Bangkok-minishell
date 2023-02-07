@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/07 00:08:15 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:47:25 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_status;
 
 void	sig_handle(int signo, siginfo_t *info, void *ucontext)
 {
@@ -64,8 +66,10 @@ int	main(int argc, char **argv, char **env)
 				add_history(p.lex.cmd);
 				if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
 				{
-					ft_putendl_fd("exit", 1);
+					// ft_putendl_fd("exit", 1);
+					ft_putendl_fd("minishell exit", 1);
 					free(p.lex.cmd);
+					ft_exit(&p);
 					exit(0);
 				}
 				lexer(&p);
@@ -82,6 +86,7 @@ int	main(int argc, char **argv, char **env)
 		else
 		{
 			write(1, "Found Ctrl+D => exit\n", 21);
+			ft_exit(&p);
 			exit(0);
 		}
 	}

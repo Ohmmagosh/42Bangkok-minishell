@@ -6,11 +6,13 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:34:25 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/05 22:31:18 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/07 16:49:59 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+extern int	g_status;
 
 void	ft_exportNull(t_list **lstenv)
 {
