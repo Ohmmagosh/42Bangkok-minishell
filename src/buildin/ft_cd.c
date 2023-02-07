@@ -6,32 +6,13 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 21:59:55 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/07 19:41:44 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 01:03:44 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 extern int	g_status;
-
-char	*ft_gethome(t_list **ownenv)
-{
-	char	*homenv;
-
-	homenv = ft_getenv(ownenv, "$HOME");
-	if (homenv == NULL)
-	{
-		printf("$HOME not exist\n");
-		g_status = 1;
-		return (NULL);
-		// exit(1);
-	}
-	else
-	{
-		ft_cutenvval(&homenv);
-	}
-	return (homenv);
-}
 
 char	*ft_chgtilde(char *t_path, t_list **ownenv)
 {
@@ -88,6 +69,16 @@ void	ft_create_pwd(t_list **ownenv)
 	free(t_chr2);
 }
 
+void	ft_cderr(char **path)
+{
+	char	*t_chr;
+
+	t_chr = *path;
+	free(t_chr);
+	write(1, "Cannot change directory\n", 24);
+	g_status = 1;
+}
+
 void	ft_cd(t_list **ownenv, char *t_path)
 {
 	char	*path;
@@ -99,7 +90,6 @@ void	ft_cd(t_list **ownenv, char *t_path)
 		write(1, "minihell No Such File or Directory\n", 35);
 		g_status = 1;
 		return ;
-		// exit (1);
 	}
 	else
 	{
@@ -108,15 +98,9 @@ void	ft_cd(t_list **ownenv, char *t_path)
 		{
 			ft_crate_oldpwd(ownenv, &t_chr);
 			ft_create_pwd(ownenv);
-			g_status = 0;
 		}
 		else
-		{
-			free(t_chr);
-			write(1, "Cannot change directory\n", 24);
-			g_status = 1;
-			// exit(1);
-		}
+			ft_cderr(&t_chr);
 	}
 	free(path);
 }

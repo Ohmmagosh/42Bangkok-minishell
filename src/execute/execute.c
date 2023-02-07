@@ -6,12 +6,11 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 17:46:22 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/07 19:40:41 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 05:04:26 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <readline/chardefs.h>
 #include <stdio.h>
 
 extern int	g_status;
@@ -40,7 +39,7 @@ void	ft_budn_parent(t_cmd *p, int i, t_list **ownenv)
 			}
 			else
 			{
-				ft_exportNull(ownenv);
+				ft_exportnull(ownenv);
 			}
 		}
 		else if (ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) == 0)
@@ -116,32 +115,11 @@ void	ft_budn_child(t_cmd *p, int i, t_list **ownenv)
 void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 {
 	int	i;
-	int	runbuldncmdpar;
 	int	status;
 	int	tmp_rd;
 	int	tmp_wr;
 
-	// runbuldncmdpar = 0;
-	// dprintf(2, "hello\n");
-	// dprintf(2, "cmd:%s\n", p[i].allcmd[0]);
-	// if (p[i].allcmd[0] != NULL)
-	// {
-	// 	dprintf(2, "in if\n");
-	// 	if ((ft_strncmp(p[i].allcmd[0], "echo", ft_strlen(p[i].allcmd[0])) != 0) && \
-	// 		(ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) != 0) && \
-	// 		(ft_strncmp(p[i].allcmd[0], "pwd", ft_strlen(p[i].allcmd[0])) != 0) && \
-	// 		(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) != 0) && \
-	// 		(ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) != 0) && \
-	// 		(ft_strncmp(p[i].allcmd[0], "env", ft_strlen(p[i].allcmd[0])) != 0) && \
-	// 		(ft_strncmp(p[i].allcmd[0], "exit", ft_strlen(p[i].allcmd[0])) != 0))
-	// 	{
-	// 		runbuldncmdpar = 1;
-	// 	}
-	// }
-	// dprintf(2, "end hello:%d\n", runbuldncmdpar);
-
-	// status = 127;
-	// runbuldncmdpar = 0;
+	g_status = 0;
 	i = 1;
 	while (i < lencmd)
 	{
@@ -151,7 +129,6 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 	i = 0;
 	tmp_rd = dup(0);
 	tmp_wr = dup(1);
-	// dprintf(2, "bef execve or build-in cmd:%d\n", runbuldncmdpar);
 	while (i < lencmd)
 	{
 		p[i].re.pid = fork();
@@ -270,14 +247,25 @@ void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv)
 		// 	g_status = status;
 		// }
 
-		if (!(((ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
-			(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
-			(ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) == 0) || \
-			(ft_strncmp(p[i].allcmd[0], "exit", ft_strlen(p[i].allcmd[0])) == 0))))
+		if (p[i].allcmd[0] != NULL)
 		{
-			status = WEXITSTATUS(status);
-			g_status = status;
+			if (!(((ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
+				(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
+				(ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) == 0) || \
+				(ft_strncmp(p[i].allcmd[0], "exit", ft_strlen(p[i].allcmd[0])) == 0))))
+			{
+				status = WEXITSTATUS(status);
+				g_status = status;
+			}
 		}
+		// if (!(((ft_strncmp(p[i].allcmd[0], "cd", ft_strlen(p[i].allcmd[0])) == 0) || \
+		// 	(ft_strncmp(p[i].allcmd[0], "export", ft_strlen(p[i].allcmd[0])) == 0) || \
+		// 	(ft_strncmp(p[i].allcmd[0], "unset", ft_strlen(p[i].allcmd[0])) == 0) || \
+		// 	(ft_strncmp(p[i].allcmd[0], "exit", ft_strlen(p[i].allcmd[0])) == 0))))
+		// {
+		// 	status = WEXITSTATUS(status);
+		// 	g_status = status;
+		// }
 		i++;
 	}
 

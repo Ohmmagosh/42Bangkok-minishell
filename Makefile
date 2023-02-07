@@ -6,7 +6,7 @@
 #    By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 16:17:38 by psuanpro          #+#    #+#              #
-#    Updated: 2023/02/06 20:23:56 by psrikamo         ###   ########.fr        #
+#    Updated: 2023/02/08 02:16:52 by psrikamo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,14 +33,22 @@ LEXER = src/lexer/lexer.c
 
 PARSER = src/parser/parser.c
 
-EXPANDER = src/expander/expander.c
+EXPANDER = src/expander/expander.c \
+			src/expander/expander_utils0.c \
+			src/expander/expander_utils1.c \
+			src/expander/expander_utils2.c \
+			src/expander/expander_utils3.c \
+			src/expander/expander_utils4.c \
 
 BUILDIN = src/buildin/ft_echo.c \
 			src/buildin/ft_env.c \
+			src/buildin/ft_env_utils.c \
 			src/buildin/ft_export.c \
 			src/buildin/ft_unset.c \
 			src/buildin/ft_cd.c \
+			src/buildin/ft_cd_utils.c \
 			src/buildin/ft_exit.c \
+			src/buildin/ft_exit_utils.c \
 			src/buildin/ft_pwd.c
 
 EXECUTE = src/execute/execute.c

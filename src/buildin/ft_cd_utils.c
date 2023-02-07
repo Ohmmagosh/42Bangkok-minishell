@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_cd_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/14 22:46:05 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/07 19:59:20 by psrikamo         ###   ########.fr       */
+/*   Created: 2023/02/08 01:00:52 by psrikamo          #+#    #+#             */
+/*   Updated: 2023/02/08 01:21:44 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,20 @@
 
 extern int	g_status;
 
-void	ft_echonoopt(char **allcmd)
+char	*ft_gethome(t_list **ownenv)
 {
-	char	**t_allcmd;
+	char	*homenv;
 
-	t_allcmd = allcmd + 1;
-	while (*t_allcmd != NULL)
+	homenv = ft_getenv(ownenv, "$HOME");
+	if (homenv == NULL)
 	{
-		ft_putstr_fd(*t_allcmd, 1);
-		if ((t_allcmd + 1) != NULL)
-			ft_putstr_fd(" ", 1);
-		t_allcmd++;
+		printf("$HOME not exist\n");
+		g_status = 1;
+		return (NULL);
 	}
-	ft_putstr_fd("\n", 1);
-}
-
-void	ft_echowtopt(char **allcmd)
-{
-	char	**t_allcmd;
-
-	t_allcmd = allcmd + 2;
-	while (*t_allcmd != NULL)
+	else
 	{
-		ft_putstr_fd(*t_allcmd, 1);
-		t_allcmd++;
+		ft_cutenvval(&homenv);
 	}
+	return (homenv);
 }

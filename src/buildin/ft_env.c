@@ -6,58 +6,13 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 23:26:27 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/07 16:20:35 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 01:28:12 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 extern int	g_status;
-
-void	ft_lstclr(t_list **lst)
-{
-	t_list	*tmplst0;
-	t_list	*tmplst1;
-
-	tmplst0 = *lst;
-	while (tmplst0 != NULL)
-	{
-		free(tmplst0->content);
-		tmplst1 = tmplst0->next;
-		free(tmplst0);
-		tmplst0 = tmplst1;
-	}
-	*lst = NULL;
-}
-
-void	ft_cpyenv(t_list **envlst, char **envp)
-{
-	char	*temenv;
-	t_list	*tmplstenv;
-	t_list	*lstenv;
-
-	lstenv = NULL;
-	while (*envp != NULL)
-	{
-		temenv = ft_strdup(*envp);
-		if (temenv == NULL)
-		{
-			printf("cannot cpy %s\n", *envp);
-			fflush(stdout);
-			break;
-		}
-		tmplstenv = ft_lstnew(temenv);
-		if (tmplstenv == NULL)
-		{
-			printf("cannot create node\n");
-			fflush(stdout);
-			break;
-		}
-		ft_lstadd_back(&lstenv,tmplstenv);
-		envp++;
-	}
-	*envlst = lstenv;
-}
 
 // chk for $(name)
 // env need to be in form $(env_name)
@@ -70,11 +25,9 @@ t_list	*ft_findnodeenv(t_list **lstenv, char *env)
 	char	*tmpenv;
 	t_list	*tlstenv;
 
-	// printf("search env:%s\n", env);
 	tlstenv = *lstenv;
 	while (tlstenv != NULL)
 	{
-		// envname = &env[1];
 		if (env[0] == '$')
 			envname = &env[1];
 		else
@@ -83,7 +36,7 @@ t_list	*ft_findnodeenv(t_list **lstenv, char *env)
 		while (*envname != '\0')
 		{
 			if (*envname != *tmpenv)
-				break;
+				break ;
 			envname++;
 			tmpenv++;
 		}
@@ -94,7 +47,7 @@ t_list	*ft_findnodeenv(t_list **lstenv, char *env)
 	return (NULL);
 }
 
-char	*ft_createStatus(void)
+char	*ft_createstatus(void)
 {
 	char	*env;
 	char	*tmp_chr;
@@ -106,7 +59,6 @@ char	*ft_createStatus(void)
 		env = join_char(env, *tmp_chr);
 		tmp_chr++;
 	}
-	// dprintf(2, "getenv ret:%s\n", env);
 	return (env);
 }
 
@@ -120,14 +72,13 @@ char	*ft_getenv(t_list **lstenv, char *envvar)
 	size_t	siz;
 	t_list	*noderes;
 
-	// dprintf(2, "fn getenv envvar:%s\n", envvar);
 	if (ft_strncmp(envvar, "$?", ft_strlen(envvar)) == 0)
 	{
-		env = ft_createStatus();
+		env = ft_createstatus();
 		return (env);
 	}
 	noderes = ft_findnodeenv(lstenv, envvar);
-	if(noderes != NULL)
+	if (noderes != NULL)
 	{
 		siz = ft_strlen((char *)noderes->content);
 		env = malloc(sizeof(char) * (siz + 1));
@@ -178,8 +129,6 @@ void	ft_env(t_list **lstenv)
 	env = *lstenv;
 	while (env != NULL)
 	{
-		// printf("%s\n", (char *)(env->content));
-		// fflush(stdout);
 		ft_putstr_fd((char *)(env->content), 1);
 		ft_putstr_fd("\n", 1);
 		env = env->next;

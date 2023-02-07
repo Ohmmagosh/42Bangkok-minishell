@@ -1,42 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_exit_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/14 22:46:05 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/07 19:59:20 by psrikamo         ###   ########.fr       */
+/*   Created: 2023/02/08 01:37:07 by psrikamo          #+#    #+#             */
+/*   Updated: 2023/02/08 04:04:49 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 extern int	g_status;
 
-void	ft_echonoopt(char **allcmd)
+void	ft_lstclr(t_list **lst)
 {
-	char	**t_allcmd;
+	t_list	*tmplst0;
+	t_list	*tmplst1;
 
-	t_allcmd = allcmd + 1;
-	while (*t_allcmd != NULL)
+	tmplst0 = *lst;
+	while (tmplst0 != NULL)
 	{
-		ft_putstr_fd(*t_allcmd, 1);
-		if ((t_allcmd + 1) != NULL)
-			ft_putstr_fd(" ", 1);
-		t_allcmd++;
+		free(tmplst0->content);
+		tmplst1 = tmplst0->next;
+		free(tmplst0);
+		tmplst0 = tmplst1;
 	}
-	ft_putstr_fd("\n", 1);
+	*lst = NULL;
 }
 
-void	ft_echowtopt(char **allcmd)
+void	ft_freesplit(char ***split)
 {
-	char	**t_allcmd;
+	char	**t_split;
 
-	t_allcmd = allcmd + 2;
-	while (*t_allcmd != NULL)
+	t_split = *split;
+	while (*t_split != NULL)
 	{
-		ft_putstr_fd(*t_allcmd, 1);
-		t_allcmd++;
+		free((*t_split));
+		t_split++;
 	}
+	t_split = *split;
+	free(t_split);
+	*split = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/07 19:02:42 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 02:28:34 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	parser(t_pro *p);
 
 // EXPANDER
 void	expander(t_pro *p);
-void	ft_freesplit(char ***split);
+char	*ft_cratetestpath(char *path, char *cmd);
+void	ft_getabpath(char **cmd, t_pro *p);
 char	ft_chk_perm(char *path);
 
 // EXECUTER
@@ -93,21 +94,30 @@ void	execute(t_pro *p, char **env);
 void	free_lex(t_pro *p);
 
 // BUILDINFUNCTION
+//  ECHO
 void	ft_echonoopt(char **allcmd);
 void	ft_echowtopt(char **allcmd);
+//  PWD
 void	ft_pwd(t_list **ownenv);
+//  CD
 void	ft_cd(t_list **ownenv, char *t_path);
-char	*init_prompt(void);
+char	*ft_gethome(t_list **ownenv);
+//  ENV
 void	ft_cpyenv(t_list **envlst, char **envp);
 t_list	*ft_findnodeenv(t_list **lstenv, char *env);
 char	*ft_getenv(t_list **lstenv, char *envvar);
 void	ft_cutenvval(char **val);
-void	ft_lstclr(t_list **lst);
 void	ft_env(t_list **lstenv);
+//  EXPORT
 void	ft_export(t_list **lstenv, char *arg);
-void	ft_exportNull(t_list **lstenv);
+void	ft_exportnull(t_list **lstenv);
+//  UNSET
 void	ft_unset(t_list **lstenv, char *arg);
+//  EXIT
+void	ft_freesplit(char ***split);
+void	ft_lstclr(t_list **lst);
 void	ft_exit(t_pro *p);
 
+char	*init_prompt(void);
 void	print_chk_cmd(t_pro *p);
 #endif
