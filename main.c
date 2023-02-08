@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 16:12:13 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 18:46:55 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	sig_handle(int signo, siginfo_t *info, void *ucontext)
 {
 	(void)ucontext;
 	(void)info;
-
 	if (signo == SIGINT)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
@@ -49,6 +48,25 @@ void	initmain(int ac, char **av)
 	(void)av;
 }
 
+void	process(t_pro *p, char **env)
+{
+	add_history(p->lex.cmd);
+	if (ft_strncmp(p->lex.cmd, "exit\0", 6) == 0)
+	{
+		ft_putendl_fd("minishell exit", 1);
+		free(p->lex.cmd);
+		ft_exit(p);
+		exit(0);
+	}
+	lexer(p);
+	if (p->lex.status)
+	{
+		parser(p);
+		expander(p);
+		execute(p, env);
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_pro	p;
@@ -62,23 +80,7 @@ int	main(int argc, char **argv, char **env)
 		if (p.lex.cmd != NULL)
 		{
 			if (*p.lex.cmd != '\0')
-			{
-				add_history(p.lex.cmd);
-				if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
-				{
-					ft_putendl_fd("minishell exit", 1);
-					free(p.lex.cmd);
-					ft_exit(&p);
-					exit(0);
-				}
-				lexer(&p);
-				if (p.lex.status)
-				{
-					parser(&p);
-					expander(&p);
-					execute(&p, env);
-				}
-			}
+				process(&p, env);
 			else
 				free(p.lex.cmd);
 		}
@@ -89,5 +91,5 @@ int	main(int argc, char **argv, char **env)
 			exit(0);
 		}
 	}
-	return 0;
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 20:26:28 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/08 13:10:37 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 18:42:09 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ void	free_lex(t_pro *p)
 
 void	free_par_help(t_pro *p, int i)
 {
-	if (!p->par.cmd[i].cmd)
+	if (p->par.cmd && !p->par.cmd[i].cmd)
 	{
 		free(p->par.cmd[i].cmd);
 		p->par.cmd[i].cmd = NULL;
 	}
-	if (!p->par.cmd[i].error)
+	if (p->par.cmd && !p->par.cmd[i].error)
 	{
 		free(p->par.cmd[i].error);
 		p->par.cmd[i].error = NULL;
 	}
-	if (!p->par.cmd[i].heredoc)
+	if (p->par.cmd && !p->par.cmd[i].heredoc)
 	{
 		unlink(p->par.cmd[i].heredoc);
 		free(p->par.cmd[i].heredoc);
@@ -68,7 +68,7 @@ void	free_par(t_pro *p)
 	{
 		j = 0;
 		free_par_help(p, i);
-		while (p->par.cmd[i].allcmd[j])
+		while (p->par.cmd && p->par.cmd[i].allcmd[j])
 		{
 			if (!p->par.cmd[i].allcmd[j])
 			{
