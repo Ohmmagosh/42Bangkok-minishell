@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+         #
+#    By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 16:17:38 by psuanpro          #+#    #+#              #
-#    Updated: 2023/02/08 02:16:52 by psrikamo         ###   ########.fr        #
+#    Updated: 2023/02/08 07:27:13 by psuanpro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,10 @@ SRC = main.c \
 	$(EXECUTE) \
 	$(EXPANDER)
 
-LEXER = src/lexer/lexer.c
+LEXER = src/lexer/lexer.c \
+		src/lexer/lexer_utils1.c \
+		src/lexer/lexer_utils2.c \
+		src/lexer/lexer_utils3.c \
 
 PARSER = src/parser/parser.c
 
