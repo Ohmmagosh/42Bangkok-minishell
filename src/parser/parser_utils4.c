@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:30:17 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 07:32:51 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:51:27 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	get_redirect_fd_utils1(t_cmd *p, int *i, char **cmd)
 	}
 	else if (!ft_strncmp(cmd[(*i)], "<<", 2))
 	{
-		if(!get_heredoc(p, cmd[(*i) + 1], (*i)))
+		if (!get_heredoc(p, cmd[(*i) + 1], (*i)))
 			p->error = ft_strdup("nfile");
 	}
 	else if (!ft_strncmp(cmd[(*i)], ">", 2))

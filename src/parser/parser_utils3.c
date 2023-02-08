@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:30:12 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 07:32:29 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:52:49 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	ismetastr(char *s)
 		return (0);
 	if (!ft_strncmp(s, "<", 2))
 		return (1);
-	else if(!ft_strncmp(s, ">", 2))
+	else if (!ft_strncmp(s, ">", 2))
 		return (1);
-	else if(!ft_strncmp(s, "|", 2))
+	else if (!ft_strncmp(s, "|", 2))
 		return (1);
 	else if (!ft_strncmp(s, "<<", 3))
 		return (1);
@@ -50,14 +50,14 @@ int	get_append(t_cmd *p, char *file, int ot)
 	p->re.infd = open(file, O_RDWR | O_APPEND);
 	if (p->re.outfd == -1)
 	{
-		p->re.outfd = open(file, O_CREAT| O_RDWR | O_APPEND, 0644);
+		p->re.outfd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
 		if (p->re.outfd == -1)
 			return (0);
 	}
 	return (1);
 }
 
-int	get_infile(t_cmd *p,char *file, int ot)
+int	get_infile(t_cmd *p, char *file, int ot)
 {
 	if (ot > 0 && p->re.infd != 0)
 		close(p->re.infd);
@@ -67,14 +67,14 @@ int	get_infile(t_cmd *p,char *file, int ot)
 	return (1);
 }
 
-int	get_outfile(t_cmd *p, char *file ,int ot)
+int	get_outfile(t_cmd *p, char *file, int ot)
 {
 	if (ot > 0 && p->re.outfd != 1)
 		close(p->re.outfd);
-	p->re.outfd = open(file, O_RDWR| O_TRUNC);
+	p->re.outfd = open(file, O_RDWR | O_TRUNC);
 	if (p->re.outfd == -1)
 	{
-		p->re.outfd = open(file, O_CREAT| O_RDWR| O_TRUNC, 0644);
+		p->re.outfd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (p->re.outfd == -1)
 			return (0);
 	}

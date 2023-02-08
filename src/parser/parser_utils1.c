@@ -6,13 +6,13 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:30:07 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 07:31:08 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:50:24 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*file_name_here_doc(int	idx, int cmd)
+char	*file_name_here_doc(int idx, int cmd)
 {
 	char	*name;
 	char	*name_tmp;
@@ -37,7 +37,7 @@ int	here_doc_utils(char *name, char *eof)
 	int		fd;
 	int		len;
 
-	fd = open(name, O_CREAT | O_RDWR | O_APPEND , 0777);
+	fd = open(name, O_CREAT | O_RDWR | O_APPEND, 0777);
 	len = ft_strlen(eof);
 	while (1)
 	{
@@ -53,7 +53,6 @@ int	here_doc_utils(char *name, char *eof)
 	}
 	return (fd);
 }
-
 
 int	ismeta(char c)
 {

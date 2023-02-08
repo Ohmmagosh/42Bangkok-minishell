@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:33:50 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 07:34:09 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:50:37 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_split(char **bye)
 
 	i = 0;
 	if (!bye)
-		return;
+		return ;
 	while (bye[i])
 	{
 		free(bye[i]);

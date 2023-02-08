@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:30:10 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 07:31:43 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:49:42 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	create_cmd_parser(t_pro *p, t_llst *lst)
 	int	i;
 
 	i = 0;
-
 	p->par.size = len_pipe(p->lex.lst);
 	p->par.cmd = (t_cmd *)malloc(sizeof(t_cmd) * p->par.size);
 	if (!p->par.cmd)

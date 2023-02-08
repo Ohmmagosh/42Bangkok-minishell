@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 22:52:55 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 07:34:29 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:49:26 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	new_str_len(char **str)
 	len = 0;
 	while (str[i])
 	{
-		if(ft_strncmp(str[i], "", 1))
+		if (ft_strncmp(str[i], "", 1))
 			len++;
 		i++;
 	}
@@ -44,7 +44,7 @@ char	**new_str_utils(char **str)
 	i = 0;
 	while (str[i])
 	{
-		if(ft_strncmp(str[i], "", 1))
+		if (ft_strncmp(str[i], "", 1))
 		{
 			ret[j] = ft_strdup(str[i]);
 			j++;
@@ -57,7 +57,7 @@ char	**new_str_utils(char **str)
 
 char	**new_str(char **cmd)
 {
-	int	i;
+	int		i;
 	char	**ret;
 
 	i = 0;
@@ -85,7 +85,7 @@ void	chk_redirect(t_pro *p)
 	i = 0;
 	while (i < p->par.size)
 	{
-		if(!chk_redirect_cmd(p->par.cmd[i].allcmd))
+		if (!chk_redirect_cmd(p->par.cmd[i].allcmd))
 			p->par.cmd[i].error = ft_strdup("token\n");
 		while (p->par.cmd[i].error == NULL)
 		{
@@ -106,4 +106,3 @@ void	parser(t_pro *p)
 	create_cmd_parser(p, p->lex.lst);
 	chk_redirect(p);
 }
-
