@@ -6,7 +6,7 @@
 #    By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 16:17:38 by psuanpro          #+#    #+#              #
-#    Updated: 2023/02/08 07:27:13 by psuanpro         ###   ########.fr        #
+#    Updated: 2023/02/08 07:35:10 by psuanpro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,12 @@ LEXER = src/lexer/lexer.c \
 		src/lexer/lexer_utils2.c \
 		src/lexer/lexer_utils3.c \
 
-PARSER = src/parser/parser.c
+PARSER = src/parser/parser.c \
+			src/parser/parser_utils1.c \
+			src/parser/parser_utils2.c \
+			src/parser/parser_utils3.c \
+			src/parser/parser_utils4.c \
+			src/parser/parser_utils5.c \
 
 EXPANDER = src/expander/expander.c \
 			src/expander/expander_utils0.c \
