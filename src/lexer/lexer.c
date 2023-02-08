@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 22:12:13 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 07:43:37 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:56:37 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,5 @@ void	lexer(t_pro *p)
 	p->lex.trim = ft_strtrim(p->lex.cmd, " ");
 	free(p->lex.cmd);
 	lexer_lst(p, p->lex.trim);
-	while (p->lex.lst)
-	{
-		printf("p->lex.lst->content -> %s\n", p->lex.lst->content);
-		p->lex.lst = p->lex.lst->next;
-	}
-	exit(0);
 	free(p->lex.trim);
 }
