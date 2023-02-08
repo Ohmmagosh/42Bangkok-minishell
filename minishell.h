@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 16:10:46 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 16:19:44 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_cmd
 	char	*error;
 	char	*heredoc;
 	t_ifd	re;
-} 				t_cmd;
+}				t_cmd;
 
 typedef struct s_lexer
 {
@@ -89,7 +89,7 @@ void	plus_i(int *i, char c, char *s);
 void	repipe(t_pro *p, int *i, char *s, int mode);
 void	join_char_utils(t_pro *p, char *s, int *i);
 void	redi(t_pro *p, int *i, char *s);
-void	appendheredoc(t_pro *p,char *s, int *i);
+void	appendheredoc(t_pro *p, char *s, int *i);
 void	lexer_init(t_pro *p, int *i);
 void	lexer_lst_utils0(t_pro *p, int *i, char *s);
 void	lexer_lst(t_pro *p, char *s);
@@ -103,11 +103,11 @@ int		len_cmd_allcmd(t_llst *lst);
 int		ismetastr(char *s);
 int		chk_redirect_cmd(char **cmd);
 int		get_append(t_cmd *p, char *file, int ot);
-int		get_infile(t_cmd *p,char *file, int ot);
-int		get_outfile(t_cmd *p, char *file ,int ot);
+int		get_infile(t_cmd *p, char *file, int ot);
+int		get_outfile(t_cmd *p, char *file, int ot);
 int		get_heredoc(t_cmd *p, char *eof, int i);
 int		new_str_len(char **str);
-char	*file_name_here_doc(int	idx, int cmd);
+char	*file_name_here_doc(int idx, int cmd);
 char	*newrealloc(char *s);
 char	**get_allcmd(t_llst *lst, int size);
 char	**new_str_utils(char **str);
