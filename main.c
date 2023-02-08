@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:41 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/07 19:44:49 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 16:12:13 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	main(int argc, char **argv, char **env)
 				add_history(p.lex.cmd);
 				if (ft_strncmp(p.lex.cmd, "exit\0", 6) == 0)
 				{
-					// ft_putendl_fd("exit", 1);
 					ft_putendl_fd("minishell exit", 1);
 					free(p.lex.cmd);
 					ft_exit(&p);

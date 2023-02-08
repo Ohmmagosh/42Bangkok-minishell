@@ -6,7 +6,7 @@
 #    By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 16:17:38 by psuanpro          #+#    #+#              #
-#    Updated: 2023/02/08 13:21:39 by psrikamo         ###   ########.fr        #
+#    Updated: 2023/02/08 16:06:42 by psrikamo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,9 @@ BUILDIN = src/buildin/ft_echo.c \
 			src/buildin/ft_exit_utils.c \
 			src/buildin/ft_pwd.c
 
-EXECUTE = src/execute/execute.c
+EXECUTE = src/execute/execute.c \
+			src/execute/execute_utils0.c \
+			src/execute/execute_utils1.c \
 
 LIBFT = ./libft/libft.a
 LIBFTDIR = libft

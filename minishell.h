@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 13:16:31 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 16:10:46 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,22 @@ void	ft_joinres(char **t_res, char **t_str);
 char	*ft_getres(char *t_ptrst, char *t_ptrend, char **t_res);
 
 // EXECUTER
-void	free_par(t_pro *p);
+void	ft_childrun(t_cmd *p, int lencmd, int i, t_list **ownenv);
+void	ft_parentrun(t_cmd *p, int i, t_list **ownenv);
+void	ft_exitstatus(t_cmd *p, int lencmd, int *t_status);
+void	executer(t_cmd *p, char **env, int lencmd, t_list **ownenv);
 void	execute(t_pro *p, char **env);
-void	free_lex(t_pro *p);
+
+void	ft_openpipe(t_cmd *p, int lencmd);
+void	ft_duprdwr(int *tmp_rd, int *tmp_wr);
+void	ft_close0(t_cmd *p, int lencmd, int i);
+void	ft_close1(t_cmd *p, int lencmd, int i);
+void	ft_closeunlink(t_cmd *p, int i);
+
+int		ft_chkbuldnconparent(char *cmd);
+void	ft_budn_parent(t_cmd *p, int i, t_list **ownenv);
+int		ft_chkbuldnconchild(char *cmd);
+void	ft_budn_child(t_cmd *p, int i, t_list **ownenv);
 
 // BUILDINFUNCTION
 //  ECHO
@@ -176,6 +189,7 @@ void	ft_exportnull(t_list **lstenv);
 //  UNSET
 void	ft_unset(t_list **lstenv, char *arg);
 //  EXIT
+void	free_lex(t_pro *p);
 void	free_par_help(t_pro *p, int i);
 void	free_par(t_pro *p);
 void	ft_exit(t_pro *p);
