@@ -6,11 +6,12 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 21:59:55 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/08 13:06:44 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 15:31:50 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stdio.h>
 
 extern int	g_status;
 
@@ -21,7 +22,7 @@ char	*ft_chgtilde(char *t_path, t_list **ownenv)
 	if ((t_path == NULL) || (t_path[0] == '~'))
 	{
 		tmppath = ft_gethome(ownenv);
-		if (t_path[0] == '~')
+		if ((t_path != NULL) && (t_path[0] == '~'))
 		{
 			t_path = t_path + 1;
 			while (*t_path != '\0')
