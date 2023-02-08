@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:06:29 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 07:47:59 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/08 20:23:38 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char	*join_char(char *s, char c)
 	ret[i] = c;
 	ret[i + 1] = '\0';
 	free(s);
+	s = NULL;
 	return (ret);
 }
 
