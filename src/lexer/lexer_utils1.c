@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:06:29 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 07:06:51 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:47:59 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ t_llst	*create_head(char *s)
 
 	new = (t_llst *)malloc(sizeof(t_llst));
 	if (!new)
-		return (perror("lexer : malloc error\n"), (t_llst *)NULL);
+		return (perror("lexer : malloc error\n"), (t_llst *) NULL);
 	new->content = ft_strdup(s);
 	new->next = NULL;
 	return (new);
 }
 
-void	create_next(t_llst	*lst, char *s)
+void	create_next(t_llst *lst, char *s)
 {
 	t_llst	*new;
 
@@ -72,14 +72,13 @@ void	create_linklst(t_pro *p, char *s)
 		create_next(p->lex.lst, s);
 }
 
-
 char	*subtrim(char *s)
 {
 	char	*tmp;
 
-	if(s[0] == '\"' && s[ft_strlen(s) - 1] == '\"')
+	if (s[0] == '\"' && s[ft_strlen(s) - 1] == '\"')
 		tmp = ft_strtrim(s, "\"");
-	else if(s[0] == '\'' && s[ft_strlen(s) - 1] == '\'')
+	else if (s[0] == '\'' && s[ft_strlen(s) - 1] == '\'')
 		tmp = ft_strtrim(s, "\'");
 	free(s);
 	return (tmp);

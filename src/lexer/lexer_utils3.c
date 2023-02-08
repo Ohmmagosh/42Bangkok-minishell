@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:07:56 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 07:08:05 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:45:56 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	redi(t_pro *p, int *i, char *s)
 	plus_i(i, ' ', s);
 }
 
-void	appendheredoc(t_pro *p,char *s, int *i)
+void	appendheredoc(t_pro *p, char *s, int *i)
 {
 	if (s[(*i)] == '>' && s[(*i) + 1] == '>')
 	{
@@ -49,15 +49,18 @@ void	lexer_init(t_pro *p, int *i)
 
 int	lexer_lst_utils1(char *s, int i)
 {
-	if (s[i] == '|' && s[i + 1] != '<' && s[i + 2] != '<')
+	if (s[i] == '<' || s[i] == '>')
+		return (1);
+	else if (s[i] == '|' && s[i + 1] != '<' && s[i + 2] != '<')
 		return (1);
 	else if (s[i] == '|' && s[i + 1] == '<' && s[i + 2] == '<')
 		return (1);
-	else if(s[i] == '<' && s[i + 1] == '<' && s[i + 2] == '|')
+	else if (s[i] == '<' && s[i + 1] == '<' && s[i + 2] == '|')
 		return (1);
-	else if(s[i] != '|' && s[i] != '<' && s[i] != '>' && s[i + 1] != '>' && s[i + 1] != '<' && !ft_isalnum(s[i]))
+	else if (s[i] != '|' && s[i] != '<' && s[i] != '>' \
+		&& s[i + 1] != '>' && s[i + 1] != '<' && !ft_isalnum(s[i]))
 		return (1);
-	else if(ft_isalnum(s[i]))
+	else if (ft_isalnum(s[i]))
 		return (1);
 	return (0);
 }

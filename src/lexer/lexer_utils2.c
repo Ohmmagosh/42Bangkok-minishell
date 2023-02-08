@@ -6,7 +6,7 @@
 /*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:07:14 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 07:07:39 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:46:43 by psuanpro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	double_quote(t_pro *p, char *s, int *i)
 		if (s[(*i)] == '\0')
 		{
 			print_error(p, "\e[1;91mError lexer\e[0m");
-			break;
+			break ;
 		}
 		p->lex.stack = join_char(p->lex.stack, s[(*i)]);
 		(*i)++;
@@ -42,10 +42,10 @@ void	single_quoate(t_pro *p, char *s, int *i)
 		(*i)++;
 	while (s[(*i)] != '\'')
 	{
-		if(s[(*i)] == '\0')
+		if (s[(*i)] == '\0')
 		{
 			print_error(p, "\e[1;91mError lexer\e[0m");
-			break;
+			break ;
 		}
 		p->lex.stack = join_char(p->lex.stack, s[(*i)]);
 		(*i)++;
