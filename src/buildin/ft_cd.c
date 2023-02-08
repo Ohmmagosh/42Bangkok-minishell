@@ -6,7 +6,7 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 21:59:55 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/08 01:03:44 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 13:06:44 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,54 +104,3 @@ void	ft_cd(t_list **ownenv, char *t_path)
 	}
 	free(path);
 }
-
-// void	ft_cd(t_list **ownenv, char *t_path)
-// {
-// 	char	*path;
-// 	// char	*t_chr0;
-// 	char	*t_chr1;
-// 	// char	*t_chr2;
-// 	char	perm;
-
-// 	// printf("raw path:%s\n", t_path);
-// 	path = ft_chgtilde(t_path, ownenv);
-// 	// printf("cd for path:%s\n", path);
-// 	perm = ft_chk_perm(path);
-// 	if ((perm & (0b1000)) == 0)
-// 	{
-// 		// write(1, "No Such File or Directory\n", 26);
-// 		write(1, "hell No Such File or Directory\n", 31);
-// 		exit (1);
-// 	}
-// 	else
-// 	{
-// 		t_chr1 = getcwd(NULL, 0);
-// 		if (chdir(path) != -1)
-// 		{
-// 			// ft_unset(ownenv, "$OLDPWD");
-// 			// t_chr0 = ft_strdup("OLDPWD=");
-// 			// t_chr2 = ft_strjoin(t_chr0, t_chr1);
-// 			// free(t_chr0);
-// 			// free(t_chr1);
-// 			// ft_export(ownenv, t_chr2);
-// 			// free(t_chr2);
-// 			ft_crate_oldPWD(ownenv, &t_chr1);
-
-// 			// ft_unset(ownenv, "$PWD");
-// 			// t_chr0 = ft_strdup("PWD=");
-// 			// t_chr1 = getcwd(NULL, 0);
-// 			// t_chr2 = ft_strjoin(t_chr0, t_chr1);
-// 			// free(t_chr0);
-// 			// free(t_chr1);
-// 			// ft_export(ownenv, t_chr2);
-// 			// free(t_chr2);
-// 			ft_create_PWD(ownenv);
-// 		}
-// 		else
-// 		{
-// 			free(t_chr1);
-// 			write(1, "Cannot change directory\n", 24);
-// 		}
-// 	}
-// 	free(path);
-// }

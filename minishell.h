@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:17:43 by psuanpro          #+#    #+#             */
-/*   Updated: 2023/02/08 07:25:27 by psuanpro         ###   ########.fr       */
+/*   Updated: 2023/02/08 13:16:31 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,26 @@ void	get_redirect_fd_utils1(t_cmd *p, int *i, char **cmd);
 t_cmd	init_cmd_parser(t_llst *p, int idx);
 t_llst	*next_cmd(t_llst *lst);
 
-
-
 // EXPANDER
+char	*ft_expand(char *ptr, t_pro *p, int cmdabpath);
 void	expander(t_pro *p);
+void	new_expand(t_cmd *cmd, t_pro *p);
+
 char	*ft_cratetestpath(char *path, char *cmd);
+int		ft_chkbuldncmd(char *t_cmd);
+char	*ft_searchabpath(char **t_spitpath, char *t_cmd);
 void	ft_getabpath(char **cmd, t_pro *p);
+
+void	ft_singlequote(char **t_ptrend, char **t_ptrst, char **t_res);
+void	ft_dollarsign(char **t_ptrend, char **t_ptrst, char **t_res, t_pro *p);
+void	ft_doublequote(char **t_ptrend, char **t_ptrst, char **t_res, t_pro *p);
+char	*ft_clenptr(char *ptr, t_pro *p);
+
 char	ft_chk_perm(char *path);
+char	*ft_strcreate(char *st, char *end);
+char	*ft_getenvval(char **ptrst, char **ptrend, t_pro *p);
+void	ft_joinres(char **t_res, char **t_str);
+char	*ft_getres(char *t_ptrst, char *t_ptrend, char **t_res);
 
 // EXECUTER
 void	free_par(t_pro *p);
@@ -143,22 +156,32 @@ void	ft_echowtopt(char **allcmd);
 void	ft_pwd(t_list **ownenv);
 //  CD
 void	ft_cd(t_list **ownenv, char *t_path);
+char	*ft_chgtilde(char *t_path, t_list **ownenv);
+void	ft_crate_oldpwd(t_list **ownenv, char **path);
+void	ft_create_pwd(t_list **ownenv);
+void	ft_cderr(char **path);
 char	*ft_gethome(t_list **ownenv);
 //  ENV
-void	ft_cpyenv(t_list **envlst, char **envp);
 t_list	*ft_findnodeenv(t_list **lstenv, char *env);
+char	*ft_createstatus(void);
 char	*ft_getenv(t_list **lstenv, char *envvar);
 void	ft_cutenvval(char **val);
 void	ft_env(t_list **lstenv);
+
+void	ft_cpyenv(t_list **envlst, char **envp);
 //  EXPORT
 void	ft_export(t_list **lstenv, char *arg);
+char	*ft_createnameenv(char *arg);
 void	ft_exportnull(t_list **lstenv);
 //  UNSET
 void	ft_unset(t_list **lstenv, char *arg);
 //  EXIT
-void	ft_freesplit(char ***split);
-void	ft_lstclr(t_list **lst);
+void	free_par_help(t_pro *p, int i);
+void	free_par(t_pro *p);
 void	ft_exit(t_pro *p);
+
+void	ft_lstclr(t_list **lst);
+void	ft_freesplit(char ***split);
 
 char	*init_prompt(void);
 void	print_chk_cmd(t_pro *p);

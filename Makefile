@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: psuanpro <Marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 16:17:38 by psuanpro          #+#    #+#              #
-#    Updated: 2023/02/08 07:35:10 by psuanpro         ###   ########.fr        #
+#    Updated: 2023/02/08 13:21:39 by psrikamo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,6 @@ EXPANDER = src/expander/expander.c \
 			src/expander/expander_utils0.c \
 			src/expander/expander_utils1.c \
 			src/expander/expander_utils2.c \
-			src/expander/expander_utils3.c \
-			src/expander/expander_utils4.c \
 
 BUILDIN = src/buildin/ft_echo.c \
 			src/buildin/ft_env.c \

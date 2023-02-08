@@ -6,12 +6,11 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:34:25 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/08 00:57:32 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 13:09:04 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <stdio.h>
 
 extern int	g_status;
 
@@ -72,79 +71,3 @@ void	ft_export(t_list **lstenv, char *arg)
 		free(envname);
 	}
 }
-
-// // arg need to "(envname)=(value)"
-// void	ft_export(t_list **lstenv, char *arg)
-// {
-// 	t_list	*tlstenv;
-// 	char	*envend;
-// 	char	*envst;
-// 	char	*envname;
-// 	// char	*tmpenvname;
-
-// 	envend = arg;
-// 	// while (*envend != '=')
-// 	while ((*envend != '=') && (*envend != '\0'))
-// 		envend++;
-// 	envname = malloc((envend - arg) + 1);
-// 	// tmpenvname = envname;
-// 	// envst = arg;
-// 	// while (envst != envend)
-// 	// {
-// 	// 	*tmpenvname = *envst;
-// 	// 	tmpenvname++;
-// 	// 	envst++;
-// 	// }
-// 	// *tmpenvname = '\0';
-// 	envst = arg;
-// 	while (envst != envend)
-// 	{
-// 		envname = join_char(envname, *envst);
-// 		envst++;
-// 	}
-// 	tlstenv = ft_findnodeenv(lstenv, envname);
-// 	dprintf(2, "aft find node env\n");
-// 	if (tlstenv == NULL)
-// 		ft_lstadd_back(lstenv, ft_lstnew(ft_strdup(arg)));
-// 	else
-// 	{
-// 		free(tlstenv->content);
-// 		tlstenv->content = ft_strdup(arg);
-// 	}
-// 	dprintf(2, "aft if\n");
-// 	free(envname);
-// 	dprintf(2, "aft free env name\n");
-// }
-
-// // arg need to "(envname)=(value)"
-// void	ft_export(t_list **lstenv, char *arg)
-// {
-// 	t_list	*tlstenv;
-// 	char	*envend;
-// 	char	*envst;
-// 	char	*envname;
-// 	char	*tmpenvname;
-
-// 	envend = arg;
-// 	while (*envend != '=')
-// 		envend++;
-// 	envname = malloc((envend - arg) + 1);
-// 	tmpenvname = envname;
-// 	envst = arg;
-// 	while (envst != envend)
-// 	{
-// 		*tmpenvname = *envst;
-// 		tmpenvname++;
-// 		envst++;
-// 	}
-// 	*tmpenvname = '\0';
-// 	tlstenv = ft_findnodeenv(lstenv, envname);
-// 	if (tlstenv == NULL)
-// 		ft_lstadd_back(lstenv, ft_lstnew(ft_strdup(arg)));
-// 	else
-// 	{
-// 		free(tlstenv->content);
-// 		tlstenv->content = ft_strdup(arg);
-// 	}
-// 	free(envname);
-// }
