@@ -6,12 +6,11 @@
 /*   By: psrikamo <psrikamo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 21:59:55 by psrikamo          #+#    #+#             */
-/*   Updated: 2023/02/08 15:31:50 by psrikamo         ###   ########.fr       */
+/*   Updated: 2023/02/08 15:36:57 by psrikamo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <stdio.h>
 
 extern int	g_status;
 
